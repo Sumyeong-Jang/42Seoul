@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/17 19:35:57 by sumjang           #+#    #+#             */
-/*   Updated: 2021/11/22 14:43:44 by sumjang          ###   ########.fr       */
+/*   Created: 2021/11/22 14:33:25 by sumjang           #+#    #+#             */
+/*   Updated: 2021/11/22 16:28:34 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+#include "libft.h"
 
-# include <unistd.h>
-# include <string.h>
-# include <stdlib.h>
+void	*ft_memcpy(void *dst, const void *src, size_t n)
+{
+	size_t			i;
+	unsigned char	*dest;
+	unsigned char	*source;
 
-int		ft_isalpha(int c);
-int		ft_isdigit(int c);
-int		ft_isalnum(int c);
-int		ft_isascii(int c);
-int		ft_isprint(int c);
-int		ft_strlen(const char *s);
-void	*ft_memset(void *b, int c, size_t, len);
-void	ft_bzero(void *s, size_t n);
-
-#endif
+	i = 0;
+	dest = dst;
+	source = src;
+	if (!dst && !src)
+		return (NULL);
+	while (i < n)
+	{
+		dest[i] = source[i];
+		i++;
+	}
+	return (dest);
+}

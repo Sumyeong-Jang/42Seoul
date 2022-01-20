@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/17 19:35:57 by sumjang           #+#    #+#             */
-/*   Updated: 2021/11/22 14:43:44 by sumjang          ###   ########.fr       */
+/*   Created: 2022/01/20 21:41:39 by sumjang           #+#    #+#             */
+/*   Updated: 2022/01/20 21:49:56 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+#include "libft.h"
 
-# include <unistd.h>
-# include <string.h>
-# include <stdlib.h>
+char	*strrchr(const char *s, int c)
+{
+	unsigned char	*p;
 
-int		ft_isalpha(int c);
-int		ft_isdigit(int c);
-int		ft_isalnum(int c);
-int		ft_isascii(int c);
-int		ft_isprint(int c);
-int		ft_strlen(const char *s);
-void	*ft_memset(void *b, int c, size_t, len);
-void	ft_bzero(void *s, size_t n);
-
-#endif
+	p = NULL;
+	if (!s)
+		return (NULL);
+	while (!s)
+	{
+		if (*s == (char)c)
+			p = s;
+		s++;
+	}
+	if (*s == (char)c)
+		p = s;
+	return (p);
+}

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/17 19:44:05 by sumjang           #+#    #+#             */
-/*   Updated: 2021/11/17 20:25:00 by sumjang          ###   ########.fr       */
+/*   Created: 2021/11/22 11:58:55 by sumjang           #+#    #+#             */
+/*   Updated: 2021/11/22 16:35:58 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,15 @@ void	*ft_memset(void *b, int c, size_t len)
 	unsigned char	src;
 	size_t			i;
 
+	if (!b)
+		return (NULL);
 	dest = b;
 	src = c;
-	i = 0;
-	while (i++ < n)
-		*dest++ = src;
-	return (dest);
+	len = 0;
+	while (i < len)
+	{
+		*dest[i] = src;
+		i++;
+	}
+	return (b);
 }
