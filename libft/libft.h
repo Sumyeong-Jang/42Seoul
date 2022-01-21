@@ -6,7 +6,7 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 19:35:57 by sumjang           #+#    #+#             */
-/*   Updated: 2021/11/22 14:43:44 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/01/21 20:53:39 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,5 @@ int		ft_isprint(int c);
 int		ft_strlen(const char *s);
 void	*ft_memset(void *b, int c, size_t, len);
 void	ft_bzero(void *s, size_t n);
-hi
+
 #endif
