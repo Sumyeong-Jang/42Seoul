@@ -6,7 +6,7 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 21:41:39 by sumjang           #+#    #+#             */
-/*   Updated: 2022/01/20 21:49:56 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/01/21 17:53:14 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,19 @@
 char	*strrchr(const char *s, int c)
 {
 	unsigned char	*p;
+	int				i;
 
 	p = NULL;
+	i = 0;
 	if (!s)
 		return (NULL);
-	while (!s)
+	while (s[i])
 	{
-		if (*s == (char)c)
-			p = s;
-		s++;
+		if (s[i] == (char)c)
+			p = (char *)(s + i);
+		i++;
 	}
-	if (*s == (char)c)
-		p = s;
+	if (s[i] == (char)c)
+		p = (char *)(s + i);
 	return (p);
 }

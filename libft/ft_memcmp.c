@@ -1,18 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   alpha.c                                            :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/17 19:06:19 by sumjang           #+#    #+#             */
-/*   Updated: 2021/11/17 19:39:37 by sumjang          ###   ########.fr       */
+/*   Created: 2022/01/21 17:54:06 by sumjang           #+#    #+#             */
+/*   Updated: 2022/01/21 18:10:16 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isalpha(int c)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
+	unsigned char	*str1;
+	unsigned char	*str2;
+	int				i;
+
+	str1 = s1;
+	str2 = s2;
+	i = 0;
+	while (n != 0)
+	{
+		if (str1[i] != str2[i])
+			return (str1[i] = str2[i]);
+		n--;
+	}
+	return (0);
 }
