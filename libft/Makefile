@@ -6,7 +6,7 @@
 #    By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/17 17:23:57 by sumjang           #+#    #+#              #
-#    Updated: 2021/11/17 18:57:08 by sumjang          ###   ########.fr        #
+#    Updated: 2022/02/05 22:19:27 by sumjang          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,16 @@ CFLAGS = -Wall -Wextra -Werror
 AR = ar rcs
 RM = rm -f
 
-FILES =
-FILES_B =
+FILES = ft_isalpha ft_isdigit ft_isalnum ft_isascii ft_isprint \
+		ft_strlen ft_memset ft_bzero ft_memcpy ft_memmove \
+		ft_strlcpy ft_strlcat ft_toupper ft_tolower ft_strchr \
+		ft_strrchr ft_strncmp ft_memchr ft_memcmp ft_strnstr \
+		ft_stoi ft_calloc ft_strdup \
+		ft_substr ft_strjoin ft_strtrim ft_split ft_itoa \
+		ft_strmapi ft_striteri ft_putchar_fd ft_putstr_fd \
+		ft_putendl_fd ft_putnbr_fd
+FILES_B = ft_lstnew ft_lstadd_front ft_lstsize ft_lstlast ft_lstadd_back \
+		  ft_lstdelone ft_lstclear ft_lstiter ft_lstmap
 
 SRCS_DIR = ./
 SRCS = $(addprefix $(SRCS_DIR), $(addsuffix .c, $(FILES)))

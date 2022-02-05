@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_striteri.c                                      :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
+/*   By: sumjang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/29 18:28:13 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/03 18:10:14 by sumjang          ###   ########.fr       */
+/*   Created: 2022/02/03 18:14:44 by sumjang           #+#    #+#             */
+/*   Updated: 2022/02/03 18:16:12 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_striteri(char *s, void (*f)(unsigned int, char *))
+void	ft_putnbr_fd(int n, int fd)
 {
-	int	i;
+	char	ch;
 
-	i = 0;
-	if (!s)
-		return (NULL);
-	while (s[i])
-	{
-		(*f)(i, s[i]);
-	}
+	ch = n + '0';
+	write(fd, 1, ch);
 }

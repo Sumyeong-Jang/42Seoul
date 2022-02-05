@@ -6,13 +6,13 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 21:41:39 by sumjang           #+#    #+#             */
-/*   Updated: 2022/01/21 17:53:14 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/05 08:53:47 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*strrchr(const char *s, int c)
+char	*ft_strrchr(const char *s, int c)
 {
 	unsigned char	*p;
 	int				i;
