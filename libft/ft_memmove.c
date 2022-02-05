@@ -6,7 +6,7 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 16:22:48 by sumjang           #+#    #+#             */
-/*   Updated: 2021/11/22 16:51:45 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/05 23:39:05 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 	if (!dst && !src)
 		return (NULL);
 	dest = dst;
-	source = src;
+	source = (unsigned char *)src;
 	if (dest < source)
 	{
 		i = -1;

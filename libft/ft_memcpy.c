@@ -6,7 +6,7 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 14:33:25 by sumjang           #+#    #+#             */
-/*   Updated: 2021/11/22 16:28:34 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/05 23:38:25 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 
 	i = 0;
 	dest = dst;
-	source = src;
+	source = (unsigned char *)src;
 	if (!dst && !src)
 		return (NULL);
 	while (i < n)
