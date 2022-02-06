@@ -6,7 +6,7 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 18:33:55 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/07 05:38:09 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/07 07:55:09 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,11 @@ int	ft_atoi(const char *str)
 		str++;
 	while (*str >= '0' && *str <= '9')
 	{
-		n *= 10;
-		n = n + (*str - '0');
+		n = (n * 10) + (*str - '0');
+		if (n > 2147483647 && minus == 1)
+			return (-1);
+		if (n > 2147483648 && minus == -1)
+			return (0);
 		str++;
 	}
 	return (minus * n);

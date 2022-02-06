@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstiter.c                                       :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sumjang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/05 09:33:25 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/07 07:58:40 by sumjang          ###   ########.fr       */
+/*   Created: 2022/02/05 09:30:20 by sumjang           #+#    #+#             */
+/*   Updated: 2022/02/07 08:20:35 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstiter(t_list *lst, void (*f)(void *))
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	while (!lst->next)
-	{
-		(*f)(lst->content);
-		lst = lst->next;
-	}
+	if (!(*lst))
+		*lst = new;
+	else
+		(ft_lstlast(*lst))->next = new;
 }
