@@ -6,7 +6,7 @@
 /*   By: sumjang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 18:11:34 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/03 18:13:05 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/07 02:23:08 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 void	ft_putstr_fd(char *s, int fd)
 {
-	while (!s)
-	{
-		write(fd, 1, *s);
-		s++;
-	}
+	if (!s)
+		return ;
+	write(fd, s, ft_strlen(s));
 }

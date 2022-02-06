@@ -6,7 +6,7 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 18:22:26 by sumjang           #+#    #+#             */
-/*   Updated: 2022/01/29 18:29:25 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/07 02:17:50 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	i = 0;
 	if (!s)
 		return (NULL);
-	len = strlen(s);
+	len = ft_strlen(s);
 	result = (char *)malloc(i * sizeof(char *) + 1);
 	while (s[i])
 	{

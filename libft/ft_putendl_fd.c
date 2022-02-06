@@ -6,7 +6,7 @@
 /*   By: sumjang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 18:13:28 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/03 18:14:34 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/07 02:25:08 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 void	ft_putendl_fd(char *s, int fd)
 {
-	while (!s)
-	{
-		write(fd, 1, *s);
-		s++;
-	}
-	write(fd, 1, '\n');
+	if (!s)
+		return ;
+	write(fd, s, ft_strlen(s));
+	write(fd, "\n", 1);
 }

@@ -6,7 +6,7 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 17:14:13 by sumjang           #+#    #+#             */
-/*   Updated: 2022/01/29 17:55:48 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/07 02:14:17 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,24 @@ char	**split(char *str, char c, char **result, int len);
 char	*ft_split(char const *s, char c)
 {
 	int		char_len;
+	int		l;
 	char	**result;
+	char	*str;
 
-	char_len = count_char(s, c);
+	l = 0;
+	while (!s[l])
+		l++;
+	str = (char *)malloc(sizeof(char *) * l + 1);
+	l = 0;
+	while (!s[l])
+	{
+		str[l] = s[l];
+		l++;
+	}
+	char_len = count_char(str, c);
 	result = (char **)malloc(sizeof(char *) * char_len + 1);
-	result = split(s, c, result, char_len);
-	return (result);
+	result = split(str, c, result, char_len);
+	return (*result);
 }
 
 char	**split(char *str, char c, char **result, int len)
