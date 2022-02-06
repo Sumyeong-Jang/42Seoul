@@ -6,7 +6,7 @@
 #    By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/17 17:23:57 by sumjang           #+#    #+#              #
-#    Updated: 2022/02/05 23:05:54 by sumjang          ###   ########.fr        #
+#    Updated: 2022/02/06 20:23:03 by sumjang          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ FILES = ft_isalpha ft_isdigit ft_isalnum ft_isascii ft_isprint \
 		ft_strlen ft_memset ft_bzero ft_memcpy ft_memmove \
 		ft_strlcpy ft_strlcat ft_toupper ft_tolower ft_strchr \
 		ft_strrchr ft_strncmp ft_memchr ft_memcmp ft_strnstr \
-		ft_stoi ft_calloc ft_strdup \
+		ft_atoi ft_calloc ft_strdup \
 		ft_substr ft_strjoin ft_strtrim ft_split ft_itoa \
 		ft_strmapi ft_striteri ft_putchar_fd ft_putstr_fd \
 		ft_putendl_fd ft_putnbr_fd
