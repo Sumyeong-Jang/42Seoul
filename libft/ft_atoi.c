@@ -6,36 +6,39 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 18:33:55 by sumjang           #+#    #+#             */
-/*   Updated: 2022/01/21 20:03:48 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/07 05:38:09 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	is_space(char ch);
+static int	is_space(char ch);
 
 int	ft_atoi(const char *str)
 {
-	int	n;
-	int	minus;
+	long	n;
+	long	minus;
 
 	n = 0;
 	minus = 1;
+	if (!str)
+		return (0);
 	while (is_space(*str))
 		str++;
 	if (*str == '-')
 		minus = -1;
-	str++;
-	while (*str != '\0' && *str >= '0' && *str <= '9')
+	if (*str == '-' || *str == '+')
+		str++;
+	while (*str >= '0' && *str <= '9')
 	{
 		n *= 10;
-		n += *str - '0';
+		n = n + (*str - '0');
 		str++;
 	}
 	return (minus * n);
 }
 
-int	is_space(char ch)
+static int	is_space(char ch)
 {
 	if (ch >= 8 && ch <= 13)
 		return (1);
