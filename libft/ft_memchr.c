@@ -6,7 +6,7 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 16:54:42 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/05 23:46:35 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/06 15:02:05 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	*ft_memchr(const void *s, int c, size_t n)
 		return (NULL);
 	while (i < n)
 	{
-		if (s[i] == ch)
+		if (*(unsigned char *)(s + i) == ch)
 			return ((void *)s + i);
 		i++;
 	}
