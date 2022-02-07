@@ -6,7 +6,7 @@
 /*   By: sumjang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 09:26:39 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/07 06:34:08 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/07 08:48:55 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 t_list	*ft_lstnew(void *content)
 {
-	t_list	*element;
+	t_list	*list;
 
-	element = (t_list *)malloc(sizeof(t_list));
-	if (!element)
+	list = (t_list *)malloc(sizeof(t_list));
+	if (!list)
 		return (NULL);
-	element->content = content;
-	element->next = NULL;
-	return (element);
+	list->content = content;
+	list->next = NULL;
+	return (list);
 }

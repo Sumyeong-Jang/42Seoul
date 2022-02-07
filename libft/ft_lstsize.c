@@ -6,7 +6,7 @@
 /*   By: sumjang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 09:29:20 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/07 07:00:40 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/07 08:49:19 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_lstsize(t_list *lst)
 	size_t		l;
 
 	l = 0;
-	while (!lst->next)
+	while (lst)
 	{
 		l++;
 		lst = lst->next;
