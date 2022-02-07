@@ -6,7 +6,7 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 21:50:50 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/07 09:19:05 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/07 09:40:22 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,5 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		if (!*s1 || !*s2)
 			break ;
 	}
-	return (*(unsigned char *) - *(unsigned char *)s2);
+	return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }

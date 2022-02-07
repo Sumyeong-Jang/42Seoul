@@ -6,7 +6,7 @@
 /*   By: sumjang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:03 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/07 09:13:54 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/07 09:38:40 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,5 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize)
 		}
 		dest[i] = '\0';
 	}
-	return (src_len);
+	return (ft_strlen(src));
 }

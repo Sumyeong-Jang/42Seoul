@@ -6,7 +6,7 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 21:41:39 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/07 09:30:37 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/07 09:39:47 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*ft_strrchr(const char *s, int c)
 {
-	unsigned char	*p;
+	char	*p;
 
 	p = NULL;
 	while (1)

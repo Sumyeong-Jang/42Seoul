@@ -6,7 +6,7 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 17:57:07 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/07 08:17:03 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/07 09:42:26 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_itoa(int n)
 	unsigned int	un_n;
 
 	l = count_len(n);
-	result = (char *)malloc(sizeof(char) * (len + 1));
+	result = (char *)malloc(sizeof(char) * (l + 1));
 	if (!result)
 		return (NULL);
 	result[l] = '\0';
@@ -47,12 +47,13 @@ static int	count_len(int n)
 	int				l;
 	unsigned int	un_n;
 
+	l = 0;
 	if (n == 0)
 		return (1);
 	if (n < 0)
 	{
 		n *= -1;
-		len++;
+		l++;
 	}
 	un_n = n;
 	while (un_n > 9)
