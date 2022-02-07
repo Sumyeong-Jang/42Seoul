@@ -6,7 +6,7 @@
 /*   By: sumjang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 09:32:52 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/07 08:47:37 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/07 22:16:05 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,10 @@
 
 void	ft_lstclear(t_list **lst, void (*del)(void*))
 {
-	t_list	*now;
-	t_list	*next;
-
-	now = *lst;
-	while (now)
+	if (*lst)
 	{
-		next = now->next;
-		ft_lstdelone(now, del);
-		now = next;
+		ft_lstclear(&(*lst)->next, del);
+		ft_lstdelone(*lst, del);
 	}
 	*lst = NULL;
 }

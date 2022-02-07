@@ -6,7 +6,7 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 18:33:55 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/07 07:55:09 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/07 22:01:52 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ int	ft_atoi(const char *str)
 
 	n = 0;
 	minus = 1;
-	if (!str)
-		return (0);
-	while (is_space(*str))
+	while (*str && is_space(*str))
 		str++;
 	if (*str == '-')
 		minus = -1;
@@ -38,7 +36,10 @@ int	ft_atoi(const char *str)
 			return (0);
 		str++;
 	}
-	return (minus * n);
+	if (!*str)
+		return (minus * n);
+	else
+		return (0);
 }
 
 static int	is_space(char ch)

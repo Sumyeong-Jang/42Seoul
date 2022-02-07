@@ -6,16 +6,16 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 17:14:13 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/07 09:03:33 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/07 21:55:46 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 int		count_char(char *s, char c);
-char	**split(char *str, char c, char **result, int len);
+char	**play_split(char *str, char c, char **result, int len);
 
-char	*ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	int		char_len;
 	int		l;
@@ -34,11 +34,11 @@ char	*ft_split(char const *s, char c)
 	}
 	char_len = count_char(str, c);
 	result = (char **)malloc(sizeof(char *) * char_len + 1);
-	result = split(str, c, result, char_len);
-	return (*result);
+	result = play_split(str, c, result, char_len);
+	return (result);
 }
 
-char	**split(char *str, char c, char **result, int len)
+char	**play_split(char *str, char c, char **result, int len)
 {
 	int		x;
 	int		y;

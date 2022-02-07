@@ -6,34 +6,58 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 17:27:04 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/07 02:08:01 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/07 22:14:28 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 static int	is_set(char c, char const *set);
+static char	*ft_strndup(char const *s, int start, int len);
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
 	char	*str;
-	size_t	i;
-	size_t	start;
-	size_t	end;
+	int		i;
+	int		len;
 
-	start = 0;
-	while (s1[start] && is_set(s1[start], set))
-		start++;
-	end = ft_strlen(s1);
-	while (end > start && is_set(s1[end - 1], set))
-		end--;
-	str = (char *)malloc(sizeof(*s1) * (end - start + 1));
+	if (!s1 || !set)
+		return (NULL);
+	len = ft_strlen(s1);
+	i = 0;
+	while (i < len)
+	{
+		if (!is_set(s1[i], set))
+			break ;
+		i++;
+	}
+	if (i == len)
+		return (ft_strndup(s1, 0, 0));
+	while (len > 0)
+	{
+		if (!is_set(s1[len - 1], set))
+			break ;
+		len--;
+	}
+	str = ft_strndup(s1, i, len - i);
+	return (str);
+}
+
+static char	*ft_strndup(char const *s, int start, int len)
+{
+	char	*str;
+	int		i;
+
+	str = (char *)malloc(sizeof(char) * (len + 1));
 	if (!str)
 		return (NULL);
 	i = 0;
-	while (start < end)
-		str[i++] = s1[start++];
-	str[i] = 0;
+	while (i < len)
+	{
+		str[i] = s[i + start];
+		i++;
+	}
+	str[i] = '\0';
 	return (str);
 }
 

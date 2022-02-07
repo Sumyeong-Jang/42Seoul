@@ -6,7 +6,7 @@
 /*   By: sumjang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 03:57:29 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/07 09:31:29 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/07 22:07:46 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,26 @@
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*str;
-	size_t	i;
-	size_t	j;
+	char			*str;
+	char			*result;
+	unsigned int	sl;
 
-	i = 0;
-	j = 0;
+	if (!s)
+		return (NULL);
+	sl = ft_strlen(s);
+	if (sl <= start || len == 0)
+		return (ft_strdup(""));
+	if (len >= sl)
+		len = sl;
 	str = (char *)malloc(sizeof(char) * (len + 1));
 	if (!str)
 		return (NULL);
-	while (s[i])
+	result = str;
+	while (len > 0)
 	{
-		if (i >= start && j < len)
-		{
-			str[j] = s[i];
-			j++;
-		}
-		i++;
+		*(str++) = s[start++];
+		len--;
 	}
-	str[j] = 0;
-	return (str);
+	*str = '\0';
+	return (result);
 }
