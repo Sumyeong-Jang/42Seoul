@@ -6,7 +6,7 @@
 /*   By: sumjang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 09:44:37 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/07 08:47:25 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/07 09:34:53 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,5 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 		new = new->next;
 		lst = lst->next;
 	}
-	return (headder);
+	return (header);
 }
