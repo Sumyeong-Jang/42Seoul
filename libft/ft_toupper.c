@@ -6,9 +6,10 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 18:05:19 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/09 01:37:41 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/09 04:06:37 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 int	ft_toupper(int c)
