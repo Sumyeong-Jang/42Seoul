@@ -6,76 +6,62 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 17:14:13 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/08 12:34:52 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/08 17:27:50 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int		count_char(char *s, char c);
-static char		**play_split(char *s, char **result, char c);
-static char		*ft_strndup(char *str, int len);
+static size_t	count_char(char const *s, char c);
+static char		**go_split(char const *s, char c, size_t len, char **result);
 
 char	**ft_split(char const *s, char c)
 {
 	char	**result;
+	size_t	len;
 
 	if (!s)
 		return (NULL);
-	result = (char **)malloc(sizeof(char *) * (count_char(s, c) + 1));
+	len = count_char((char *)s, c);
+	result = (char **)malloc(sizeof(char *) * (len + 1));
 	if (!result)
 		return (NULL);
-	play_split(s, result, c);
+	go_split((char *)s, c, len, result);
+	if (!result)
+		free(result);
 	return (result);
 }
 
-char	**play_split(char *s, char **result, char c)
+static char	**go_split(char const *s, char c, size_t len, char **result)
 {
-	int		x;
-	int		i;
+	size_t	x;
+	size_t	y;
+	size_t	i;
 	char	*bookmark;
 
 	x = 0;
-	i = 0;
-	while (*s)
+	while (len--)
 	{
-		if (x == 0 && *s != c)
-		{
-			x = 1;
-			bookmark = (char *)s;
-		}
-		else if (x == 1 && (*s == c || *s == '\0'))
-		{
-			x = 0;
-			result[i] = ft_strndup(bookmark, s - bookmark);
+		while (*s == c)
+			s++;
+		y = 0;
+		i = 0;
+		bookmark = (char *)s;
+		while (*s != c && *s++)
 			i++;
-		}
-		result[i] = NULL;
-		s++;
+		result[x] = (char *)malloc(sizeof(char) * i + 1);
+		while (y < i)
+			result[x][y++] = *bookmark++;
+		result[x][y] = 0;
+		x++;
 	}
-}
-
-static char	*ft_strndup(char *str, int len)
-{
-	char	*s;
-	char	*result;
-
-	s = (char *)malloc(sizeof(char) * (len + 1));
-	if (!s)
-		result (NULL);
-	result = s;
-	while (len > 0)
-	{
-		*(s++) = *(str++);
-		len--;
-	}
-	*s = NULL;
+	result[x] = 0;
 	return (result);
 }
 
-int	count_char(char *s, char c)
+static size_t	count_char(char const *s, char c)
 {
-	int	cnt;
+	size_t	cnt;
 
 	cnt = 0;
 	while (*s)

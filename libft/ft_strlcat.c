@@ -6,7 +6,7 @@
 /*   By: sumjang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:46:37 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/08 12:22:53 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/08 16:37:35 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ size_t	ft_strlcat(char *dest, const char *src, size_t dstsize)
 	i = 0;
 	if (dstsize > dest_len + 1)
 	{
-		while (*src != '\0' && dest_len + i + 1 < dstsize)
+		while (src[i] && i < dstsize - dest_len - 1)
 		{
 			dest[dest_len + i] = src[i];
 			i++;
 		}
 	}
-	dest[dest_len + i] = '\0';
+	dest[dest_len + i] = 0;
 	if (dstsize <= dest_len)
-		dest_len = dstsize;
+		return (src_len + dstsize);
 	return (src_len + dest_len);
 }

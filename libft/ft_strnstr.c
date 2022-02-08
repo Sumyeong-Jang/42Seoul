@@ -6,7 +6,7 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 18:10:30 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/08 12:37:13 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/08 16:23:37 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,21 @@
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
 	size_t	i;
+	size_t	j;
 
-	if (!needle)
+	if (!needle[0])
 		return ((char *)haystack);
-	if (ft_strlen(haystack) < ft_strlen(needle) || len < ft_strlen(needle))
-		return (0);
 	i = 0;
 	while (haystack[i] && i < len)
 	{
-		if (ft_memcmp(haystack, needle, len) == 0)
-			return ((char *)haystack);
-		haystack++;
+		j = 0;
+		while (haystack[i + j] == needle[j] && i + j < len)
+		{
+			j++;
+			if (needle[j] == 0)
+				return ((char *)haystack + i);
+		}
+		i++;
 	}
 	return (NULL);
 }
