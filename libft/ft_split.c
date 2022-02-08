@@ -6,7 +6,7 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 17:14:13 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/08 17:27:50 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/08 17:46:37 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,12 @@ static size_t	count_char(char const *s, char c)
 			s++;
 		if (!*s)
 			break ;
-		cnt++;
 		if (*s != c && *s)
-			s++;
+		{
+			cnt++;
+			while (*s != c && *s)
+				s++;
+		}
 	}
 	return (cnt);
 }
