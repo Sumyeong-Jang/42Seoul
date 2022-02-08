@@ -6,7 +6,7 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 17:14:13 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/08 20:22:09 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/09 03:35:01 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static size_t	count_char(char const *s, char c);
 static char		**go_split(char const *s, char c, size_t len, char **result);
+static char		**free_all(char **result);
 
 char	**ft_split(char const *s, char c)
 {
@@ -26,9 +27,7 @@ char	**ft_split(char const *s, char c)
 	result = (char **)malloc(sizeof(char *) * (len + 1));
 	if (!result)
 		return (NULL);
-	go_split((char *)s, c, len, result);
-	if (!result)
-		free(result);
+	result = go_split((char *)s, c, len, result);
 	return (result);
 }
 
@@ -50,6 +49,8 @@ static char	**go_split(char const *s, char c, size_t len, char **result)
 		while (*s != c && *s++)
 			i++;
 		result[x] = (char *)malloc(sizeof(char) * i + 1);
+		if (!result[x])
+			return (free_all(result));
 		while (y < i)
 			result[x][y++] = *bookmark++;
 		result[x][y] = 0;
@@ -78,4 +79,18 @@ static size_t	count_char(char const *s, char c)
 		}
 	}
 	return (cnt);
+}
+
+static char	**free_all(char **result)
+{
+	int	i;
+
+	i = 0;
+	while (result[i])
+	{
+		free(s[i]);
+		i++;
+	}
+	free(result);
+	return (NULL);
 }
