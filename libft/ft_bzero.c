@@ -6,7 +6,7 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 12:55:35 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/07 07:54:39 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/08 12:06:49 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,10 @@ void	ft_bzero(void *s, size_t n)
 {
 	size_t			i;
 
-	if (!s)
-		return ;
 	i = 0;
 	while (i < n)
 	{
-		*(char *)(s + i) = 0;
+		*(unsigned char *)(s + i) = 0;
 		i++;
 	}
 }

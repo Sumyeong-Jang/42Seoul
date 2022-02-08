@@ -6,62 +6,70 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 17:14:13 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/07 21:55:46 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/08 12:34:52 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		count_char(char *s, char c);
-char	**play_split(char *str, char c, char **result, int len);
+static int		count_char(char *s, char c);
+static char		**play_split(char *s, char **result, char c);
+static char		*ft_strndup(char *str, int len);
 
 char	**ft_split(char const *s, char c)
 {
-	int		char_len;
-	int		l;
 	char	**result;
-	char	*str;
 
-	l = 0;
-	while (!s[l])
-		l++;
-	str = (char *)malloc(sizeof(char *) * l + 1);
-	l = 0;
-	while (!s[l])
-	{
-		str[l] = s[l];
-		l++;
-	}
-	char_len = count_char(str, c);
-	result = (char **)malloc(sizeof(char *) * char_len + 1);
-	result = play_split(str, c, result, char_len);
+	if (!s)
+		return (NULL);
+	result = (char **)malloc(sizeof(char *) * (count_char(s, c) + 1));
+	if (!result)
+		return (NULL);
+	play_split(s, result, c);
 	return (result);
 }
 
-char	**play_split(char *str, char c, char **result, int len)
+char	**play_split(char *s, char **result, char c)
 {
 	int		x;
-	int		y;
 	int		i;
 	char	*bookmark;
 
 	x = 0;
-	while (len--)
+	i = 0;
+	while (*s)
 	{
-		while (*str == c && *str)
-			str++;
-		y = 0;
-		i = 0;
-		bookmark = str;
-		while (*str != c && *str++)
+		if (x == 0 && *s != c)
+		{
+			x = 1;
+			bookmark = (char *)s;
+		}
+		else if (x == 1 && (*s == c || *s == '\0'))
+		{
+			x = 0;
+			result[i] = ft_strndup(bookmark, s - bookmark);
 			i++;
-		result[x] = (char *)malloc(sizeof(char) * i + 1);
-		while (y < i)
-			result[x][y++] = *bookmark++;
-		result[x][y] = 0;
-		x++;
+		}
+		result[i] = NULL;
+		s++;
 	}
-	result[x] = 0;
+}
+
+static char	*ft_strndup(char *str, int len)
+{
+	char	*s;
+	char	*result;
+
+	s = (char *)malloc(sizeof(char) * (len + 1));
+	if (!s)
+		result (NULL);
+	result = s;
+	while (len > 0)
+	{
+		*(s++) = *(str++);
+		len--;
+	}
+	*s = NULL;
 	return (result);
 }
 
