@@ -6,7 +6,7 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 21:19:34 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/08 20:24:56 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/08 23:07:40 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,17 @@
 char	*ft_strchr(const char *s, int c)
 {
 	int		i;
+	char	find;
 
+	find = (unsigned char)c;
 	i = 0;
-	if (!s)
-		return (0);
 	while (s[i])
 	{
-		if (s[i] == (unsigned char)c)
+		if (s[i] == find)
 			return ((char *)s + i);
 		i++;
 	}
+	if (find == 0)
+		return ((char *)s + i);
 	return (0);
 }
