@@ -6,7 +6,7 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 17:14:13 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/09 04:07:09 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/10 06:57:28 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,10 @@ static char	**free_all(char **result)
 	while (result[i])
 	{
 		free(result[i]);
+		result[i] = NULL;
 		i++;
 	}
 	free(result);
+	result = NULL;
 	return (NULL);
 }

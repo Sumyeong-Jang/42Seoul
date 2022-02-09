@@ -6,7 +6,7 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 19:35:57 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/09 01:41:08 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/10 04:40:47 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,13 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <limits.h>
 
 typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
-}					t_list;
+}	t_list;
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);

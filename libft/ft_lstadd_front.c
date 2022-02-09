@@ -6,7 +6,7 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 09:28:50 by sumjang           #+#    #+#             */
-/*   Updated: 2022/02/09 04:06:48 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/02/10 06:24:47 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 void	ft_lstadd_front(t_list **lst, t_list *new)
 {
-	if (new)
-	{
-		new->next = *lst;
-		*lst = new;
-	}
+	if (!lst || !new)
+		return ;
+	new->next = *lst;
+	*lst = new;
 }

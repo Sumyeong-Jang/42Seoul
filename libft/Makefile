@@ -6,7 +6,7 @@
 #    By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/17 17:23:57 by sumjang           #+#    #+#              #
-#    Updated: 2022/02/09 01:00:34 by sumjang          ###   ########.fr        #
+#    Updated: 2022/02/10 05:30:54 by sumjang          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ endif
 
 all : $(NAME)
 
-.c.o: $(SRCS)
+.c.o:
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(NAME): $(OBJ_FILES)
