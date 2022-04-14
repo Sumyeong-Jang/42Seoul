@@ -1,21 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/09 22:08:52 by sumjang           #+#    #+#             */
-/*   Updated: 2022/04/14 22:20:23 by sumjang          ###   ########.fr       */
+/*   Created: 2022/04/14 20:14:41 by sumjang           #+#    #+#             */
+/*   Updated: 2022/04/14 22:20:42 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
+void	del_node(t_list **node);
 char	*ft_strchr(const char *s, int c);
 size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize);
 size_t	ft_strlen(const char *s);
 char	*new_ft_strjoin(char const *backup, char const *buf);
+
+void	del_node(t_list **node)
+{
+	free((*node)->backup);
+	(*node)->prev->next = (*node)->next;
+	if ((*node)->next)
+	{
+		(*node)->next->prev = (*node)->prev;
+	}
+	free(*node);
+	*node = NULL;
+}
 
 char	*ft_strchr(const char *s, int c)
 {

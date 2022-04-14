@@ -1,54 +1,82 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/09 21:30:19 by sumjang           #+#    #+#             */
-/*   Updated: 2022/04/14 22:19:51 by sumjang          ###   ########.fr       */
+/*   Created: 2022/04/14 20:14:20 by sumjang           #+#    #+#             */
+/*   Updated: 2022/04/14 22:20:30 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*get_next_line(int fd);
+t_list	*get_node(t_list *head, int fd);
 char	*read_input(char **backup, int fd);
 char	*split_line(char const *backup);
-size_t	save_remains(char **backup, size_t len);
+size_t	save_remains(t_list **node, size_t len);
 
 char	*get_next_line(int fd)
 {
-	static char	*backup;
-	char		*line;
+	static t_list	head;
+	t_list			*node;
+	char			*line;
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
-	backup = read_input(&backup, fd);
-	if (backup == NULL || *backup == '\0')
+	node = get_node(&head, fd);
+	if (node == NULL)
+		return (NULL);
+	node->backup = read_input(&(node->backup), fd);
+	if (node->backup == NULL || *(node->backup) == '\0')
 	{
-		free(backup);
-		backup = NULL;
+		del_node(&node);
 		return (NULL);
 	}
-	line = split_line(backup);
+	line = split_line(node->backup);
 	if (line == NULL)
 	{
-		free(backup);
-		backup = NULL;
+		del_node(&node);
 		return (NULL);
 	}
-	if (save_remains(&backup, ft_strlen(line)) == 0)
+	if (save_remains(&node, ft_strlen(line)) == 0)
 		return (NULL);
 	return (line);
 }
 
+t_list	*get_node(t_list *head, int fd)
+{
+	t_list	*node;
+
+	node = head->next;
+	while (node)
+	{
+		if (node->fd == fd)
+			return (node);
+		else
+			node = node->next;
+	}
+	node = malloc(sizeof(t_list));
+	if (node == NULL)
+		return (NULL);
+	node->fd = fd;
+	node->backup = NULL;
+	node->prev = head;
+	node->next = head->next;
+	if (head->next)
+		head->next->prev = node;
+	head->next = node;
+	return (node);
+}
+
 char	*read_input(char **backup, int fd)
 {
-	char		*buf;
-	ssize_t		n;
-	char		*tmp;
-	char		*new;
+	char	*buf;
+	ssize_t	n;
+	char	*tmp;
+	char	*new;
 
 	buf = malloc(BUFFER_SIZE + 1);
 	if (buf == NULL)
@@ -86,25 +114,26 @@ char	*split_line(char const *backup)
 		len = ft_strchr(backup, '\0') - backup;
 	}
 	line = malloc(len + 1);
-	if (!line)
+	if (line == NULL)
 		return (NULL);
 	ft_strlcpy(line, backup, len + 1);
 	return (line);
 }
 
-size_t	save_remains(char **backup, size_t len)
+size_t	save_remains(t_list **node, size_t len)
 {
 	char	*tmp;
 
-	tmp = *backup;
-	*backup = malloc(ft_strlen(tmp + len) + 1);
-	if (*backup == NULL)
+	tmp = (*node)->backup;
+	(*node)->backup = malloc(ft_strlen(tmp + len) + 1);
+	if ((*node)->backup == NULL)
 	{
 		free(tmp);
 		tmp = NULL;
+		del_node(node);
 		return (0);
 	}
-	ft_strlcpy(*backup, tmp + len, ft_strlen(tmp + len) + 1);
+	ft_strlcpy((*node)->backup, tmp + len, ft_strlen(tmp + len) + 1);
 	free(tmp);
 	tmp = NULL;
 	return (1);
