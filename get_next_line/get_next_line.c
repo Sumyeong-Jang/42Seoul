@@ -6,7 +6,7 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 21:30:19 by sumjang           #+#    #+#             */
-/*   Updated: 2022/04/14 22:19:51 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/04/15 14:24:57 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*read_input(char **backup, int fd)
 	char		*tmp;
 	char		*new;
 
-	buf = malloc(BUFFER_SIZE + 1);
+	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (buf == NULL)
 		return (NULL);
 	n = 0;
@@ -85,7 +85,7 @@ char	*split_line(char const *backup)
 	{
 		len = ft_strchr(backup, '\0') - backup;
 	}
-	line = malloc(len + 1);
+	line = (char *)malloc(sizeof(char) * (len + 1));
 	if (!line)
 		return (NULL);
 	ft_strlcpy(line, backup, len + 1);
@@ -97,7 +97,7 @@ size_t	save_remains(char **backup, size_t len)
 	char	*tmp;
 
 	tmp = *backup;
-	*backup = malloc(ft_strlen(tmp + len) + 1);
+	*backup = (char *)malloc(sizeof(char) * (ft_strlen(tmp + len) + 1));
 	if (*backup == NULL)
 	{
 		free(tmp);

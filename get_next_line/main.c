@@ -1,31 +1,22 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/09 21:18:21 by sumjang           #+#    #+#             */
-/*   Updated: 2022/04/09 21:29:29 by sumjang          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "get_next_line.h"
 #include <stdio.h>
+#include <fcntl.h>
+#include "get_next_line.h"
 
-int	main(int ac, char	**av)
+int main()
 {
-	char*	line;
-	int		check;
-	int		fd;
+	int fd;
+	int	i=1;
+	char *line;
 
 	fd = open("test.txt", O_RDONLY);
-	while ((check = get_next_line(fd, &line)) > 0)
+	while (1)
 	{
-		printf("%s\n", line);
-		free(line);
+		line = get_next_line(fd);
+		printf("%d -- %s", i, line);
+		i++;
+	   	free(line);
+		if (line == NULL)
+			break;
 	}
-	printf("%s\n", line);
-	free(line);
 	return (0);
 }
