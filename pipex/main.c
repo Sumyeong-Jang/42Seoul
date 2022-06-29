@@ -13,22 +13,23 @@
 #include "pipex.h"
 
 int		arg_init(int argc, char **argv, char **envp, t_arg **arg);
-char	**get_envp_path(char **envp);	// *envp[]
+char	**get_envp_path(char **envp);
 int		parse_argv(char **argv, t_arg *arg);
 char	*get_argv_cmd(char **path, char *arg_cmd);
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_arg	*arg;
-	int		fd[2];
-	pid_t	pid;
 
-	if (arg_init(argc, argv, envp, &arg) == ERROR)
+	arg->exit_code = arg_init(argc, argv, envp, &arg);
+	if (arg->exit_code == -1)
 		ft_exit(NULL, 1);
-	if ((pipe(fd)) == ERROR)
+	if ((pipe(arg->pipe_fd)) == -1)
 		ft_exit("pipe error", 1);
-	pid = fork();
-	if (pipex(arg, fd, envp, &pid) == ERROR)
+	arg->pid = fork();
+	if (arg->pid == -1)
+		ft_exit("fork error", 1);
+	if (pipex(arg, envp) == -1)
 		ft_exit(NULL, 1);
 	return (0);
 }
@@ -39,17 +40,18 @@ int	arg_init(int argc, char **argv, char **envp, t_arg **arg)
 		ft_exit("argument error", 1);
 	(*arg) = (t_arg *)malloc(sizeof(t_arg));
 	if ((*arg) == NULL)
-		return (ERROR);
+		return (-1);
 	(*arg)->infile = ft_strdup(argv[1]);
 	if ((*arg)->infile == NULL)
-		ft_exit("infile error", 1);
+		ft_exit("infile", 1);
 	(*arg)->outfile = ft_strdup(argv[argc - 1]);
 	if ((*arg)->outfile == NULL)
-		ft_exit("outfile error", 1);
+		ft_exit("outfile", 1);
 	(*arg)->path = get_envp_path(envp);
-	if ((parse_argv(argv, *arg)) == ERROR)
-		return (ERROR);
-	return (0);
+	(*arg)->exit_code = parse_argv(argv, *arg);
+	if ((*arg)->exit_code == -1)
+		return (-1);
+	return ((*arg)->exit_code);
 }
 
 char	**get_envp_path(char **envp)
@@ -60,34 +62,27 @@ char	**get_envp_path(char **envp)
 		envp++;
 	if (*envp == NULL)
 		ft_exit("PATH error", 127);
-	printf("envp 출력\n%s\n", *envp);
 	path = *envp + 5;
 	return (ft_split(path, ':'));
 }
 
 int	parse_argv(char **argv, t_arg *arg)
 {
+	arg->exit_code = 1;
 	arg->cmd_arg1 = ft_split(argv[2], ' ');
 	if (arg->cmd_arg1 == NULL)
-		return (ERROR);
+		return (-1);
 	arg->cmd_arg2 = ft_split(argv[3], ' ');
 	if (arg->cmd_arg2 == NULL)
-		return (ERROR);
+		return (-1);
 	arg->cmd1 = get_argv_cmd(arg->path, arg->cmd_arg1[0]);
 	arg->cmd2 = get_argv_cmd(arg->path, arg->cmd_arg2[0]);
-	if (arg->cmd1 == NULL)
+	if (arg->cmd1 == NULL || arg->cmd2 == NULL)
 	{
-		write(1, "zsh: command not found: ", 24);
-		write(1, arg->cmd_arg1[0], (ft_strlen(arg->cmd_arg1[0])));
-		write(1, "\n", 1);
+		arg->exit_code = 127;
+		perror("command not found");
 	}
-	if (arg->cmd2 == NULL)
-	{
-		write(1, "zsh: command not found: ", 24);
-		write(1, arg->cmd_arg2[0], (ft_strlen(arg->cmd_arg2[0])));
-		write(1, "\n", 1);
-	}
-	return (0);
+	return (arg->exit_code);
 }
 
 char	*get_argv_cmd(char **path, char *arg_cmd)

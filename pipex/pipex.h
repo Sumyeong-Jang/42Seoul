@@ -16,8 +16,8 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <sys/wait.h>
 
-# define ERROR -1
 # define FD_ENTRY 0
 # define FD_EXIT 1
 
@@ -31,10 +31,11 @@ typedef struct s_arg
 	char	*cmd2;
 	char	**cmd_arg2;
 	int		pipe_fd[2];
+	int		exit_code;
 	pid_t	pid;
 }	t_arg;
 
-int		pipex(t_arg *arg, int *fd, char **envp, pid_t *pid);
+int		pipex(t_arg *arg, char **envp);
 void	redirect_out(char *file_path);
 void	redirect_in(char *file_path);
 

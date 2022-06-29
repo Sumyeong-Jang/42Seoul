@@ -12,30 +12,34 @@
 
 #include "pipex.h"
 
-int		pipex(t_arg *arg, int *fd, char **envp, pid_t *pid);
+int		pipex(t_arg *arg, char **envp);
 void	redirect_out(char *file_path);
 void	redirect_in(char *file_path);
 
-int	pipex(t_arg *arg, int *fd, char **envp, pid_t *pid)
+int	pipex(t_arg *arg, char **envp)
 {
-	if (*pid > 0)
+	if (arg->pid > 0)
 	{
-		waitpid(*pid, NULL, WNOHANG);
-		close(fd[0]);
-		dup2(fd[1], 1);
+		close(arg->pipe_fd[1]);
+		if (dup2(arg->pipe_fd[0], STDIN_FILENO) == -1)
+			ft_exit("dup2 fail", 1);
 		redirect_out(arg->outfile);
+		close(arg->pipe_fd[0]);
+		waitpid(arg->pid, NULL, WNOHANG);
 		if (execve(arg->cmd2, arg->cmd_arg2, envp) == -1)
-			ft_exit("execve fail", 1);
+			ft_exit("execve fail", arg->exit_code);
 	}
-	else if (*pid == 0)
+	else if (arg->pid == 0)
 	{
+		close(arg->pipe_fd[0]);
 		redirect_in(arg->infile);
-		close(fd[0]);
-		dup2(fd[1], 1);
+		if (dup2(arg->pipe_fd[1], STDOUT_FILENO) == -1)
+			ft_exit("dup2 fail", 1);
+		close(arg->pipe_fd[1]);
 		if (execve(arg->cmd1, arg->cmd_arg1, envp) == -1)
-			ft_exit("execve fail", 1);
+			ft_exit("execve fail", arg->exit_code);
 	}
-	return (ERROR);
+	return (-1);
 }
 
 void	redirect_out(char *file_path)
