@@ -13,7 +13,7 @@
 NAME	= pipex
 
 CC		= gcc
-CFLAG	= -Wall -Wextra -Werror
+CFLAG	= -g -Wall -Wextra -Werror
 RM		= rm -f
 AR		= ar rcs
 
