@@ -21,8 +21,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_arg	*arg;
 
-	arg->exit_code = arg_init(argc, argv, envp, &arg);
-	if (arg->exit_code == -1)
+	if (arg_init(argc, argv, envp, &arg) == -1)
 		ft_exit(NULL, 1);
 	if ((pipe(arg->pipe_fd)) == -1)
 		ft_exit("pipe error", 1);
