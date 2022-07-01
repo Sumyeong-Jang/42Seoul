@@ -13,13 +13,12 @@
 NAME	= pipex
 
 CC		= gcc
-CFLAG	= -g -Wall -Wextra -Werror
+CFLAG	= -Wall -Wextra -Werror
 RM		= rm -f
 AR		= ar rcs
 
 D_UTILS	= libft/
-SRCS	= main.c pipex.c \
-			$(D_UTILS)ft_exit.c \
+SRCS	= main.c pipex.c ft_exit.c \
 			$(D_UTILS)ft_split.c \
 			$(D_UTILS)ft_strdup.c \
 			$(D_UTILS)ft_strjoin.c \

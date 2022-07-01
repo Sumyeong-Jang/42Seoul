@@ -14,14 +14,15 @@
 
 int		arg_init(int argc, char **argv, char **envp, t_arg **arg);
 char	**get_envp_path(char **envp);
-int		parse_argv(char **argv, t_arg *arg);
+int		parse_argv(char **argv, t_arg **arg);
 char	*get_argv_cmd(char **path, char *arg_cmd);
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_arg	*arg;
 
-	if (arg_init(argc, argv, envp, &arg) == -1)
+	arg->exit_code = arg_init(argc, argv, envp, &arg);
+	if (arg->exit_code == -1)
 		ft_exit(NULL, 1);
 	if ((pipe(arg->pipe_fd)) == -1)
 		ft_exit("pipe error", 1);
@@ -35,8 +36,8 @@ int	main(int argc, char **argv, char **envp)
 
 int	arg_init(int argc, char **argv, char **envp, t_arg **arg)
 {
-	if (argc < 5)
-		ft_exit("argument error", 1);
+	if (argc != 5)
+		ft_exit(NULL, 1);
 	(*arg) = (t_arg *)malloc(sizeof(t_arg));
 	if ((*arg) == NULL)
 		return (-1);
@@ -47,7 +48,9 @@ int	arg_init(int argc, char **argv, char **envp, t_arg **arg)
 	if ((*arg)->outfile == NULL)
 		ft_exit("outfile", 1);
 	(*arg)->path = get_envp_path(envp);
-	(*arg)->exit_code = parse_argv(argv, *arg);
+	if ((*arg)->path == NULL)
+		ft_exit(NULL, 1);
+	(*arg)->exit_code = parse_argv(argv, arg);
 	if ((*arg)->exit_code == -1)
 		return (-1);
 	return ((*arg)->exit_code);
@@ -65,23 +68,23 @@ char	**get_envp_path(char **envp)
 	return (ft_split(path, ':'));
 }
 
-int	parse_argv(char **argv, t_arg *arg)
+int	parse_argv(char **argv, t_arg **arg)
 {
-	arg->exit_code = 1;
-	arg->cmd_arg1 = ft_split(argv[2], ' ');
-	if (arg->cmd_arg1 == NULL)
+	(*arg)->exit_code = 1;
+	(*arg)->cmd_arg1 = ft_split(argv[2], ' ');
+	if ((*arg)->cmd_arg1 == NULL)
 		return (-1);
-	arg->cmd_arg2 = ft_split(argv[3], ' ');
-	if (arg->cmd_arg2 == NULL)
+	(*arg)->cmd_arg2 = ft_split(argv[3], ' ');
+	if ((*arg)->cmd_arg2 == NULL)
 		return (-1);
-	arg->cmd1 = get_argv_cmd(arg->path, arg->cmd_arg1[0]);
-	arg->cmd2 = get_argv_cmd(arg->path, arg->cmd_arg2[0]);
-	if (arg->cmd1 == NULL || arg->cmd2 == NULL)
+	(*arg)->cmd1 = get_argv_cmd((*arg)->path, (*arg)->cmd_arg1[0]);
+	(*arg)->cmd2 = get_argv_cmd((*arg)->path, (*arg)->cmd_arg2[0]);
+	if ((*arg)->cmd1 == NULL || (*arg)->cmd2 == NULL)
 	{
-		arg->exit_code = 127;
+		(*arg)->exit_code = 127;
 		perror("command not found");
 	}
-	return (arg->exit_code);
+	return ((*arg)->exit_code);
 }
 
 char	*get_argv_cmd(char **path, char *arg_cmd)

@@ -20,12 +20,12 @@ int	pipex(t_arg *arg, char **envp)
 {
 	if (arg->pid > 0)
 	{
+		waitpid(arg->pid, NULL, WNOHANG);
 		close(arg->pipe_fd[1]);
 		if (dup2(arg->pipe_fd[0], STDIN_FILENO) == -1)
 			ft_exit("dup2 fail", 1);
 		redirect_out(arg->outfile);
 		close(arg->pipe_fd[0]);
-		waitpid(arg->pid, NULL, WNOHANG);
 		if (execve(arg->cmd2, arg->cmd_arg2, envp) == -1)
 			ft_exit("execve fail", arg->exit_code);
 	}
@@ -48,10 +48,7 @@ void	redirect_out(char *file_path)
 
 	fd = open(file_path, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
-	{
-		perror(file_path);
-		ft_exit(NULL, 1);
-	}
+		ft_exit("open fail", 1);
 	if (dup2(fd, STDOUT_FILENO) == -1)
 		ft_exit("dup2 fail", 1);
 	close(fd);
@@ -63,10 +60,7 @@ void	redirect_in(char *file_path)
 
 	fd = open(file_path, O_RDONLY);
 	if (fd < 0)
-	{
-		perror(file_path);
-		ft_exit(NULL, 1);
-	}
+		ft_exit("open fail", 1);
 	if (dup2(fd, STDIN_FILENO) == -1)
 		ft_exit("dup2 fail", 1);
 	close(fd);

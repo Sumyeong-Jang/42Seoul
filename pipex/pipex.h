@@ -16,10 +16,6 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <sys/wait.h>
-
-# define FD_ENTRY 0
-# define FD_EXIT 1
 
 typedef struct s_arg
 {
@@ -38,8 +34,8 @@ typedef struct s_arg
 int		pipex(t_arg *arg, char **envp);
 void	redirect_out(char *file_path);
 void	redirect_in(char *file_path);
-
 void	ft_exit(char *message, int isError);
+
 char	**ft_split(char const *s, char c);
 char	*ft_strdup(const char *s1);
 char	*ft_strjoin(char const *s1, char const *s2);
