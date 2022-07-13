@@ -1,10 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_setting.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/13 15:12:30 by sumjang           #+#    #+#             */
+/*   Updated: 2022/07/13 15:12:31 by sumjang          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "so_long.h"
+
 void    map_init(t_game *gmae, char *filename);
 void    read_map(t_game *game, char *filename);
 void    is_valid_map(t_game *game);
 void    composed_char(t_game *game, int x, int y);
 
-void    map_init(t_game *gmae, char *filename)
+void    map_init(t_game *game, char *filename)
 {
+    int i = 0;
+
     read_map(game, filename);
     game->y = ft_strlen(game->map[0]);
     i = 0;
@@ -21,11 +37,11 @@ void    read_map(t_game *game, char *filename)
     char    *line;
     char    *lines;
     char    *tmp;
-    
+
     fd = open(filename, O_RDONLY);
     if (fd <= 0) // 이거 훼이크임? (fd != 1) 혹은 (fd == -1)
         print_err("File open fail.\n"); //error 출력 수정
-    while (true)
+    while (1)
     {
         line = get_next_line(fd);
         if (line == NULL)
@@ -72,7 +88,7 @@ void    is_valid_map(t_game *game)
 void    composed_char(t_game *game, int x, int y)
 {
     char    c;
-    
+
     c = game->map[x][y];
     if (c != '0' && c != '1' && c != 'C' && c != 'E' && c != 'P')
         ft_pstr_exit("Error\n: Map must be composed of 5 possible characters..");//error
@@ -83,7 +99,7 @@ void    composed_char(t_game *game, int x, int y)
     else if (c == 'P')//bonus 혹은 시작위치때문에?
     {
         game->player++;
-        
+
 
     }
 }

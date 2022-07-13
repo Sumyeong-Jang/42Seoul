@@ -1,3 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   img_setting.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/13 15:11:58 by sumjang           #+#    #+#             */
+/*   Updated: 2022/07/13 15:12:02 by sumjang          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "so_long.h"
+
 void    img_init(t_game *game);
 void    put_image_to_window_all(t_game *game);
 void    put_image_to_window(t_game *game, int x, int y);

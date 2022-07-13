@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/13 15:12:15 by sumjang           #+#    #+#             */
+/*   Updated: 2022/07/13 16:14:03 by sumjang          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 int is_valid_arg(int argc, char *argv);
@@ -25,7 +37,7 @@ int	main(int argc, char *argv[])
 	return (0);
 }
 
-int is_valid_arg(int argc, char *argv)
+int is_valid_arg(int argc, char *filename)
 {
     if (argc != 2)
         ft_pstr_exit("Map is missing.\n");
@@ -42,8 +54,8 @@ void	game_init(t_game *game, char *filename)
 	game->mlx = mlx_init();
     if (!game->mlx)
         ft_pstr_exit("Error\n: mlx_init() failed..");
-	game->win = mlx_new_window(game->mlx, game->wid * 64, game->hei * 64, "so_long");
-    if (!gmae->win)
+	game->win = mlx_new_window(game->mlx, game->x * 64, game->y * 64, "so_long");
+    if (!game->win)
         ft_pstr_exit("Error\n: mlx_new_window() failed..");
 	game->img = img_init(game);//xpm_file_to_image
     setting_img(game);//put_image_to_window(_all)
@@ -60,19 +72,4 @@ int	exit_game(t_game *game)
 {
 	mlx_destroy_window(game->mlx, game->win);
 	exit(0);
-}
-
-int	press_key(int key_code, t_game *game)
-{
-	if (key_code == KEY_ESC)
-		exit_game(game);
-	if (key_code == KEY_W)
-		move_w(game);
-	if (key_code == KEY_A)
-		move_a(game);
-	if (key_code == KEY_S)
-		move_s(game);
-	if (key_code == KEY_D)
-		move_d(game);
-	return (0);
 }

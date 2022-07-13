@@ -1,3 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   key_setting.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/13 15:12:05 by sumjang           #+#    #+#             */
+/*   Updated: 2022/07/13 15:12:06 by sumjang          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "so_long.h"
+
 int     key_hook(int keycode, t_game *game);
 int     exit_game(t_game *game);
 void    change_map(int key, t_game *game);
@@ -21,12 +35,12 @@ int key_hook(int keycode, t_game *game)
 //이거 전부 destroy_image 해줘야하나........?
 int exit_game(t_game *game)
 {
-    mlx_destroy_image(game->mlx_ptr, game->imgs->empty);
-	mlx_destroy_image(game->mlx_ptr, game->imgs->wall);
-	mlx_destroy_image(game->mlx_ptr, game->imgs->collectible);
-	mlx_destroy_image(game->mlx_ptr, game->imgs->exit);
-	mlx_destroy_image(game->mlx_ptr, game->imgs->player);
-	mlx_destroy_window(game->mlx_ptr, game->win_ptr);
+    mlx_destroy_image(game->mlx, game->imgs->empty);
+	mlx_destroy_image(game->mlx, game->imgs->wall);
+	mlx_destroy_image(game->mlx, game->imgs->collectible);
+	mlx_destroy_image(game->mlx, game->imgs->exit);
+	mlx_destroy_image(game->mlx, game->imgs->player);
+	mlx_destroy_window(game->mlx, game->win);
 	exit(EXIT_SUCCESS);
 }
 
