@@ -16,6 +16,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+# define BUFFER_SIZE 1000
+
 char	*get_next_line(int fd);
 char	*read_input(char **backup, int fd);
 char	*split_line(char const *backup);

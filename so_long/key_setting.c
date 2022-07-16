@@ -35,11 +35,11 @@ int key_hook(int keycode, t_game *game)
 //이거 전부 destroy_image 해줘야하나........?
 int exit_game(t_game *game)
 {
-    mlx_destroy_image(game->mlx, game->imgs->empty);
-	mlx_destroy_image(game->mlx, game->imgs->wall);
-	mlx_destroy_image(game->mlx, game->imgs->collectible);
-	mlx_destroy_image(game->mlx, game->imgs->exit);
-	mlx_destroy_image(game->mlx, game->imgs->player);
+    mlx_destroy_image(game->mlx, game->img.empty);
+	mlx_destroy_image(game->mlx, game->img.wall);
+	mlx_destroy_image(game->mlx, game->img.collectible);
+	mlx_destroy_image(game->mlx, game->img.exit);
+	mlx_destroy_image(game->mlx, game->img.player);
 	mlx_destroy_window(game->mlx, game->win);
 	exit(EXIT_SUCCESS);
 }
@@ -72,11 +72,11 @@ void    change_map(int key, t_game *game)//move
 }
 
 //static인 이유는?
-static void	move_player(t_game *game, int newline, int newcol)
+static void	move_player(t_game *game, int x_new, int y_new)
 {
 	game->map[game->x][game->y] = '0';
-	game->x = x;
-	game->y = y;
+	game->x = x_new;
+	game->y = y_new;
 	game->map[game->x][game->y] = 'P';
 	game->movement += 1;
 	printf("Your current number of movements: %d\n", game->movement);

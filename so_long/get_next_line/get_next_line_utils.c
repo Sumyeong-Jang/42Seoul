@@ -13,8 +13,6 @@
 #include "get_next_line.h"
 
 char	*ft_strchr(const char *s, int c);
-size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize);
-size_t	ft_strlen(const char *s);
 char	*new_ft_strjoin(char const *backup, char const *buf);
 
 char	*ft_strchr(const char *s, int c)
@@ -33,33 +31,6 @@ char	*ft_strchr(const char *s, int c)
 	if (find == 0)
 		return ((char *)s + i);
 	return (0);
-}
-
-size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize)
-{
-	size_t	i;
-
-	i = 0;
-	if (dstsize > 0)
-	{
-		while (src[i] && i < (dstsize - 1))
-		{
-			dest[i] = src[i];
-			i++;
-		}
-		dest[i] = '\0';
-	}
-	return (ft_strlen(src));
-}
-
-size_t	ft_strlen(const char *s)
-{
-	int	l;
-
-	l = 0;
-	while (s[l])
-		l++;
-	return (l);
 }
 
 char	*new_ft_strjoin(char const *backup, char const *buf)

@@ -17,19 +17,27 @@ RM			= rm -f
 AR			= ar rcs
 
 LIBFT_UTILS	= libft/
-SRCS		= main.c map_setting.c img_setting.c key_setting.c\
-				ft_perror_exit.c ft_pstr_exit.c
-				$(LIBFT_UTILS)
-
-
+GNL_UTILS = get_next_line/
+SRCS		= main.c map_setting.c img_setting.c key_setting.c utils.c \
+				$(LIBFT_UTILS)ft_putendl_fd.c \
+				$(LIBFT_UTILS)ft_split.c \
+				$(LIBFT_UTILS)ft_strdup.c \
+				$(LIBFT_UTILS)ft_strjoin.c \
+				$(LIBFT_UTILS)ft_strlcat.c \
+				$(LIBFT_UTILS)ft_strlcpy.c \
+				$(LIBFT_UTILS)ft_strlen.c \
+				$(LIBFT_UTILS)ft_strncmp.c \
+				$(LIBFT_UTILS)ft_strrchr.c \
+				$(GNL_UTILS)get_next_line.c \
+				$(GNL_UTILS)get_next_line_utils.c
 
 OBJS		= $(SRCS:%.c=%.o)
 
 %.OBJS		:	%.c
-			cc $(CFLAG) -c -o $*.o $<
+			cc $(CFLAG) -Imlx -c -o $*.o $<
 
 $(NAME)		:	$(OBJS)
-		cc $(CFLAGS) -o $(NAME) $(OBJS) -Lmlx -lmlx -framework OpenGL -framework AppKit
+		cc $(CFLAGS) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME) $(OBJS)
 
 all			:	$(NAME)
 
