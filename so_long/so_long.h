@@ -21,7 +21,7 @@
 
 # define KEY_PRESS	2
 //# define X_EVENT_KEY_RELEASE		3
-# define KEY_EXIT	17//DESTROY_NOTIFYF
+# define DESTROY_NOTIFY	17
 
 # define ESC		53
 # define W			13
@@ -29,40 +29,35 @@
 # define S			1
 # define D			2
 
-# define PIXEL 64 // pixel 꼭 define으로 정의해야함?
-//그리고 pixel은 원래 64로 고정인가?
+# define TILE_SIZE 64 //그리고 pixel은 원래 64로 고정인가?
 
 typedef struct s_img {
-	void	*empty;
+	void	*ground;
 	void	*wall;
 	void	*collectible;
 	void	*land;
 	void	*exit;
 	void	*player;
-}				t_img;
+}	t_img;
 
 typedef struct s_game
 {
-	void	*mlx;
-	void	*win;
+	void	*mlx_ptr;
+	void	*win_ptr;
 	t_img	img;
 	char	**map;
 	int		size_x;
 	int		size_y;
 	int		x;
 	int		y;
-	char	*str_line;
-	int	collectible;//인자 확인
+	int		collectible;
 	int		exit;
 	int		player;
-	//int		all_col;
-	//int		col_cnt;
 	int		movement;
-}				t_game;
+}	t_game;
 
 /*	utils	*/
 void	ft_perror_exit(char *s);
-void	ft_pstr_exit(char *s);
 
 /*	img_setting.c	*/
 t_img	img_init(t_game *game);
@@ -79,7 +74,7 @@ void	is_valid_char(t_game *game, int x, int y);
 int		key_hook(int keycode, t_game *game);
 int		exit_game(t_game *game);
 void	change_map(int key, t_game *game);
-static void	move_player(t_game *game, int newline, int newcol);
+void	move_player(t_game *game, int newline, int newcol);
 
 /*	so_long	*/
 void	print_err(char *message);

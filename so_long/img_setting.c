@@ -6,7 +6,7 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 15:11:58 by sumjang           #+#    #+#             */
-/*   Updated: 2022/07/13 15:12:02 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/07/19 21:27:50 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,26 @@ t_img	img_init(t_game *game)
 	int		x;
 	int		y;
 
-	i.empty = mlx_xpm_file_to_image(game->mlx, "./imgs/ground.xpm", &x, &y);
-	i.wall = mlx_xpm_file_to_image(game->mlx, "./imgs/wall.xpm", &x, &y);
-	i.collectible = mlx_xpm_file_to_image(game->mlx, "./imgs/star.xpm", &x, &y);
-	i.exit = mlx_xpm_file_to_image(game->mlx, "./imgs/exit.xpm", &x, &y);
-	i.player = mlx_xpm_file_to_image(game->mlx, "./imgs/player.xpm", &x, &y);
-	if (!(i.empty) || !(i.wall) || \
-	!(i.collectible) || !(i.exit) || \
-	!(i.player))//-> . pointer 차이점
-		ft_pstr_exit("Error\n: mlx_xpm_file_to_image() failed..");
+	i.ground = mlx_xpm_file_to_image(game->mlx_ptr, \
+			"./imgs/ground.xpm", &x, &y);
+	i.wall = mlx_xpm_file_to_image(game->mlx_ptr, "./imgs/wall.xpm", &x, &y);
+	i.exit = mlx_xpm_file_to_image(game->mlx_ptr, "./imgs/exit.xpm", &x, &y);
+	i.collectible = mlx_xpm_file_to_image(game->mlx_ptr, \
+			"./imgs/star.xpm", &x, &y);
+	i.player = mlx_xpm_file_to_image(game->mlx_ptr, \
+			"./imgs/player.xpm", &x, &y);
+	if (!(i.ground) || !(i.wall) || !(i.collectible) || \
+			!(i.exit) || !(i.player))
+		ft_perror_exit("Error\n: mlx_xpm_file_to_image() failed\n");
+	else if (!(x == TILE_SIZE && y == TILE_SIZE))
+		ft_perror_exit("Error\nincorrect tile size\n");
 	return (i);
 }
 
 void	put_image_to_window_all(t_game *game)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 
 	x = 0;
 	while (x < game->size_x)
@@ -67,6 +71,7 @@ void	put_image_to_window(t_game *game, int x, int y)
 	else if (game->map[x][y] == 'P')
 		img_p = game->img.player;
 	else
-		img_p = game->img.empty;
-	mlx_put_image_to_window(game->mlx, game->win, img_p, y * PIXEL, x * PIXEL);
+		img_p = game->img.ground;
+	mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, \
+			img_p, y * TILE_SIZE, x * TILE_SIZE);
 }

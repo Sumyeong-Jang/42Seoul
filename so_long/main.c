@@ -6,7 +6,7 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 15:12:15 by sumjang           #+#    #+#             */
-/*   Updated: 2022/07/13 16:14:03 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/07/19 21:19:26 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,17 @@ int	main(int argc, char *argv[])
 	t_game	*game;
 
 	if (argc != 2)
-		ft_pstr_exit("Map is missing.\n");
+		ft_perror_exit("Error\nMap is missing\n");
 	if (!is_valid_arg(argc, argv[1]))
-		ft_pstr_exit("Error\n: Argument must be like ./so_long *.ber");
+		ft_perror_exit("Error\nArgument Error\n");
 	game = malloc(sizeof(t_game));
 	if (!game)
-		return (0); //그냥 리턴 해도됨?
+		return (0);
 	game_init(game, argv[1]);
 	printf("game_init complete\n");
-	mlx_hook(game->win, KEY_PRESS, 0, &key_hook, game);//press_key (hook 이 뭐지?)
-	mlx_hook(game->win, KEY_EXIT, 0, &exit_game, game);
-	mlx_loop(game->mlx);
+	mlx_hook(game->win_ptr, KEY_PRESS, 0, &key_hook, game);
+	mlx_hook(game->win_ptr, DESTROY_NOTIFY, 0, &exit_game, game);
+	mlx_loop(game->mlx_ptr);
 	return (0);
 }
 
@@ -52,23 +52,13 @@ int	is_valid_arg(int argc, char *filename)
 void	game_init(t_game *game, char *filename)
 {
 	map_init(game, filename);
-	game->mlx = mlx_init();
-	//printf("mlx_init complete\n");
-	if (!game->mlx)
-		ft_pstr_exit("Error\n: mlx_init() failed..");
-	game->win = mlx_new_window(game->mlx, game->size_y * 64, game->size_x * 64, "so_long");
-	//printf("mlx_new_window complete\n");
-	if (!game->win)
-		ft_pstr_exit("Error\n: mlx_new_window() failed..");
-	game->img = img_init(game);//xpm_file_to_image
-	//printf("img_init complete\n");
-	put_image_to_window_all(game);//setting_img(_all)
-	//printf("put_image_to_window_all complete\n");
-}
-
-void	print_err(char *message)
-{
-	write(2, "Error\n", 6);
-	write(2, message, ft_strlen(message));
-	exit(1);
+	game->mlx_ptr = mlx_init();
+	if (!game->mlx_ptr)
+		ft_perror_exit("Error\n: mlx_init() failed\n");
+	game->win_ptr = mlx_new_window(game->mlx_ptr, \
+			game->size_y * TILE_SIZE, game->size_x * TILE_SIZE, "so_long");
+	if (!game->win_ptr)
+		ft_perror_exit("Error\n: mlx_new_window() failed\n");
+	game->img = img_init(game);
+	put_image_to_window_all(game);
 }

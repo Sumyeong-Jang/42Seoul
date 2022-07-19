@@ -12,17 +12,17 @@
 
 #include "so_long.h"
 
-int     key_hook(int keycode, t_game *game);
-int     exit_game(t_game *game);
-void    change_map(int key, t_game *game);
-static void	move_player(t_game *game, int newline, int newcol);
+int		key_hook(int keycode, t_game *game);
+int		exit_game(t_game *game);
+void	change_map(int key, t_game *game);
+void	move_player(t_game *game, int newline, int newcol);
 
-int key_hook(int keycode, t_game *game)
+int	key_hook(int keycode, t_game *game)
 {
-    if (keycode == ESC)
-        exit_game(game);
-    else if (keycode == W)
-		change_map(0, game);//move
+	if (keycode == ESC)
+		exit_game(game);
+	else if (keycode == W)
+		change_map(0, game);
 	else if (keycode == A)
 		change_map(1, game);
 	else if (keycode == S)
@@ -33,24 +33,25 @@ int key_hook(int keycode, t_game *game)
 }
 
 //이거 전부 destroy_image 해줘야하나........?
-int exit_game(t_game *game)
+int	exit_game(t_game *game)
 {
-    mlx_destroy_image(game->mlx, game->img.empty);
-	mlx_destroy_image(game->mlx, game->img.wall);
-	mlx_destroy_image(game->mlx, game->img.collectible);
-	mlx_destroy_image(game->mlx, game->img.exit);
-	mlx_destroy_image(game->mlx, game->img.player);
-	mlx_destroy_window(game->mlx, game->win);
+	mlx_destroy_image(game->mlx_ptr, game->img.ground);
+	mlx_destroy_image(game->mlx_ptr, game->img.wall);
+	mlx_destroy_image(game->mlx_ptr, game->img.collectible);
+	mlx_destroy_image(game->mlx_ptr, game->img.exit);
+	mlx_destroy_image(game->mlx_ptr, game->img.player);
+	mlx_destroy_window(game->mlx_ptr, game->win_ptr);
 	exit(EXIT_SUCCESS);
 }
 
-void    change_map(int key, t_game *game)//move
+//move
+void	change_map(int key, t_game *game)
 {
-    const int	x[4] = {-1, 0, 1, 0};//const인 이유는?
-	const int	y[4] = {0, -1, 0, 1};
 	int			x_new;
 	int			y_new;
 	char		new_position;
+	const int	x[4] = {-1, 0, 1, 0};
+	const int	y[4] = {0, -1, 0, 1};
 
 	x_new = game->x + x[key];
 	y_new = game->y + y[key];
@@ -71,8 +72,7 @@ void    change_map(int key, t_game *game)//move
 	put_image_to_window_all(game);
 }
 
-//static인 이유는?
-static void	move_player(t_game *game, int x_new, int y_new)
+void	move_player(t_game *game, int x_new, int y_new)
 {
 	game->map[game->x][game->y] = '0';
 	game->x = x_new;
