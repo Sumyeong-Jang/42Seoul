@@ -19,7 +19,7 @@ void	sa(t_stack *stack, int isChecker)
 {
 	swap(stack->a);
 	if (!isChecker)
-		write(1, "sa\n", 3);//write(STDOUT_FILENO, "sa\n", 3);
+		write(1, "sa\n", 3);
 }
 
 void	sb(t_stack *stack, int isChecker)
