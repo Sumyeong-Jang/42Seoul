@@ -63,7 +63,7 @@ static void	sort_three(t_stack *stack, int first, int second, int third)
 	}
 }
 
-static void	sort_more_nodes(t_stack *stack)
+static void	sort_more_nodes(t_stack *stack)//4일때랑 5일때 두 가지 경우
 {
 	t_info	*a_info;
 	t_info	*b_info;
@@ -83,7 +83,7 @@ static void	sort_more_nodes(t_stack *stack)
 		pb(stack, 0);
 		a_min_index++;
 	}
-	sort_three_nodes(stack);
+	sort_3_nodes(stack);
 	if (b->top->index < b->top->next->index)
 		rb(stack, 0);
 	while (b->size)

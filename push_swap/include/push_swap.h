@@ -27,7 +27,7 @@ t_info		*get_stack_a(int argc, char *argv[]);
 int			is_sorted(t_list *list);
 void		sort_small(t_lists *lists);
 void		sort_large(t_lists *lists);
-int			is_rotate(t_list *list, int standard);
+int			is_rotate(t_info *info, int standard);
 int			get_top(t_list *list);
 int			ft_isnum(const char *s);
 long long	ft_atoll(const char *str);

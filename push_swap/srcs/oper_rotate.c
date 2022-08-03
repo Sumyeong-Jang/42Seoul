@@ -1,7 +1,5 @@
 #include "../include/push_swap.h"
 
-void	rotate(t_info *info);
-
 void	rotate(t_info *info)
 {
 	if (info->size < 2)
@@ -30,4 +28,22 @@ void	rr(t_lists *lists, int isChecker)
 	rotate(lists->b);
 	if (!isChecker)
 		write(1, "rr\n", 3);
+}
+
+int	is_rotate(t_info *info, int standard)//standard보다는 pivot
+{
+	t_node	*tmp;
+	int		h_location;
+
+	tmp = info->top;
+	h_location = 0;
+	while (tmp->index > standard)
+	{
+		tmp = tmp->next;
+		h_location++;
+	}
+	if (h_location < info->size / 2)
+		return (1);
+	else
+		return (0);
 }
