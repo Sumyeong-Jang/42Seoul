@@ -10,27 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
-
-void	ft_perror_exit(char *s);
+#include "../include/so_long.h"
 
 void	ft_perror_exit(char *s)
 {
 	perror(s);
 	exit(EXIT_FAILURE);
 }
-
-/*
-void	ft_pstr_exit(char *s)
-{
-	ft_putendl_fd(s, STDERR_FILENO);
-	exit(EXIT_FAILURE);
-}
-
-void	print_err(char *message)
-{
-	write(2, "Error\n", 6);
-	write(2, message, ft_strlen(message));
-	exit(1);
-}
-*/

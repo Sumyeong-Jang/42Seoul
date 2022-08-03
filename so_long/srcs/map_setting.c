@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 void	map_init(t_game *gmae, char *filename);
 void	read_map(t_game *game, char *filename);
@@ -21,6 +21,8 @@ void	map_init(t_game *game, char *filename)
 {
 	int	i;
 
+	game->size_x = 0;
+	game->size_y = 0;
 	game->map = NULL;
 	read_map(game, filename);
 	game->size_y = ft_strlen(game->map[0]);
@@ -38,27 +40,18 @@ void	map_init(t_game *game, char *filename)
 void	read_map(t_game *game, char *filename)
 {
 	int		fd;
-	char	*line;
 	char	*lines;
-	char	*tmp;
+	int		i;
 
 	lines = NULL;
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
-		ft_perror_exit("Error\nFile open fail\n");
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (line == NULL)
-			break ;
-		tmp = lines;
-		lines = ft_strjoin(lines, line);
-		free(line);
-		free(tmp);
-	}
-	if (lines == NULL)
-		ft_perror_exit("Error\n: Map is empty\n");
+		ft_perror_exit("Error\n: File open fail\n");
+	lines = map_get(fd, lines);
+	i = 0;
 	game->map = ft_split(lines, '\n');
+	if (!(game->map))
+		ft_perror_exit("Error\n: ft_split() failed\n");
 	free(lines);
 	if (close(fd) == -1)
 		ft_perror_exit("Error\n");
@@ -69,19 +62,21 @@ void	is_valid_map(t_game *game)
 	int	x;
 	int	y;
 
+	if (game->map[0][0] == '\n')
+		ft_perror_exit("Error\n: Map must be rectangular\n");
 	x = 0;
 	while (x < game->size_x)
 	{
 		y = 0;
 		while (y < game -> size_y)
 		{
+			if (y == game->size_y - 1 && game->map[x][y + 1])
+				ft_perror_exit("Error\n: Map must be rectangular\n");
 			if (game->map[x][y] != '1' && \
 			(x == 0 || x == game->size_x - 1 || \
 			y == 0 || y == game->size_y - 1))
 				ft_perror_exit("Error\n: Map must be closed/surrounded \
 						by walls\n");
-			if (y == game->size_y - 1 && game->map[x][y + 1])
-				ft_perror_exit("Error\n: Map must be rectangular\n");
 			is_valid_char(game, x, y);
 			y++;
 		}

@@ -6,21 +6,20 @@
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 15:12:21 by sumjang           #+#    #+#             */
-/*   Updated: 2022/07/13 16:14:22 by sumjang          ###   ########.fr       */
+/*   Updated: 2022/07/20 15:42:03 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# include "./get_next_line/get_next_line.h"
-# include "libft/libft.h"
-# include "./mlx/mlx.h"
+# include "../libs/get_next_line/get_next_line.h"
+# include "../libs/libft/libft.h"
+# include "../mlx/mlx.h"
 # include <fcntl.h>
 # include <stdio.h>
 
 # define KEY_PRESS	2
-//# define X_EVENT_KEY_RELEASE		3
 # define DESTROY_NOTIFY	17
 
 # define ESC		53
@@ -29,7 +28,7 @@
 # define S			1
 # define D			2
 
-# define TILE_SIZE 64 //그리고 pixel은 원래 64로 고정인가?
+# define TILE_SIZE 64
 
 typedef struct s_img {
 	void	*ground;
@@ -82,5 +81,7 @@ void	game_init(t_game *g, char *map);
 int		exit_game(t_game *game);
 int		press_key(int key_code, t_game *game);
 int		main(int ac, char *av[]);
+
+char	*map_get(int fd, char *lines);
 
 #endif

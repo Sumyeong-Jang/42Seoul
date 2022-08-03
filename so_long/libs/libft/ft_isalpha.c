@@ -1,36 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_bonus.c                                      :+:      :+:    :+:   */
+/*   alpha.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sumjang <sumjang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/13 16:42:40 by sumjang           #+#    #+#             */
-/*   Updated: 2022/07/19 22:12:17 by sumjang          ###   ########.fr       */
+/*   Created: 2021/11/17 19:06:19 by sumjang           #+#    #+#             */
+/*   Updated: 2021/11/17 19:39:37 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "libft.h"
 
-void	ft_perror_exit(char *s);
-
-void	ft_perror_exit(char *s)
+int	ft_isalpha(int c)
 {
-	perror(s);
-	exit(EXIT_FAILURE);
+	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
 }
-
-/*
-void	ft_pstr_exit(char *s)
-{
-	ft_putendl_fd(s, STDERR_FILENO);
-	exit(EXIT_FAILURE);
-}
-
-void	print_err(char *message)
-{
-	write(2, "Error\n", 6);
-	write(2, message, ft_strlen(message));
-	exit(1);
-}
-*/

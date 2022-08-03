@@ -24,7 +24,7 @@ char	*split_line(char const *backup);
 size_t	save_remains(char **backup, size_t len);
 char	*ft_strchr(const char *s, int c);
 size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize);
-size_t	ft_strlen(const char *s);
+int		ft_strlen(const char *s);
 char	*new_ft_strjoin(char const *backup, char const *buf);
 
 #endif

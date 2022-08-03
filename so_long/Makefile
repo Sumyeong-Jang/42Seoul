@@ -11,41 +11,42 @@
 # **************************************************************************** #
 
 NAME		= so_long
+LIBFT		= libs/libft
 
 CFLAG		= -Wall -Wextra -Werror
 RM			= rm -f
 AR			= ar rcs
 
-LIBFT_UTILS	= libft/
-GNL_UTILS = get_next_line/
-SRCS		= main.c map_setting.c img_setting.c key_setting.c utils.c \
-				$(LIBFT_UTILS)ft_putendl_fd.c \
-				$(LIBFT_UTILS)ft_split.c \
-				$(LIBFT_UTILS)ft_strdup.c \
-				$(LIBFT_UTILS)ft_strjoin.c \
-				$(LIBFT_UTILS)ft_strlcat.c \
-				$(LIBFT_UTILS)ft_strlcpy.c \
-				$(LIBFT_UTILS)ft_strlen.c \
-				$(LIBFT_UTILS)ft_strncmp.c \
-				$(LIBFT_UTILS)ft_strrchr.c \
+SRCS_UTILS = srcs/
+SRCS_BONUS_UTILS = srcs_bonus/
+GNL_UTILS = libs/get_next_line/
+SRCS		= $(SRCS_UTILS)main.c $(SRCS_UTILS)map_setting.c \
+				$(SRCS_UTILS)img_setting.c $(SRCS_UTILS)key_setting.c \
+				$(SRCS_UTILS)map_get.c \
+				$(SRCS_UTILS)utils.c \
 				$(GNL_UTILS)get_next_line.c \
 				$(GNL_UTILS)get_next_line_utils.c
 
 OBJS		= $(SRCS:%.c=%.o)
+LIBFT_LIB	= $(LIBFT)/libft.a
 
-%.OBJS		:	%.c
+%.o		:	%.c
 			cc $(CFLAG) -Imlx -c -o $*.o $<
-
-$(NAME)		:	$(OBJS)
-		cc $(CFLAGS) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME) $(OBJS)
 
 all			:	$(NAME)
 
+$(NAME)		:	$(OBJS)
+		make all -C $(LIBFT)
+		cc $(CFLAGS) -L./$(LIBFT) -lft -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME) $(OBJS)
+
 clean		:
 		$(RM) $(OBJS)
+		make clean -C $(LIBFT)
 
 fclean		:	clean
 		$(RM) $(NAME)
+		$(RM) $(LIBFT_LIB)
+		make fclean -C $(LIBFT)
 
 re			:	fclean all
 

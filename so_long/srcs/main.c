@@ -10,30 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 int		is_valid_arg(int argc, char *argv);
 void	game_init(t_game *g, char *map);
 
-void	print_err(char *message);
-int		exit_game(t_game *game);
-int		press_key(int key_code, t_game *game);
-
-//extern int가 모얌?
-//저게 있으면 main 함수 return(0)이 없어도 되는건가?
 int	main(int argc, char *argv[])
 {
 	t_game	*game;
 
 	if (argc != 2)
-		ft_perror_exit("Error\nMap is missing\n");
+		ft_perror_exit("Error\n: Map is missing\n");
 	if (!is_valid_arg(argc, argv[1]))
-		ft_perror_exit("Error\nArgument Error\n");
+		ft_perror_exit("Error\n: Argument Error\n");
 	game = malloc(sizeof(t_game));
 	if (!game)
 		return (0);
 	game_init(game, argv[1]);
-	printf("game_init complete\n");
 	mlx_hook(game->win_ptr, KEY_PRESS, 0, &key_hook, game);
 	mlx_hook(game->win_ptr, DESTROY_NOTIFY, 0, &exit_game, game);
 	mlx_loop(game->mlx_ptr);
@@ -42,6 +35,9 @@ int	main(int argc, char *argv[])
 
 int	is_valid_arg(int argc, char *filename)
 {
+	int	ac;
+
+	ac = argc;
 	if (ft_strlen(filename) < 5 || (ft_strrchr(filename, '.') \
 	&& ft_strncmp(ft_strrchr(filename, '.'), ".ber", 5)))
 		return (0);

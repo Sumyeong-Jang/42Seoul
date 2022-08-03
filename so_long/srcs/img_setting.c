@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 t_img	img_init(t_game *game);
 void	put_image_to_window_all(t_game *game);
@@ -23,18 +23,18 @@ t_img	img_init(t_game *game)
 	int		y;
 
 	i.ground = mlx_xpm_file_to_image(game->mlx_ptr, \
-			"./imgs/ground.xpm", &x, &y);
-	i.wall = mlx_xpm_file_to_image(game->mlx_ptr, "./imgs/wall.xpm", &x, &y);
-	i.exit = mlx_xpm_file_to_image(game->mlx_ptr, "./imgs/exit.xpm", &x, &y);
+			"images/ground.xpm", &x, &y);
+	i.wall = mlx_xpm_file_to_image(game->mlx_ptr, "images/wall.xpm", &x, &y);
+	i.exit = mlx_xpm_file_to_image(game->mlx_ptr, "images/exit.xpm", &x, &y);
 	i.collectible = mlx_xpm_file_to_image(game->mlx_ptr, \
-			"./imgs/star.xpm", &x, &y);
+			"images/star.xpm", &x, &y);
 	i.player = mlx_xpm_file_to_image(game->mlx_ptr, \
-			"./imgs/player.xpm", &x, &y);
+			"images/player.xpm", &x, &y);
 	if (!(i.ground) || !(i.wall) || !(i.collectible) || \
 			!(i.exit) || !(i.player))
 		ft_perror_exit("Error\n: mlx_xpm_file_to_image() failed\n");
 	else if (!(x == TILE_SIZE && y == TILE_SIZE))
-		ft_perror_exit("Error\nincorrect tile size\n");
+		ft_perror_exit("Error\n: incorrect tile size\n");
 	return (i);
 }
 
@@ -56,8 +56,6 @@ void	put_image_to_window_all(t_game *game)
 	}
 }
 
-//두번째 코드랑 비교 !!!필요함!!
-//static void?
 void	put_image_to_window(t_game *game, int x, int y)
 {
 	void	*img_p;

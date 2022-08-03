@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 int		key_hook(int keycode, t_game *game);
 int		exit_game(t_game *game);
@@ -32,7 +32,6 @@ int	key_hook(int keycode, t_game *game)
 	return (0);
 }
 
-//이거 전부 destroy_image 해줘야하나........?
 int	exit_game(t_game *game)
 {
 	mlx_destroy_image(game->mlx_ptr, game->img.ground);
@@ -44,7 +43,6 @@ int	exit_game(t_game *game)
 	exit(EXIT_SUCCESS);
 }
 
-//move
 void	change_map(int key, t_game *game)
 {
 	int			x_new;
