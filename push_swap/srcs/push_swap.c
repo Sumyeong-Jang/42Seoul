@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sumjang <sumjang@student.42seoul.kr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/03 13:46:08 by sumjang           #+#    #+#             */
+/*   Updated: 2022/08/03 13:46:12 by sumjang          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/push_swap.h"
 
 static void	sort_stack(t_stack *stack);
 
-int	main(int argc, char *argv[])//별 두개로 하면 뭐가 다름?
+int	main(int argc, char **argv)
 {
 	t_stack	*stack;
 
@@ -12,7 +24,7 @@ int	main(int argc, char *argv[])//별 두개로 하면 뭐가 다름?
 	if (!stack)
 		exit(EXIT_FAILURE);
 	stack->a = get_stack_a(argc, argv);
-	if (!is_sorted(stack->a))//is_sorted == 0 이면 error (sorting 안된 것) (내가 ! 추가함)
+	if (is_sorted(stack->a))
 		exit(EXIT_FAILURE);
 	stack->b = init_info();
 	sort_stack(stack);

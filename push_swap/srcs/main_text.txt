@@ -1,0 +1,11 @@
+/*
+	int l = stack->a->size;
+	t_node *t = stack->a->top;
+	while (l > 0){
+
+		printf(" %d",t->data);
+		t=t->next;
+		l--;
+	}
+	printf("\n");
+*/

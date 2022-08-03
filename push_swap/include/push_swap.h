@@ -1,7 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sumjang <sumjang@student.42seoul.kr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/03 13:47:17 by sumjang           #+#    #+#             */
+/*   Updated: 2022/08/03 17:16:07 by sumjang          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
 # include "../libs/libft/libft.h"
+# include <stdio.h>
 
 typedef struct s_node {
 	struct s_node	*prev;
@@ -17,35 +30,44 @@ typedef struct s_info {
 }	t_info;
 
 typedef struct s_stack {
-	t_list	*a;
-	t_list	*b;
+	t_info	*a;
+	t_info	*b;
 }	t_stack;
 
-t_node		*init_node(int num);
-t_list		*init_info(void);
 t_info		*get_stack_a(int argc, char *argv[]);
-int			is_sorted(t_list *list);
-void		sort_small(t_lists *lists);
-void		sort_large(t_lists *lists);
-int			is_rotate(t_info *info, int standard);
-int			get_top(t_list *list);
-int			ft_isnum(const char *s);
+
+t_info		*init_info(void);
+t_node		*init_node(int num);
+int			is_sorted(t_info *info);
+
+void		ft_exit(char *message);
+void		free_t_lists(t_stack *stack);
+void	free_t_lists(t_stack *stack);
+
 long long	ft_atoll(const char *str);
-int			ft_numlen(long long n);
-void		error_exit(void);
-void		free_t_lists(t_lists *lists);
-void		push(t_list *list, t_node *node);
-void		rotate(t_list *list);
-void		sa(t_lists *lists, int isChecker);
-void		sb(t_lists *lists, int isChecker);
-void		ss(t_lists *lists, int isChecker);
-void		pa(t_lists *lists, int isChecker);
-void		pb(t_lists *lists, int isChecker);
-void		ra(t_lists *lists, int isChecker);
-void		rb(t_lists *lists, int isChecker);
-void		rr(t_lists *lists, int isChecker);
-void		rra(t_lists *lists, int isChecker);
-void		rrb(t_lists *lists, int isChecker);
-void		rrr(t_lists *lists, int isChecker);
+int			ft_is_num(const char *s);
+int			get_top(t_info *info);
+
+void		sort_small(t_stack *stack);
+int			rotate_or_reverse(t_info *info, int standard);
+
+void		sort_large(t_stack *stack);
+
+void		push(t_info *info, t_node *node);
+void		pa(t_stack *stack, int isChecker);
+void		pb(t_stack *stack, int isChecker);
+
+void		sa(t_stack *stack, int isChecker);
+void		sb(t_stack *stack, int isChecker);
+void		ss(t_stack *stack, int isChecker);
+
+void		rotate(t_info *info);
+void		ra(t_stack *stack, int isChecker);
+void		rb(t_stack *stack, int isChecker);
+void		rr(t_stack *stack, int isChecker);
+
+void		rra(t_stack *stack, int isChecker);
+void		rrb(t_stack *stack, int isChecker);
+void		rrr(t_stack *stack, int isChecker);
 
 #endif

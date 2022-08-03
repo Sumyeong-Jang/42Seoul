@@ -1,43 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   oper_rotate_rev.c                                  :+:      :+:    :+:   */
+/*   oper_swap_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sumjang <sumjang@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/03 13:46:45 by sumjang           #+#    #+#             */
-/*   Updated: 2022/08/03 13:46:46 by sumjang          ###   ########.fr       */
+/*   Created: 2022/08/03 21:01:33 by sumjang           #+#    #+#             */
+/*   Updated: 2022/08/03 21:01:35 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
 
-static void	rotate_reverse(t_info *info)
+static void	swap(t_info *info)
 {
+	int	tmp_data;
+	int	tmp_index;
+
 	if (info->size < 2)
 		return ;
-	info->bottom = info->bottom->prev;
-	info->top = info->top->prev;
+	tmp_data = info->top->data;
+	info->top->data = info->top->next->data;
+	info->top->next->data = tmp_data;
+	tmp_index = info->top->index;
+	info->top->index = info->top->next->index;
+	info->top->next->index = tmp_index;
 }
 
-void	rra(t_stack *stack, int isChecker)
+void	sa(t_stack *stack, int isChecker)
 {
-	rotate_reverse(stack->a);
+	swap(stack->a);
 	if (!isChecker)
-		write(1, "rra\n", 4);
+		write(1, "sa\n", 3);
 }
 
-void	rrb(t_stack *stack, int isChecker)
+void	sb(t_stack *stack, int isChecker)
 {
-	rotate_reverse(stack->b);
+	swap(stack->b);
 	if (!isChecker)
-		write(1, "rrb\n", 4);
+		write(1, "sb\n", 3);
 }
 
-void	rrr(t_stack *stack, int isChecker)
+void	ss(t_stack *stack, int isChecker)
 {
-	rotate_reverse(stack->a);
-	rotate_reverse(stack->b);
+	swap(stack->a);
+	swap(stack->b);
 	if (!isChecker)
-		write(1, "rrr\n", 4);
+		write(1, "ss\n", 3);
 }

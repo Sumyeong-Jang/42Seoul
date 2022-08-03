@@ -1,43 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   oper_rotate_rev.c                                  :+:      :+:    :+:   */
+/*   oper_rotate_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sumjang <sumjang@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/03 13:46:45 by sumjang           #+#    #+#             */
-/*   Updated: 2022/08/03 13:46:46 by sumjang          ###   ########.fr       */
+/*   Created: 2022/08/03 21:01:06 by sumjang           #+#    #+#             */
+/*   Updated: 2022/08/03 21:01:08 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
 
-static void	rotate_reverse(t_info *info)
+void	rotate(t_info *info)
 {
 	if (info->size < 2)
 		return ;
-	info->bottom = info->bottom->prev;
-	info->top = info->top->prev;
+	info->top = info->top->next;
+	info->bottom = info->bottom->next;
 }
 
-void	rra(t_stack *stack, int isChecker)
+void	ra(t_stack *stack, int isChecker)
 {
-	rotate_reverse(stack->a);
+	rotate(stack->a);
 	if (!isChecker)
-		write(1, "rra\n", 4);
+		write(1, "ra\n", 3);
 }
 
-void	rrb(t_stack *stack, int isChecker)
+void	rb(t_stack *stack, int isChecker)
 {
-	rotate_reverse(stack->b);
+	rotate(stack->b);
 	if (!isChecker)
-		write(1, "rrb\n", 4);
+		write(1, "rb\n", 3);
 }
 
-void	rrr(t_stack *stack, int isChecker)
+void	rr(t_stack *stack, int isChecker)
 {
-	rotate_reverse(stack->a);
-	rotate_reverse(stack->b);
+	rotate(stack->a);
+	rotate(stack->b);
 	if (!isChecker)
-		write(1, "rrr\n", 4);
+		write(1, "rr\n", 3);
 }

@@ -1,43 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   oper_rotate.c                                      :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sumjang <sumjang@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/03 13:46:40 by sumjang           #+#    #+#             */
-/*   Updated: 2022/08/03 13:46:41 by sumjang          ###   ########.fr       */
+/*   Created: 2022/08/03 16:05:11 by sumjang           #+#    #+#             */
+/*   Updated: 2022/08/03 16:05:12 by sumjang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
 
-void	rotate(t_info *info)
+void	ft_exit(char *message)
 {
-	if (info->size < 2)
-		return ;
-	info->top = info->top->next;
-	info->bottom = info->bottom->next;
+	if (message != NULL)
+		perror(message);
+	exit(EXIT_FAILURE);
 }
 
-void	ra(t_stack *stack, int isChecker)
+void	free_t_list(t_info *info)
 {
-	rotate(stack->a);
-	if (!isChecker)
-		write(1, "ra\n", 3);
+	t_node	*tmp;
+
+	if (info->size)
+	{
+		info->bottom->next = NULL;
+		info->bottom = NULL;
+		while (1)
+		{
+			tmp = info->top;
+			info->top = info->top->next;
+			free(tmp);
+			if (!info->top)
+				break ;
+		}
+	}
+	free(info);
 }
 
-void	rb(t_stack *stack, int isChecker)
+void	free_t_lists(t_stack *stack)
 {
-	rotate(stack->b);
-	if (!isChecker)
-		write(1, "rb\n", 3);
-}
-
-void	rr(t_stack *stack, int isChecker)
-{
-	rotate(stack->a);
-	rotate(stack->b);
-	if (!isChecker)
-		write(1, "rr\n", 3);
+	free_t_list(stack->a);
+	free_t_list(stack->b);
+	free(stack);
 }

@@ -1,70 +1,72 @@
 NAME			=	push_swap
 
+CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror
 RM				=	rm -f
-AR				=	ar rcs
 BONUS			=	checker
 
 SRCS_UTILS		= srcs/
-SRCS			=	$(SRCS_UTILS)push_swap.c \
+SRCS			=	$(SRCS_UTILS)ft_exit.c \
+					$(SRCS_UTILS)get_stack_a.c \
 					$(SRCS_UTILS)init.c \
-					$(SRCS_UTILS)input.c \
-					$(SRCS_UTILS)swap.c \
-					$(SRCS_UTILS)pop_push.c \
-					$(SRCS_UTILS)rotate.c \
-					$(SRCS_UTILS)rotate_reverse.c \
-					$(SRCS_UTILS)sort_small.c \
+					$(SRCS_UTILS)push_swap.c \
+					$(SRCS_UTILS)oper_push.c \
+					$(SRCS_UTILS)oper_rotate_rev.c \
+					$(SRCS_UTILS)oper_rotate.c \
+					$(SRCS_UTILS)oper_swap.c \
 					$(SRCS_UTILS)sort_large.c \
-					$(SRCS_UTILS)utils.c \
-					$(SRCS_UTILS)finish.c
-OBJ_DIR			=	./obj
-OBJS			=	$(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
+					$(SRCS_UTILS)sort_small.c \
+					$(SRCS_UTILS)utils.c
+OBJS			=	$(SRCS:.c=.o)
 
-BONUS_SRCS_UTILS=	srcs_bonus/
-BONUS_SRCS		=	$(BONUS_SRCS_UTILS)checker.c \
-					$(BONUS_SRCS_UTILS)init.c \
-					$(BONUS_SRCS_UTILS)input.c \
-					$(BONUS_SRCS_UTILS)swap.c \
-					$(BONUS_SRCS_UTILS)pop_push.c \
-					$(BONUS_SRCS_UTILS)rotate.c \
-					$(BONUS_SRCS_UTILS)rotate_reverse.c \
-					$(BONUS_SRCS_UTILS)utils.c \
-					$(BONUS_SRCS_UTILS)get_next_line.c \
-					$(BONUS_SRCS_UTILS)finish.c
-BONUS_OBJS		=	$(addprefix $(OBJ_DIR)/, $(BONUS_SRCS:.c=.o))
+SRCS_BONUS_UTILS= srcs_bonus/
+GNL_UTILS		= libs/get_next_line/
+BONUS_SRCS		=	$(SRCS_BONUS_UTILS)checker_bonus.c \
+					$(SRCS_BONUS_UTILS)ft_exit_bonus.c \
+					$(SRCS_BONUS_UTILS)get_stack_a_bonus.c \
+					$(SRCS_BONUS_UTILS)init_bonus.c \
+					$(SRCS_BONUS_UTILS)oper_push_bonus.c \
+					$(SRCS_BONUS_UTILS)oper_rotate_bonus.c \
+					$(SRCS_BONUS_UTILS)oper_rotate_rev_bonus.c \
+					$(SRCS_BONUS_UTILS)oper_swap_bonus.c \
+					$(SRCS_BONUS_UTILS)utils_bonus.c \
+					$(GNL_UTILS)get_next_line.c \
+					$(GNL_UTILS)get_next_line_utils.c
+BONUS_OBJS		=	$(BONUS_SRCS:.c=.o)
 
-LIBFT_DIR		=	libs/libft
-LIBFT_LIB		=	$(LIBFT_DIR)/libft.a
+LIBFT_DIR		=	./libs/libft
+LIBFT			=	$(LIBFT_DIR)/libft.a
+
+%.o				:	%.c
+	$(CC) $(CFLAGS) -I $(LIBFT_DIR) -c -o $*.o $<
 
 all				:	$(NAME)
 
 bonus			:	$(BONUS)
 
-$(NAME)			:	$(OBJS)
-	make all -C $(LIBFT_DIR)
-	cc $(CFLAGS) -I./$(OBJS) -L./$(LIBFT_DIR) -l$(LIBFT_LIB) -o $@
+$(NAME)			:	$(LIBFT) $(OBJS)
+	$(CC) $(CFLAGS) -I ./ $(OBJS) -L $(LIBFT_DIR) -lft -o $(NAME) $(OJBS)
 
-$(BONUS)		:	$(BONUS_OBJS)
-	make all -C $(LIBFT_DIR)
-	cc $(CFLAGS) -I./$(BONUS_OBJS) -L./$(LIBFT_DIR) -l$(LIBFT_LIB) -o $@
+$(BONUS)		:	$(LIBFT) $(BONUS_OBJS)
+	$(CC) $(CFLAGS) -L $(LIBFT_DIR) -lft -o $(BONUS) $(BONUS_OBJS)
 
-$(OBJ_DIR)/%.o	:	%.c
-	mkdir -p $(OBJ_DIR)
-	cc $(CFLAGS) -I $(LIBFT_DIR) -c $< -o $@ -g
 
 $(LIBFT)		:
 	make -C $(LIBFT_DIR) all
 
 clean			:
-	$(RM) $(OBJ_DIR)
-	make clean -C $(LIBFT_DIR)
+	$(RM) $(OBJS)
+	$(RM) $(BONUS_OBJS)
+	make -C $(LIBFT_DIR) clean
 
 fclean			:	clean
 	$(RM) $(NAME)
 	$(RM) $(BONUS)
 	$(RM) $(LIBFT_LIB)
-	make fclean -C $(LIBFT_DIR)
+	make -C $(LIBFT_DIR) fclean
 
-re				:	fclean all
+re				:
+	make fclean
+	make all
 
 .PHONY			:	all clean fclean re bonus
