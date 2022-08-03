@@ -2,7 +2,7 @@
 
 static void	sort_stack(t_stack *stack);
 
-int	main(int argc, char *argv[])
+int	main(int argc, char *argv[])//별 두개로 하면 뭐가 다름?
 {
 	t_stack	*stack;
 
