@@ -28,7 +28,7 @@ int	main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	stack->b = init_info();
 	sort_stack(stack);
-	free_t_lists(stack);
+	free_t_stack(stack);
 	return (0);
 }
 

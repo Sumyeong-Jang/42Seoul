@@ -41,8 +41,7 @@ t_node		*init_node(int num);
 int			is_sorted(t_info *info);
 
 void		ft_exit(char *message);
-void		free_t_lists(t_stack *stack);
-void	free_t_lists(t_stack *stack);
+void		free_t_stack(t_stack *stack);
 
 long long	ft_atoll(const char *str);
 int			ft_is_num(const char *s);

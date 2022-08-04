@@ -19,7 +19,7 @@ void	ft_exit(char *message)
 	exit(EXIT_FAILURE);
 }
 
-void	free_t_list(t_info *info)
+void	free_t_info(t_info *info)
 {
 	t_node	*tmp;
 
@@ -39,9 +39,9 @@ void	free_t_list(t_info *info)
 	free(info);
 }
 
-void	free_t_lists(t_stack *stack)
+void	free_t_stack(t_stack *stack)
 {
-	free_t_list(stack->a);
-	free_t_list(stack->b);
+	free_t_info(stack->a);
+	free_t_info(stack->b);
 	free(stack);
 }
