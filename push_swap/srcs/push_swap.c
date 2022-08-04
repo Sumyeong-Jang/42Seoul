@@ -19,7 +19,7 @@ int	main(int argc, char **argv)
 	t_stack	*stack;
 
 	if (argc < 2)
-		return (0);
+		ft_exit("Error\n");
 	stack = (t_stack *)malloc(sizeof(t_stack));
 	if (!stack)
 		exit(EXIT_FAILURE);
