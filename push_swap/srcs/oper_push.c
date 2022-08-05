@@ -54,7 +54,7 @@ static t_node	*pop(t_info *info)
 	return (tmp);
 }
 
-void	pa(t_stack *stack, int isChecker)
+void	pa(t_stack *stack)
 {
 	t_node	*tmp;
 
@@ -62,11 +62,10 @@ void	pa(t_stack *stack, int isChecker)
 	if (!tmp)
 		return ;
 	push(stack->a, tmp);
-	if (!isChecker)
-		write(1, "pa\n", 3);
+	write(1, "pa\n", 3);
 }
 
-void	pb(t_stack *stack, int isChecker)
+void	pb(t_stack *stack)
 {
 	t_node	*tmp;
 
@@ -74,6 +73,5 @@ void	pb(t_stack *stack, int isChecker)
 	if (!tmp)
 		return ;
 	push(stack->b, tmp);
-	if (!isChecker)
-		write(1, "pb\n", 3);
+	write(1, "pb\n", 3);
 }

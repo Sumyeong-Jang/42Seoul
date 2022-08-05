@@ -27,24 +27,21 @@ static void	swap(t_info *info)
 	info->top->next->index = tmp_index;
 }
 
-void	sa(t_stack *stack, int isChecker)
+void	sa(t_stack *stack)
 {
 	swap(stack->a);
-	if (!isChecker)
-		write(1, "sa\n", 3);
+	write(1, "sa\n", 3);
 }
 
-void	sb(t_stack *stack, int isChecker)
+void	sb(t_stack *stack)
 {
 	swap(stack->b);
-	if (!isChecker)
-		write(1, "sb\n", 3);
+	write(1, "sb\n", 3);
 }
 
-void	ss(t_stack *stack, int isChecker)
+void	ss(t_stack *stack)
 {
 	swap(stack->a);
 	swap(stack->b);
-	if (!isChecker)
-		write(1, "ss\n", 3);
+	write(1, "ss\n", 3);
 }

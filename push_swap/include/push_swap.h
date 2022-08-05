@@ -34,39 +34,40 @@ typedef struct s_stack {
 	t_info	*b;
 }	t_stack;
 
-t_info		*get_stack_a(int argc, char *argv[]);
+t_info		*get_stack_a(int argc, char **argv);
 
 t_info		*init_info(void);
 t_node		*init_node(int num);
 int			is_sorted(t_info *info);
 
 void		ft_exit(char *message);
-void		free_t_stack(t_stack *stack);
+void		free_stack(t_stack *stack);
+void		free_stack_a(t_stack *stack);
 
 long long	ft_atoll(const char *str);
 int			ft_is_num(const char *s);
-int			get_top(t_info *info);
+int			top_index(t_info *info);
 
 void		sort_small(t_stack *stack);
-int			rotate_or_reverse(t_info *info, int standard);
+int			rotate_or_reverse(t_info *info, int n);
 
 void		sort_large(t_stack *stack);
 
 void		push(t_info *info, t_node *node);
-void		pa(t_stack *stack, int isChecker);
-void		pb(t_stack *stack, int isChecker);
+void		pa(t_stack *stack);
+void		pb(t_stack *stack);
 
-void		sa(t_stack *stack, int isChecker);
-void		sb(t_stack *stack, int isChecker);
-void		ss(t_stack *stack, int isChecker);
+void		sa(t_stack *stack);
+void		sb(t_stack *stack);
+void		ss(t_stack *stack);
 
 void		rotate(t_info *info);
-void		ra(t_stack *stack, int isChecker);
-void		rb(t_stack *stack, int isChecker);
-void		rr(t_stack *stack, int isChecker);
+void		ra(t_stack *stack);
+void		rb(t_stack *stack);
+void		rr(t_stack *stack);
 
-void		rra(t_stack *stack, int isChecker);
-void		rrb(t_stack *stack, int isChecker);
-void		rrr(t_stack *stack, int isChecker);
+void		rra(t_stack *stack);
+void		rrb(t_stack *stack);
+void		rrr(t_stack *stack);
 
 #endif

@@ -15,7 +15,8 @@
 void		sort_large(t_stack *stack);
 static void	a_to_b(t_stack *stack, int chunk);
 static void	b_to_a(t_stack *stack);
-static void	raise_b_last_index(t_stack *stack);
+static void	max_index_to_top(t_stack *stack);
+int			rotate_or_reverse(t_info *info, int n);
 
 void	sort_large(t_stack *stack)
 {
@@ -35,23 +36,23 @@ static void	a_to_b(t_stack *stack, int chunk)
 	i = 0;
 	while (stack->a->size != 0)
 	{
-		if (get_top(stack->a) <= i)
+		if (top_index(stack->a) <= i)
 		{
-			pb(stack, 0);
+			pb(stack);
 			i++;
 		}
-		else if (get_top(stack->a) > i && get_top(stack->a) <= i + chunk)
+		else if (top_index(stack->a) > i && top_index(stack->a) <= i + chunk)
 		{
-			pb(stack, 0);
-			rb(stack, 0);
+			pb(stack);
+			rb(stack);
 			i++;
 		}
 		else
 		{
 			if (rotate_or_reverse(stack->a, i + chunk))
-				ra(stack, 0);
+				ra(stack);
 			else
-				rra(stack, 0);
+				rra(stack);
 		}
 	}
 }
@@ -60,12 +61,12 @@ static void	b_to_a(t_stack *stack)
 {
 	while (stack->b->size != 0)
 	{
-		raise_b_last_index(stack);
-		pa(stack, 0);
+		max_index_to_top(stack);
+		pa(stack);
 	}
 }
 
-static void	raise_b_last_index(t_stack *stack)
+static void	max_index_to_top(t_stack *stack)
 {
 	t_node	*tmp;
 	int		i;
@@ -79,8 +80,26 @@ static void	raise_b_last_index(t_stack *stack)
 	}
 	if (i < stack->b->size / 2)
 		while (stack->b->top != tmp)
-			rb(stack, 0);
+			rb(stack);
 	else
 		while (stack->b->top != tmp)
-			rrb(stack, 0);
+			rrb(stack);
+}
+
+int	rotate_or_reverse(t_info *info, int n)
+{
+	t_node	*tmp;
+	int		h_location;
+
+	tmp = info->top;
+	h_location = 0;
+	while (tmp->index > n)
+	{
+		tmp = tmp->next;
+		h_location++;
+	}
+	if (h_location < info->size / 2)
+		return (1);
+	else
+		return (0);
 }

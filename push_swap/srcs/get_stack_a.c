@@ -12,12 +12,12 @@
 
 #include "../include/push_swap.h"
 
-t_info		*get_stack_a(int argc, char *argv[]);
-static void	is_valid_number_n_insert(const char *s, t_info *a_info);
-static int	indexing_n_is_unique(t_info *a_info, t_node *node);
+t_info		*get_stack_a(int argc, char **argv);
 static void	split_input_str(const char *s, t_info *a_info);
+static void	is_valid_number_n_insert(char *s, t_info *a_info);
+static int	indexing_n_check_dup(t_info *a_info, t_node *node);
 
-t_info	*get_stack_a(int argc, char *argv[])
+t_info	*get_stack_a(int argc, char **argv)
 {
 	t_info	*a_info;
 	int		i;
@@ -35,52 +35,6 @@ t_info	*get_stack_a(int argc, char *argv[])
 	return (a_info);
 }
 
-static void	is_valid_number_n_insert(const char *s, t_info *a_info)
-{
-	long long	num;
-	t_node		*new_node;
-
-	if (*s == '\0')
-		ft_exit("Error\n");
-	num = ft_atoll(s);
-	if (!(ft_is_num(s)))
-		ft_exit("Error\n");
-	if (num > 2147483647 || num < -2147483648)
-		ft_exit("Error\n");
-	new_node = init_node((int)num);
-	//push 안했는데 head->data == node->data 가능?
-	if (indexing_n_is_unique(a_info, new_node))
-		ft_exit("Error\n");
-	push(a_info, new_node);
-	rotate(a_info);//push bottom 했을 경우 rotate 해줌
-}
-
-static int	indexing_n_is_unique(t_info *a_info, t_node *node)
-{
-	t_node	*head;
-
-	if (a_info->size == 0)
-		return (0);
-	head = a_info->top;
-	while (1)
-	{
-		if (head->data < node->data)
-			node->index++;
-		else if (head->data > node->data)
-			head->index++;
-		else
-			return (1);
-		/*
-		if (head == a_info->bottom)
-			return (1);
-		*/
-		head = head->next;
-		if (head == a_info->top)
-			break ;
-	}
-	return (0);
-}
-
 static void	split_input_str(const char *s, t_info *a_info)
 {
 	char	**input_num;
@@ -90,10 +44,10 @@ static void	split_input_str(const char *s, t_info *a_info)
 	while (s[i] == ' ')
 		i++;
 	if (s[i] == '\0')
-		ft_exit(NULL);
+		ft_exit("Error\n");
 	input_num = ft_split(s, ' ');
 	if (!input_num)
-		exit(EXIT_FAILURE);
+		ft_exit("Error\n");
 	i = 0;
 	while (input_num[i] != NULL)
 	{
@@ -102,4 +56,51 @@ static void	split_input_str(const char *s, t_info *a_info)
 		i++;
 	}
 	free(input_num);
+}
+
+static void	is_valid_number_n_insert(char *s, t_info *a_info)
+{
+	long long	num;
+	t_node		*new_node;
+	char		*tmp;
+
+	if (*s == '\0')
+		ft_exit("Error\n");
+	if (!(ft_is_num(s)))
+		ft_exit("Error\n");
+	tmp = s;
+	while (*tmp == '0')
+		tmp++;
+	if (ft_strlen(tmp) > 11)
+		ft_exit("Error\n");
+	num = ft_atoll(tmp);
+	if (num > 2147483647 || num < -2147483648)
+		ft_exit("Error\n");
+	new_node = init_node((int)num);
+	if (!indexing_n_check_dup(a_info, new_node))
+		ft_exit("Error\n");
+	push(a_info, new_node);
+	rotate(a_info);
+}
+
+static int	indexing_n_check_dup(t_info *a_info, t_node *node)
+{
+	t_node	*head;
+
+	if (a_info->size == 0)
+		return (1);
+	head = a_info->top;
+	while (1)
+	{
+		if (head->data < node->data)
+			node->index++;
+		else if (head->data > node->data)
+			head->index++;
+		else
+			return (0);
+		head = head->next;
+		if (head == a_info->top)
+			break ;
+	}
+	return (1);
 }

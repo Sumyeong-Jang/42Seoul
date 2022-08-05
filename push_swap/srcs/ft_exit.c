@@ -39,9 +39,15 @@ void	free_t_info(t_info *info)
 	free(info);
 }
 
-void	free_t_stack(t_stack *stack)
+void	free_stack(t_stack *stack)
 {
 	free_t_info(stack->a);
 	free_t_info(stack->b);
+	free(stack);
+}
+
+void	free_stack_a(t_stack *stack)
+{
+	free_t_info(stack->a);
 	free(stack);
 }

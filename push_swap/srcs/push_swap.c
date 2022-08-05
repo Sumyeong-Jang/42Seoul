@@ -22,13 +22,16 @@ int	main(int argc, char **argv)
 		ft_exit("Error\n");
 	stack = (t_stack *)malloc(sizeof(t_stack));
 	if (!stack)
-		exit(EXIT_FAILURE);
+		ft_exit("Error\n");
 	stack->a = get_stack_a(argc, argv);
 	if (is_sorted(stack->a))
-		exit(EXIT_FAILURE);
+	{
+		free_stack_a(stack);
+		exit(EXIT_SUCCESS);
+	}
 	stack->b = init_info();
 	sort_stack(stack);
-	free_t_stack(stack);
+	free_stack(stack);
 	return (0);
 }
 

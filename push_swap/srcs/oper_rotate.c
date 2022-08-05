@@ -20,24 +20,21 @@ void	rotate(t_info *info)
 	info->bottom = info->bottom->next;
 }
 
-void	ra(t_stack *stack, int isChecker)
+void	ra(t_stack *stack)
 {
 	rotate(stack->a);
-	if (!isChecker)
-		write(1, "ra\n", 3);
+	write(1, "ra\n", 3);
 }
 
-void	rb(t_stack *stack, int isChecker)
+void	rb(t_stack *stack)
 {
 	rotate(stack->b);
-	if (!isChecker)
-		write(1, "rb\n", 3);
+	write(1, "rb\n", 3);
 }
 
-void	rr(t_stack *stack, int isChecker)
+void	rr(t_stack *stack)
 {
 	rotate(stack->a);
 	rotate(stack->b);
-	if (!isChecker)
-		write(1, "rr\n", 3);
+	write(1, "rr\n", 3);
 }

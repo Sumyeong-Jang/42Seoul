@@ -14,14 +14,14 @@
 
 long long	ft_atoll(const char *str);
 static int	is_space(char c);
-int			ft_isNum(const char *s);
-int			get_top(t_info *info);
+int			ft_is_num(const char *s);
+int			top_index(t_info *info);
 
 long long	ft_atoll(const char *str)
 {
-	int					i;
-	int					minus;
-	unsigned long long	n;
+	int			i;
+	int			minus;
+	long long	n;
 
 	i = 0;
 	while (is_space(str[i]))
@@ -37,14 +37,8 @@ long long	ft_atoll(const char *str)
 	while (str[i] && str[i] >= '0' && str[i] <= '9')
 	{
 		n = (n * 10) + (str[i] - '0');
-		if (minus == -1 && n > -(unsigned long long)INT_MIN)
-			ft_exit("Error\n");
-		if (minus == 1 && n > (unsigned long long)INT_MAX)
-			ft_exit("Error\n");
-		/*
 		if (minus * n > 2147483647 || minus * n < -2147483648)
-			break ;
-		*/
+			ft_exit("Error\n");
 		i++;
 	}
 	if (str[i] != '\0')
@@ -79,22 +73,7 @@ int	ft_is_num(const char *s)
 	return (1);
 }
 
-int	ft_numlen(long long n)
-{
-	int	len;
-
-	if (n == 0)
-		return (1);
-	len = 0;
-	while (n != 0)
-	{
-		len++;
-		n /= 10;
-	}
-	return (len);
-}
-
-int	get_top(t_info *info)
+int	top_index(t_info *info)
 {
 	return (info->top->index);
 }

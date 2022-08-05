@@ -22,7 +22,7 @@ t_info	*init_info(void)
 
 	info = (t_info *)malloc(sizeof(t_info));
 	if (!info)
-		exit(EXIT_FAILURE);
+		ft_exit("Error\n");
 	info->top = NULL;
 	info->bottom = NULL;
 	info->size = 0;
@@ -35,7 +35,7 @@ t_node	*init_node(int num)
 
 	new_node = (t_node *)malloc(sizeof(t_node));
 	if (!new_node)
-		exit(EXIT_FAILURE);
+		ft_exit("Error\n");
 	new_node->data = num;
 	new_node->next = NULL;
 	new_node->prev = NULL;
