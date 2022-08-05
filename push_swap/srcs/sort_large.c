@@ -89,16 +89,16 @@ static void	max_index_to_top(t_stack *stack)
 int	rotate_or_reverse(t_info *info, int n)
 {
 	t_node	*tmp;
-	int		h_location;
+	int		p;
 
 	tmp = info->top;
-	h_location = 0;
+	p = 0;
 	while (tmp->index > n)
 	{
 		tmp = tmp->next;
-		h_location++;
+		p++;
 	}
-	if (h_location < info->size / 2)
+	if (p < info->size / 2)
 		return (1);
 	else
 		return (0);

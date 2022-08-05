@@ -15,7 +15,7 @@
 void	ft_exit(char *message)
 {
 	if (message != NULL)
-		perror(message);
+		write(2, message, 6);
 	exit(EXIT_FAILURE);
 }
 
