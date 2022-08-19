@@ -1,25 +1,47 @@
 #include "../include/philosophers.h"
+#include <string.h>
+#include <stdlib.h>
 
-int	main(int argc, char *argv[])
+void	clear_table(t_table *table);
+
+int	main(int argc, char **argv)
 {
-	t_philo	*philo;
-	t_time	time;
+	t_table		table;
+	pthread_t	die_check;
 
-	if (argc != 5 && argc != 6)
-		return (print_error(FAIL_ARGC));
-	if (parse_input(argv, &time))
-		return (print_error(FAIL_PARSE_INPUT));
-	if (init_time(&time))
-		return (print_error(FAIL_GET_TIME));
-	if (malloc_time(&time) || malloc_thread(&philo, &time))
-		return (print_error(FAIL_MALLOC));
-	if (init_mutex(philo))
-		return (print_error(FAIL_INIT_MUTEX));
-	if (create_thread(philo))
-		return (print_error(FAIL_CREATE_THREAD));
-	while (monitor_time_die(philo) == SUCCESS)
-		usleep(MILLISECOND / 10);
-	if (detach_thread(philo))
-		return (print_error(FAIL_DETACH_THREAD));
-	return (SUCCESS);
+	memset(&table, 0, sizeof(t_table));
+	if (check_args(argc, argv, &table) == FALSE)
+		return (str_error("Error : Invalid Arguments!", 1));
+	if (table.noe == 0 || table.nop == 0)
+		return (0);
+	if (init_philosophers(&table) == FALSE)
+		return (str_error("Error : Fail to set table", 1));
+	if (!pthread_create(&die_check, NULL, check_terminate, &table))
+	{
+		if (init_thread(&table) == FALSE)
+			return (str_error("Error : Fail to start dining", 1));
+		pthread_join(die_check, NULL);
+	}
+	clear_table(&table);
+	return (0);
+}
+
+void	clear_table(t_table *table)
+{
+	int	i;
+
+	i = -1;
+	while (++i < table->nop)
+	{
+		if (table->philos[i].phil_thread != 0)
+			pthread_join(table->philos[i].phil_thread, NULL);
+	}
+	i = -1;
+	while (++i < table->nop)
+		pthread_mutex_destroy(&(table->forks[i]));
+	pthread_mutex_destroy(&(table->log));
+	pthread_mutex_destroy(&(table->eat));
+	pthread_mutex_destroy(&(table->die_check));
+	free(table->philos);
+	free(table->forks);
 }

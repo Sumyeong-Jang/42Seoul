@@ -1,114 +1,59 @@
-#ifndef PHILOSOPHERS_H
-# define PHILOSOPHERS_H
-
+#ifndef PHILOSOPHER_H
+# define PHILOSOPHER_H
 # include <pthread.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <fcntl.h>
-# include <sys/time.h>
-# include <unistd.h>
-# include <string.h>
+# define TRUE 1
+# define FALSE 0
 
-# define INT_MAX		2147483647
-# define OVER_INT_MAX	2147483648LL
+typedef pthread_mutex_t	t_mutex;
 
-# define ODD	1
-# define EVEN	2
-
-typedef int	t_bool;
-# define FALSE	0
-# define TRUE	1
-
-# define START	1
-# define NOW	2
-
-# define TIME_TOTAL		1
-# define CHECK_TOTAL	2
-
-# define MILLISECOND		1000
-
-# define EXIT				1
-# define SUCCESS			0
-# define FAIL_ARGC			-1
-# define FAIL_PARSE_INPUT	-2
-# define FAIL_GET_TIME		-3
-# define FAIL_MALLOC		-4
-# define FAIL_INIT_MUTEX	-5
-# define FAIL_CREATE_THREAD	-6
-# define FAIL_DETACH_THREAD	-7
-# define FAIL_DESTROY_MUTEX	-8
-
-# define FORK	1
-# define EAT	2
-# define SLEEP	3
-# define THINK	4
-# define DIE	5
-
-typedef struct s_time
-{
-	int				philo_num;
-	int				time_die;
-	int				time_eat;
-	int				time_sleep;
-	int				must_eat;
-	struct timeval	start;
-	struct timeval	now;
-	struct timeval	check;
-	size_t			start_in_ms;
-	size_t			now_in_ms;
-	size_t			*check_in_ms;
-	size_t			*check_total;
-	size_t			time_total;
-	int				fail;
-}	t_time;
+struct					s_table;
 
 typedef struct s_philo
 {
-	int				index;
-	int				is_even;
-	int				must_eat;
-	t_time			*time;
-	pthread_mutex_t	*fork;
-	pthread_t		*thread;
-	pthread_mutex_t	*print;
-	int				*exit_status;
-}	t_philo;
+	int				id;
+	int				eat_count;
+	long			last_eat;
+	t_mutex			*lfork;
+	t_mutex			*rfork;
+	t_mutex			*phil_log;
+	struct s_table	*tab;
+	pthread_t		phil_thread;
+}					t_philo;
 
-char		**ft_split(char const *s, char c);
+typedef struct s_table
+{
+	int			nop;
+	long		t2d;
+	long		t2e;
+	long		t2s;
+	int			noe;
+	int			die;
+	int			full;
+	long		start;
+	t_philo		*philos;
+	t_mutex		*forks;
+	t_mutex		die_check;
+	t_mutex		log;
+	t_mutex		eat;
+}				t_table;
 
-int			init_time(t_time *time);
-int			init_mutex(t_philo *philo);
-void		init_check_time(t_philo *philo);
-int			get_time(t_time *time, int flag);
+/*utils*/
+long	ft_atou(char *str);
+int		str_error(char *str, int ret);
+void	print_log(t_table *table, int philosopher_id, char *message);
+long	get_ltime(void);
+void	mili_sleep(long msec);
 
-int			parse_input(char *argv[], t_time *time);
-long long	ft_atoi(const char *nptr);
-size_t		ft_strlen(const char *s);
+/*preprocess*/
+int		check_args(int argc, char **argv, t_table *table);
+int		init_philosophers(t_table *table);
+int		init_thread(t_table *table);
+void	clear_table(t_table *table);
 
-int			malloc_time(t_time *time);
-int			malloc_thread(t_philo **philo, t_time *time);
-void		*ft_calloc(size_t nmemb, size_t size);
-
-size_t		convert_to_millisecond(struct timeval time);
-size_t		calculate_time(t_philo *philo, int index, int flag);
-void		wait_time(t_philo *philo, unsigned int time_wait);
-
-int			print_error(int err_code);
-int			print_status(t_philo *philo, int philo_idx, int status);
-
-int			create_thread(t_philo *philo);
-int			detach_thread(t_philo *philo);
-int			destroy_mutex(t_philo *philo);
-
-void		thread_routine_odd(t_philo *philo);
-void		thread_routine_even(t_philo *philo);
-void		thread_routine_last(t_philo *philo);
-
-int			monitor_time_die(t_philo *philo);
-
-void		take_fork(t_philo *philo, int fork_index);
-void		eat_dinner(t_philo *philo, int first, int second);
-void		sleep_on_bed(t_philo *philo);
-void		think_for_a_while(t_philo *philo);
+/*philosopher*/
+void	*start_dining(void *vargp);
+void	*check_terminate(void *vargp);
+void	*put_fork_down(t_mutex *lfork, t_mutex *rfork);
+void	*pick_fork_up(t_philo *philo);
 
 #endif
