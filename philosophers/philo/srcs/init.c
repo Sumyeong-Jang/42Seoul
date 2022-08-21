@@ -87,7 +87,7 @@ int	thread_init(t_arg *arg)
 		philo[i].last_eat_time = get_ms_time();//꼭 필요한가?
 		if (pthread_create(&(philos[i].philo_thread), NULL, start_routine, &(philos[i])) != SUCCESS)
 			return (IS_ERROR);
-		usleep(200); //디킴은 usleep(10); 꼭 필요한가?
+		usleep(200);//꼭 필요한가?
 		i++;
 	}
 	check_philo_is_died(arg, philo);
