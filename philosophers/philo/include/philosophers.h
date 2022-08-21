@@ -63,14 +63,26 @@ typedef struct s_arg
 	pthread_mutex_t	log;
 }					t_arg;
 
-/*utils*/
-int			ft_error(char *str, int errno);
-long long	ft_atoll(char *str);
-static int	is_space(char c);
+/*main*/
+void    *start_routine(void *argv);
+void    check_philo_is_died(t_arg *arg, t_philo *philo);
+void    clear_table(t_arg *arg, t_philo *philo);
 
 /*init*/
-int	arg_init(int argc, char **argv, t_arg *arg);
-int	mutex_init(t_arg *arg);
-int	philos_init(t_philo **philo, t_arg *arg);
+int     arg_init(int argc, char **argv, t_arg *arg);
+int     mutex_init(t_arg *arg);
+int     philos_init(t_philo **philo, t_arg *arg);
+int     thread_init(t_arg *arg, t_philo *philo);
+
+/*philo_utils*/
+int     print_philo_log(t_arg *arg, int idx, char *msg);
+void    ms_sleep(long long wait_time, t_arg *arg);
+void    *pick_fork_up(t_arg *arg, t_philo *philo);
+void    *put_fork_down(pthread_mutex_t *lfork, pthread_mutex_t *rfork);
+
+/*utils*/
+int                     ft_error(char *str, int errno);
+long long       ft_atoll(char *str);
+long long       get_ms_time(void);
 
 #endif

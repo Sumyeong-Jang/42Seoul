@@ -14,7 +14,7 @@
 
 void	*start_routine(void *argv);
 void	check_philo_is_died(t_arg *arg, t_philo *philo);
-void	clear_table(t_arg *table);
+void	clear_table(t_arg *arg, t_philo *philo);
 
 int	main(int argc, char **argv)
 {
@@ -29,15 +29,15 @@ int	main(int argc, char **argv)
 	//확인
 	if (mutex_init(&arg) == IS_ERROR)
 		return (ft_error("Fail to init mutex", FAIL_INIT_MUTEX));
-	if (philo_init(&philo, &arg))
+	if (philos_init(&philo, &arg))
 		return (ft_error("Fail to init philos", FAIL_INIT_PHILOS));
-	if (thread_init(arg) == IS_ERROR)
+	if (thread_init(&arg, philo) == IS_ERROR)
 		return (ft_error("Fail to create thread", FAIL_CREATE_THREAD));
 	
 	
 	
 	//arg_free
-	clear_table(&arg);
+	clear_table(&arg, philo);
 	return (0);
 }
 
@@ -58,7 +58,7 @@ void	*start_routine(void *argv)
 		if (pick_fork_up(arg, philo) == NULL)
 			return (NULL);
 		print_philo_log(arg, philo->idx, "is eating");
-		ms_sleep(arg->time_to_eat);
+		ms_sleep(arg->time_to_eat, arg);
 		if (arg->is_finished == 1)
 			return (put_fork_down(philo->lfork, philo->rfork));
 		philo->eat_count++;
@@ -70,7 +70,7 @@ void	*start_routine(void *argv)
 		//pthread_mutex_unlock(&(arg->eat));eat vs t2e
 		print_philo_log(arg, philo->idx, "is sleeping");
 		put_fork_down(philo->lfork, philo->rfork);
-		ms_sleep(arg->time_to_sleep);
+		ms_sleep(arg->time_to_sleep, arg);
 		print_philo_log(arg, philo->idx, "is thinking");
 	}
 	return (NULL);
@@ -101,23 +101,26 @@ void	check_philo_is_died(t_arg *arg, t_philo *philo)
 			i++;
 		}
 	}
+}
 
-void	clear_table(t_arg *table)
+void	clear_table(t_arg *arg, t_philo *philo)
 {
 	int	i;
 
+	/*
 	i = -1;
-	while (++i < arg->nop)
+	while (++i < arg->num_of_philo)
 	{
-		if (arg->philos[i].phil_thread != 0)
-			pthread_join(arg->philos[i].phil_thread, NULL);
+		if (philo->philos[i].phil_thread != 0)
+			pthread_join(philo->philos[i].phil_thread, NULL);
 	}
 	i = -1;
-	while (++i < arg->nop)
+	while (++i < arg->num_of_philo)
 		pthread_mutex_destroy(&(arg->forks[i]));
 	pthread_mutex_destroy(&(arg->log));
-	pthread_mutex_destroy(&(arg->eat));
-	pthread_mutex_destroy(&(arg->die_check));
+	//pthread_mutex_destroy(&(arg->eat));
+	//pthread_mutex_destroy(&(arg->die_check));
 	free(arg->philos);
 	free(arg->forks);
+	*/
 }

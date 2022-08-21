@@ -2,7 +2,7 @@
 
 int		print_philo_log(t_arg *arg, int idx, char *msg);
 void	ms_sleep(long long wait_time, t_arg *arg);
-void	*pick_fork_up(t_arg *arg, t_philo *philo)
+void	*pick_fork_up(t_arg *arg, t_philo *philo);
 void	*put_fork_down(pthread_mutex_t *lfork, pthread_mutex_t *rfork);
 
 int	print_philo_log(t_arg *arg, int idx, char *msg)
@@ -56,3 +56,4 @@ void	*pick_fork_up(t_arg *arg, t_philo *philo)
 	philo->last_eat_time = get_ms_time();
 	return ((void *)philo);
 }
+

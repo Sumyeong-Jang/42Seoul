@@ -15,7 +15,7 @@
 int	arg_init(int argc, char **argv, t_arg *arg);
 int	mutex_init(t_arg *arg);
 int	philos_init(t_philo **philo, t_arg *arg);
-int	thread_init(t_arg *arg);
+int	thread_init(t_arg *arg, t_philo *philo);
 
 int	arg_init(int argc, char **argv, t_arg *arg)
 {
@@ -67,7 +67,7 @@ int	philos_init(t_philo **philo, t_arg *arg)
 	while (i < arg->num_of_philo)
 	{
 		(*philo)[i].arg = arg;
-		(*philo)[i].id = i;
+		(*philo)[i].idx = i;
 		(*philo)[i].eat_count = 0;
 		(*philo)[i].lfork = arg->forks + i;
 		(*philo)[i].rfork = arg->forks + ((i + 1) % arg->num_of_philo);
@@ -77,7 +77,7 @@ int	philos_init(t_philo **philo, t_arg *arg)
 	return (0);
 }
 
-int	thread_init(t_arg *arg)
+int	thread_init(t_arg *arg, t_philo *philo)
 {
 	int			i;
 
@@ -85,7 +85,7 @@ int	thread_init(t_arg *arg)
 	while (i < arg->num_of_philo)
 	{
 		philo[i].last_eat_time = get_ms_time();//꼭 필요한가?
-		if (pthread_create(&(philos[i].philo_thread), NULL, start_routine, &(philos[i])) != SUCCESS)
+		if (pthread_create(&(philo[i].philo_thread), NULL, start_routine, &(philo[i])) != SUCCESS)
 			return (IS_ERROR);
 		usleep(200);//꼭 필요한가?
 		i++;
@@ -95,7 +95,7 @@ int	thread_init(t_arg *arg)
 	while (i < arg->num_of_philo)
 	{
 		// 메인 쓰레드의 대기 영역 //
-		pthread_join(*(philo[i].philo_thread), NULL);
+		pthread_join(philo[i].philo_thread, NULL);
 		i++;
 	}
 	return (SUCCESS);
