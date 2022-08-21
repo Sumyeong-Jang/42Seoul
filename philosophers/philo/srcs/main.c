@@ -12,81 +12,95 @@
 
 #include "../include/philosophers.h"
 
+void	*start_routine(void *argv);
+void	check_philo_is_died(t_arg *arg, t_philo *philo);
 void	clear_table(t_arg *table);
 
 int	main(int argc, char **argv)
 {
 	t_arg		arg;
 	t_philo		*philo;
-	//pthread_t	die_check;//t_philo *philo
-	// die_check 왜필요함?
 
 	if (argc != 5 && argc != 6)
 		return (ft_error("argc error", ARGC_ERROR));
 	memset(&arg, 0, sizeof(t_arg));
-	if (arg_init(argc, argv, &arg) == RETURN_ERROR)
+	if (arg_init(argc, argv, &arg) == IS_ERROR)
 		return (ft_error("invalid arguments", FAIL_GET_ARG));
 	//확인
-	if (arg.num_of_eat_times == 0 || arg.num_of_philo == 0)//왜 있지..?
-		return (0);
-	if (mutex_init(&arg) == RETURN_ERROR)
+	if (mutex_init(&arg) == IS_ERROR)
 		return (ft_error("Fail to init mutex", FAIL_INIT_MUTEX));
 	if (philo_init(&philo, &arg))
 		return (ft_error("Fail to init philos", FAIL_INIT_PHILOS));
-	start_philosophers(&arg, philo);
-
-
-
-
-
-	if (!pthread_create(&die_check, NULL, check_terminate, &arg))
-	{
-		if (init_thread(&arg) == FALSE)
-			return (str_error("Error : Fail to start dining", 1));
-		pthread_join(die_check, NULL);
-	}
+	if (thread_init(arg) == IS_ERROR)
+		return (ft_error("Fail to create thread", FAIL_CREATE_THREAD));
+	
+	
+	
+	//arg_free
 	clear_table(&arg);
 	return (0);
 }
 
-int	start_philosophers(t_arg *arg, t_philo *philo)
-{
-	int i;
-
-	i = 0;
-	while (i < arg->num_of_philo)
-	{
-		philo[i].last_eat_time = ft_get_time(); //이게 꼭 필요한가?
-		if (pthread_create(&(philo[i].philo_thread), NULL, start_routine, &(philo[i])))
-			return (RETURN_ERROR);
-	}
-}
-
 void	*start_routine(void *argv)
 {
-	t_arg		*arg;
-	t_philo		*philo;
+	t_arg	*arg;
+	t_philo	*philo;
 
 	philo = argv;
 	arg = philo->arg;
-	if (philo->id % 2)
+	//디킴 print_philo_log(arg, idx, "is eating");
+	if (philo->idx % 2)//디킴 sleep(arg->time_to_eat)
 		usleep(1000);
 	else
-		usleep(500);
-	while (!arg->finish)
+		usleep(500);//usleep(200 * (철학자수 - idx))
+	while (!arg->is_finished)
 	{
-		ft_philo_action(arg, philo);
-		if (arg->num_of_eat_times == philo->eat_count)
-		{
+		if (pick_fork_up(arg, philo) == NULL)
+			return (NULL);
+		print_philo_log(arg, philo->idx, "is eating");
+		ms_sleep(arg->time_to_eat);
+		if (arg->is_finished == 1)
+			return (put_fork_down(philo->lfork, philo->rfork));
+		philo->eat_count++;
+		//pthread_mutex_lock(&(arg->eat));?
+
+		if (arg->num_of_eat_times > 0 && (philo->eat_count == arg->num_of_eat_times))
 			arg->finished_eat++;
+			// break ?
+		//pthread_mutex_unlock(&(arg->eat));eat vs t2e
+		print_philo_log(arg, philo->idx, "is sleeping");
+		put_fork_down(philo->lfork, philo->rfork);
+		ms_sleep(arg->time_to_sleep);
+		print_philo_log(arg, philo->idx, "is thinking");
+	}
+	return (NULL);
+}
+
+void	check_philo_is_died(t_arg *arg, t_philo *philo)
+{
+	int			i;
+	long long	now;
+
+	while (!arg->is_finished)
+	{
+		if ((arg->num_of_eat_times != 0) && (arg->num_of_philo == arg->finished_eat))
+		{
+			arg->is_finished = 1;
 			break ;
 		}
-		ft_philo_printf(arg, philo->id, "is sleeping");
-		ft_pass_time((long long)arg->time_to_sleep, arg);
-		ft_philo_printf(arg, philo->id, "is thinking");
+		i = 0;
+		while (i < arg->num_of_philo)
+		{
+			now = get_ms_time();
+			if ((now - philo[i].last_eat_time) >= arg->time_to_die)
+			{
+				print_philo_log(arg, i, "died");
+				arg->is_finished = 1;
+				break ;
+			}
+			i++;
+		}
 	}
-	return (0);
-}
 
 void	clear_table(t_arg *table)
 {
