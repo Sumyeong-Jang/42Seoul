@@ -74,7 +74,7 @@ void	*pick_fork_up(t_arg *arg, t_philo *philo)//함수 인자 개수를 적게 �
 	//	return (put_fork_down(philo->lfork, NULL));
 	print_philo_log(philo, "has taken a fork");
 	//if (philo->rfork == philo->lfork)
-	//	return (put_fork_down(philo->rfork, NULL));
+	//	return (put_fork_down(philo->lfork, NULL));
 	pthread_mutex_lock(philo->rfork);
 	//if (philo->status->is_finished == 1)
 	//	return (put_fork_down(philo->lfork, philo->rfork));
