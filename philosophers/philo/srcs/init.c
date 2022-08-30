@@ -55,7 +55,7 @@ int	philos_init(t_philo **philos, t_arg *arg, t_status *status)
 		(*philos)[i].id = i + 1;
 		(*philos)[i].eat_count = 0;
 		(*philos)[i].lfork = &((*philos)[i].fork);
-		(*philos)[i].rfork = &(philos[(i + 1) % arg->num_of_philo]->fork);
+		(*philos)[i].rfork = &((*philos)[(i + 1) % arg->num_of_philo]->fork);
 		i++;
 	}
 	return (0);
