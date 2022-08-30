@@ -14,8 +14,9 @@
 
 void	*start_routine(void *argv);
 void	*one_philo_routine(t_philo *philo);
-void	check_philo_is_died(t_arg *arg, t_philo *philo);
-void	clear_table(t_arg *arg, t_philo *philo);
+void	*ckeck_philos(void *philo);
+void	check_philo_is_died(t_arg *arg, t_philo *philos)
+void	destroy_mutex(t_arg *arg, t_philo *philos);
 
 int	main(int argc, char **argv)
 {
@@ -30,44 +31,53 @@ int	main(int argc, char **argv)
 		return (ft_error("invalid arguments", FAIL_GET_ARG));
 	if (philos_init(&philos, &arg, &status))
 	{
-		free(philo);
-		destroy_mutex(&arg);
+		free(philos);
 		return (ft_error("Fail to init philos", FAIL_INIT_PHILOS));
 	}
 	if (mutex_init(&arg) == IS_ERROR)
-		return (ft_error("Fail to init mutex", FAIL_INIT_MUTEX));
-	if (thread_init(&arg, philo) == IS_ERROR)
 	{
-		free(philo);
+		free(philos);
+		destroy_mutex(&arg);
+		return (ft_error("Fail to init mutex", FAIL_INIT_MUTEX));
+	}
+	if (thread_init(&arg, philos) == IS_ERROR)
+	{
+		free(philos);
 		destroy_mutex(&arg);
 		return (ft_error("Fail to create thread", FAIL_CREATE_THREAD));
 	}
-	clear_table(&arg, philo);
-	return (0);
+	free(philos);//순서?
+	destroy_mutex(&arg, philos);
+	return (SUCCESS);
 }
 
 void	*start_routine(void *argv)
 {
 	t_arg	*arg;
-	t_philo	*philo;
+	t_philo	*philos;
 
-	philo = argv;
-	arg = philo->arg;
+	philos = argv;
+	arg = philos->arg;
 	if (arg->num_of_philo == 1)
-		return (one_philo_routine(philo));
+		return (one_philo_routine(philos));
 	//디킴 print_philo_log(arg, idx, "is eating");
 	//usleep 조건ㄱ : idx % 2 == 0 일때 usleep(1000) ?
-	if (philo->idx % 2)//디킴 sleep(arg->time_to_eat)
+	if (philos->idx % 2)//디킴 sleep(arg->time_to_eat)
 		usleep(1000);
 	else
 		usleep(500);//usleep(200 * (철학자수 - idx))  --> 이거 왜......?
 	while (1)
 	{
-		if (eating(philo))
+		if (eating(philos))
 			return (NULL);
-		if (sleeping(philo))
+		if (arg->num_of_eat_times == philos->eat_count)
+		{
+			arg->finished_eat++;
+			break ;
+		}
+		if (sleeping(philos))
 			return (NULL);
-		if (thinking(philo))
+		if (thinking(philos))
 			return (NULL);
 	}
 	/*
@@ -106,27 +116,44 @@ void	*one_philo_routine(t_philo *philo)
 	return (NULL);
 }
 
-void	check_philo_is_died(t_arg *arg, t_philo *philo)
+void	*ckeck_philos(void *philo)
+{
+	t_philo	*philos;
+
+	philos = philo;
+	while (1)
+	{
+		if (check_philo_is_died(philos))
+			return (NULL);
+		usleep(1000);//usleep(TIME_FOR_CONTEXT_SWITCHING);
+	}
+}
+
+void	check_philo_is_died(t_arg *arg, t_philo *philos)
 {
 	int			i;
 	long long	now;
 
-	while (!arg->is_finished)
+	while (!philos->is_finished)
 	{
 		if ((arg->num_of_eat_times != 0) && \
-		(arg->num_of_philo == arg->finished_eat))
+		(arg->num_of_philo == arg->finished_eat))// finished_eat == 1 일때 아닌가 :: everyone is full
 		{
 			arg->is_finished = 1;
+			//stop_routine
 			break ;
 		}
 		i = 0;
 		while (i < arg->num_of_philo)
 		{
+			//event_lock 이 필요함? -> youjeon에서의 print?
 			now = get_ms_time();
-			if ((now - philo[i].last_eat_time) >= arg->time_to_die)
+			if ((now - philos[i].last_eat_time) >= arg->time_to_die)
 			{
 				print_philo_log(arg, i, "died");
-				arg->is_finished = 1;//stop simulation 쓰는 이유?
+				// is_finished = 1 하기 앞 뒤로 pthread_mutex_lock(status->is_finished_lock) 해줘야하나ㅏ?
+				arg->is_finished = 1;
+				//stop_routine
 				break ;
 			}
 			i++;
@@ -134,22 +161,18 @@ void	check_philo_is_died(t_arg *arg, t_philo *philo)
 	}
 }
 
-void	clear_table(t_arg *arg, t_philo *philo)
+void	destroy_mutex(t_arg *arg, t_philo *philos)
 {
 	int	i;
 
-	i = -1;
-	while (++i < arg->num_of_philo)
+	pthread_mutex_destroy(&(philos->status->is_finished_lock));
+	i = 0;
+	while (i < arg->num_of_philo)
 	{
-		if (philo[i].philo_thread != 0)
-			pthread_join(philo[i].philo_thread, NULL);
+		pthread_mutex_destroy(&(philos[i].fork));
+		pthread_mutex_destroy(&(philos[i].event_lock));
+		i++;
 	}
-	i = -1;
-	while (++i < arg->num_of_philo)
-		pthread_mutex_destroy(&(arg->forks[i]));
-	pthread_mutex_destroy(&(arg->log));
-	//pthread_mutex_destroy(&(arg->eat));
-	//pthread_mutex_destroy(&(arg->die_check));
-	free(philo);
-	free(arg->forks);
+	free(philos_init);//
+	free(arg->forks);//
 }

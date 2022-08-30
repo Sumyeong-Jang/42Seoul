@@ -58,6 +58,7 @@ typedef struct s_arg
 	long	time_to_eat;
 	long	time_to_sleep;
 	int		num_of_eat_times;
+	int		finished_eat;
 	long long	start_time;
 }					t_arg;
 
@@ -68,18 +69,19 @@ typedef struct s_status
 }					t_status;
 
 /*main*/
-void		*start_routine(void *argv);
-void 		*one_philo_routine(t_philo *philo);
-void		check_philo_is_died(t_arg *arg, t_philo *philo);
-void		clear_table(t_arg *arg, t_philo *philo);
+void	*start_routine(void *argv);
+void	*one_philo_routine(t_philo *philo);
+void	*ckeck_philos(void *philo);
+void	check_philo_is_died(t_arg *arg, t_philo *philos)
+void	destroy_mutex(t_arg *arg, t_philo *philos);
 
 /*init*/
-int			arg_init(int argc, char **argv, t_arg *arg);
-int			mutex_init(t_arg *arg);
-void		destroy_mutex(t_arg *arg);
-int			philos_init(t_philo **philo, t_arg *arg, t_status *status);
-int			thread_init(t_arg *arg, t_philo *philo);
-//void		stop_routine(t_philo *philo);
+int		arg_init(int argc, char **argv, t_arg *arg);
+int		philos_init(t_philo **philos, t_arg *arg, t_status *status);
+int		mutex_init(t_philo *philos, t_arg *arg, t_status *status);
+static int	ft_mutex_init(t_philo *philo);
+int		thread_init(t_arg *arg, t_philo *philo);
+void	stop_routine(t_philo *philo);
 
 /*philo_utils*/
 int			print_philo_log(t_arg *arg, int idx, char *msg);
