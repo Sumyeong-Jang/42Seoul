@@ -15,7 +15,7 @@
 void	*start_routine(void *argv);
 void	*one_philo_routine(t_philo *philo);
 void	*ckeck_philos(void *philo);
-void	check_philo_is_died(t_arg *arg, t_philo *philos);
+void	check_philo_is_died(t_philo *philos);
 void	destroy_mutex(t_arg *arg, t_philo *philos);
 
 int	main(int argc, char **argv)
@@ -34,16 +34,16 @@ int	main(int argc, char **argv)
 		free(philos);
 		return (ft_error("Fail to init philos", FAIL_INIT_PHILOS));
 	}
-	if (mutex_init(&arg) == IS_ERROR)
+	if (mutex_init(philos, &arg, &status) == IS_ERROR)
 	{
 		free(philos);
-		destroy_mutex(&arg);
+		destroy_mutex(&arg, philos);
 		return (ft_error("Fail to init mutex", FAIL_INIT_MUTEX));
 	}
 	if (thread_init(&arg, philos) == IS_ERROR)
 	{
 		free(philos);
-		destroy_mutex(&arg);
+		destroy_mutex(&arg, philos);
 		return (ft_error("Fail to create thread", FAIL_CREATE_THREAD));
 	}
 	free(philos);//순서?
@@ -110,7 +110,7 @@ void	*one_philo_routine(t_philo *philo)
 	pthread_mutex_lock(philo->lfork);
 	print_philo_log(philo->arg, philo->id, "has taken a fork\n");
 	//while (!is_end_simulation(philo))//
-	while (!(philo->arg->is_finished))
+	while (!(philo->is_finished))
 		usleep(1000);//usleep(TIME_FOR_CONTEXT_SWITCHING);//usleep(1000)
 	pthread_mutex_unlock(philo->lfork);
 	return (NULL);
@@ -129,7 +129,7 @@ void	*ckeck_philos(void *philo)
 	}
 }
 
-void	check_philo_is_died(t_arg *arg, t_philo *philos)
+void	check_philo_is_died(t_philo *philos)
 {
 	int			i;
 	long long	now;
