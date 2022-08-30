@@ -37,7 +37,6 @@ void	ms_sleep(long long wait_time, t_philo *philo)
 
 int	eating(t_philo *philo)
 {
-	printf("function eating\n");
 	pick_fork_up(philo->arg, philo);
 	pthread_mutex_lock(&(philo->status->is_finished_lock));
 	philo->last_eat_time = get_ms_time();

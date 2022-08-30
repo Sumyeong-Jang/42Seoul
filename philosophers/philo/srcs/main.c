@@ -73,15 +73,11 @@ void	*start_routine(void *argv)
 	{
 		if (eating(philos))
 			return (NULL);
-		/*
-		printf("success eating\n");
 		if (philos->arg->num_of_eat_times == philos->eat_count)
 		{
 			philos->arg->finished_eat++;
 			break ;
 		}
-		*/
-		printf("finished_eat++\n");
 		if (sleeping(philos))
 			return (NULL);
 		if (thinking(philos))
