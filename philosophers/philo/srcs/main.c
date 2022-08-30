@@ -62,7 +62,7 @@ void	*start_routine(void *argv)
 		return (one_philo_routine(philos));
 	//디킴 print_philo_log(arg, idx, "is eating");
 	//usleep 조건ㄱ : idx % 2 == 0 일때 usleep(1000) ?
-	if (philos->idx % 2)//디킴 sleep(arg->time_to_eat)
+	if (philos->id % 2)//디킴 sleep(arg->time_to_eat)
 		usleep(1000);
 	else
 		usleep(500);//usleep(200 * (철학자수 - idx))  --> 이거 왜......?
@@ -108,7 +108,7 @@ void	*start_routine(void *argv)
 void	*one_philo_routine(t_philo *philo)
 {
 	pthread_mutex_lock(philo->lfork);
-	print_philo_log(philo->arg, philo->idx, "has taken a fork\n");
+	print_philo_log(philo->arg, philo->id, "has taken a fork\n");
 	//while (!is_end_simulation(philo))//
 	while (!(philo->arg->is_finished))
 		usleep(1000);//usleep(TIME_FOR_CONTEXT_SWITCHING);//usleep(1000)
