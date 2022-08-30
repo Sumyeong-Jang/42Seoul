@@ -20,21 +20,22 @@ void	clear_table(t_arg *arg, t_philo *philo);
 int	main(int argc, char **argv)
 {
 	t_arg		arg;
-	t_philo		*philo;
+	t_status	status;
+	t_philo		*philos;
 
 	if (argc != 5 && argc != 6)
 		return (ft_error("argc error", ARGC_ERROR));
 	memset(&arg, 0, sizeof(t_arg));
 	if (arg_init(argc, argv, &arg) == IS_ERROR)
 		return (ft_error("invalid arguments", FAIL_GET_ARG));
-	if (mutex_init(&arg) == IS_ERROR)
-		return (ft_error("Fail to init mutex", FAIL_INIT_MUTEX));
-	if (philos_init(&philo, &arg))
+	if (philos_init(&philos, &arg, &status))
 	{
 		free(philo);
 		destroy_mutex(&arg);
 		return (ft_error("Fail to init philos", FAIL_INIT_PHILOS));
 	}
+	if (mutex_init(&arg) == IS_ERROR)
+		return (ft_error("Fail to init mutex", FAIL_INIT_MUTEX));
 	if (thread_init(&arg, philo) == IS_ERROR)
 	{
 		free(philo);

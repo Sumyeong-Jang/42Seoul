@@ -63,9 +63,9 @@ static int	is_space(char c)
 	return (0);
 }
 
-long long	get_ms_time(void)//이 함수 자체가 ms 시간 받아오는거
+long long	get_ms_time(void)
 {
-	struct timeval	time;//time -> start_time?
+	struct timeval	time;
 	if (gettimeofday(&time, NULL) == -1)
 		return (-1);
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
