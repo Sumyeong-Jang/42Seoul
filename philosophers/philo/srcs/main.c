@@ -26,17 +26,16 @@ int	main(int argc, char **argv)
 	memset(&arg, 0, sizeof(t_arg));
 	if (arg_init(argc, argv, &arg) == IS_ERROR)
 		return (ft_error("invalid arguments", FAIL_GET_ARG));
-	//확인
 	if (mutex_init(&arg) == IS_ERROR)
 		return (ft_error("Fail to init mutex", FAIL_INIT_MUTEX));
 	if (philos_init(&philo, &arg))
+	{
+		free(philo);
+		destroy_mutex(&arg);
 		return (ft_error("Fail to init philos", FAIL_INIT_PHILOS));
+	}
 	if (thread_init(&arg, philo) == IS_ERROR)
 		return (ft_error("Fail to create thread", FAIL_CREATE_THREAD));
-	
-	
-	
-	//arg_free
 	clear_table(&arg, philo);
 	return (0);
 }
@@ -83,7 +82,8 @@ void	check_philo_is_died(t_arg *arg, t_philo *philo)
 
 	while (!arg->is_finished)
 	{
-		if ((arg->num_of_eat_times != 0) && (arg->num_of_philo == arg->finished_eat))
+		if ((arg->num_of_eat_times != 0) && \
+		(arg->num_of_philo == arg->finished_eat))
 		{
 			arg->is_finished = 1;
 			break ;

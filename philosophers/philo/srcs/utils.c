@@ -47,7 +47,7 @@ long long	ft_atoll(char *str)
 	{
 		n = (n * 10) + (*str - '0');
 		digit++;
-		if (minus * n > 9223372036854775807 || minus * n < -9223372036854775807)//n < 0 일 가능성도 있나?
+		if (minus * n > 9223372036854775807 || minus * n < -9223372036854775807) //n < 0 일 가능성도 있나?
 			return (IS_ERROR);
 		str++;
 	}
@@ -66,7 +66,6 @@ static int	is_space(char c)
 long long	get_ms_time(void)//이 함수 자체가 ms 시간 받아오는거
 {
 	struct timeval	time;//time -> start_time?
-
 	if (gettimeofday(&time, NULL) == -1)
 		return (-1);
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));

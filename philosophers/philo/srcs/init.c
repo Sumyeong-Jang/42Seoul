@@ -12,12 +12,13 @@
 
 #include "../include/philosophers.h"
 
-int	arg_init(int argc, char **argv, t_arg *arg);
-int	mutex_init(t_arg *arg);
-int	philos_init(t_philo **philo, t_arg *arg);
-int	thread_init(t_arg *arg, t_philo *philo);
+int		arg_init(int argc, char **argv, t_arg *arg);
+int		mutex_init(t_arg *arg);
+int		philos_init(t_philo **philo, t_arg *arg);
+void	destroy_mutex(t_arg *arg);
+int		thread_init(t_arg *arg, t_philo *philo);
 
-int	arg_init(int argc, char **argv, t_arg *arg)
+int	arg_init(int argc, char **argv, t_arg *arg) // 왜 long long 인지?
 {
 	arg->num_of_philo = ft_atoll(argv[1]);
 	arg->time_to_die = ft_atoll(argv[2]);
@@ -48,12 +49,34 @@ int	mutex_init(t_arg *arg)
 	while (i < arg->num_of_philo)
 	{
 		if (pthread_mutex_init(&(arg->forks[i]), NULL) != SUCCESS)
+		{
+			while (i--)
+				pthread_mutex_destroy(&(arg->forks[i]));
 			return (IS_ERROR);
+		}
 		i++;
 	}
-	if (pthread_mutex_init(&(arg->log), NULL) != SUCCESS)//pthread_mutex_init(arg->eat)???
+	if (pthread_mutex_init(&(arg->log), NULL) != SUCCESS)
+	{
+		while (i--)
+			pthread_mutex_destroy(&(arg->forks[i]));
+		pthread_mutex_destroy(&(arg->log));
 		return (IS_ERROR);
+	}
 	return (SUCCESS);
+}
+
+void	destroy_mutex(t_arg *arg)
+{
+	int	i;
+
+	i = 0;
+	while (i < arg->num_of_philo)
+	{
+		pthread_mutex_destroy(&(arg->forks[i]));
+		i++;
+	}
+	pthread_mutex_destroy(&(arg->log));
 }
 
 int	philos_init(t_philo **philo, t_arg *arg)
@@ -85,7 +108,8 @@ int	thread_init(t_arg *arg, t_philo *philo)
 	while (i < arg->num_of_philo)
 	{
 		philo[i].last_eat_time = get_ms_time();//꼭 필요한가?
-		if (pthread_create(&(philo[i].philo_thread), NULL, start_routine, &(philo[i])) != SUCCESS)
+		if (pthread_create(&(philo[i].philo_thread), NULL, \
+		start_routine, &(philo[i])) != SUCCESS)
 			return (IS_ERROR);
 		usleep(200);//꼭 필요한가?
 		i++;
