@@ -43,11 +43,11 @@ int	philos_init(t_philo **philos, t_arg *arg, t_status *status)
 {
 	int	i;
 
+	status->is_finished = 0;
 	i = 0;
 	*philos = malloc(sizeof(t_philo) * arg->num_of_philo);
 	if (!(philos))
 		return (IS_ERROR);
-	//philos->status->is_finished = 0;
 	while (i < arg->num_of_philo)
 	{
 		(*philos)[i].arg = arg;

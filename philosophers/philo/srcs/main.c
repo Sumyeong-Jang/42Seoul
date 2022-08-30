@@ -53,28 +53,35 @@ int	main(int argc, char **argv)
 
 void	*start_routine(void *argv)
 {
-	t_arg	*arg;
+	//t_arg	*arg;
 	t_philo	*philos;
 
-	philos = argv;
-	arg = philos->arg;
-	if (arg->num_of_philo == 1)
+	philos = (t_philo *)argv;
+	if (philos->arg->num_of_philo == 1)
 		return (one_philo_routine(philos));
 	//디킴 print_philo_log(arg, idx, "is eating");
 	//usleep 조건ㄱ : idx % 2 == 0 일때 usleep(1000) ?
+	/*
 	if (philos->id % 2)//디킴 sleep(arg->time_to_eat)
 		usleep(1000);
 	else
 		usleep(500);//usleep(200 * (철학자수 - idx))  --> 이거 왜......?
+	*/
+	if (philos->id % 2 == 0)
+		usleep(1000);
 	while (1)
 	{
 		if (eating(philos))
 			return (NULL);
-		if (arg->num_of_eat_times == philos->eat_count)
+		/*
+		printf("success eating\n");
+		if (philos->arg->num_of_eat_times == philos->eat_count)
 		{
-			arg->finished_eat++;
+			philos->arg->finished_eat++;
 			break ;
 		}
+		*/
+		printf("finished_eat++\n");
 		if (sleeping(philos))
 			return (NULL);
 		if (thinking(philos))

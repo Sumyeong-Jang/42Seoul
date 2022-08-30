@@ -37,6 +37,7 @@ void	ms_sleep(long long wait_time, t_philo *philo)
 
 int	eating(t_philo *philo)
 {
+	printf("function eating\n");
 	pick_fork_up(philo->arg, philo);
 	pthread_mutex_lock(&(philo->status->is_finished_lock));
 	philo->last_eat_time = get_ms_time();
@@ -69,18 +70,18 @@ int	thinking(t_philo *philo)
 
 void	*pick_fork_up(t_arg *arg, t_philo *philo)//함수 인자 개수를 적게 쓰는게 좋지 않을까?
 {
-	pthread_mutex_lock(philo->rfork);
-	if (philo->status->is_finished == 1)
-		return (put_fork_down(philo->rfork, NULL));
-	print_philo_log(philo, "has taken a fork");
-	if (philo->rfork == philo->lfork)
-		return (put_fork_down(philo->rfork, NULL));
 	pthread_mutex_lock(philo->lfork);
-	if (philo->status->is_finished == 1)
-		return (put_fork_down(philo->lfork, philo->rfork));
+	//if (philo->status->is_finished == 1)
+	//	return (put_fork_down(philo->lfork, NULL));
 	print_philo_log(philo, "has taken a fork");
-	philo->last_eat_time = get_ms_time();
-	return ((void *)philo);
+	//if (philo->rfork == philo->lfork)
+	//	return (put_fork_down(philo->rfork, NULL));
+	pthread_mutex_lock(philo->rfork);
+	//if (philo->status->is_finished == 1)
+	//	return (put_fork_down(philo->lfork, philo->rfork));
+	print_philo_log(philo, "has taken a fork");
+	//philo->last_eat_time = get_ms_time();
+	//return ((void *)philo);
 }
 
 void	*put_fork_down(pthread_mutex_t *lfork, pthread_mutex_t *rfork)
