@@ -70,12 +70,17 @@ void		clear_table(t_arg *arg, t_philo *philo);
 /*init*/
 int			arg_init(int argc, char **argv, t_arg *arg);
 int			mutex_init(t_arg *arg);
+void		destroy_mutex(t_arg *arg);
 int			philos_init(t_philo **philo, t_arg *arg);
 int			thread_init(t_arg *arg, t_philo *philo);
+void		stop_routine(t_philo *philo);
 
 /*philo_utils*/
 int			print_philo_log(t_arg *arg, int idx, char *msg);
 void		ms_sleep(long long wait_time, t_arg *arg);
+int			eating(t_philo *philo);
+int			sleeping(t_philo *philo);
+int			thinking(t_philo *philo);
 void		*pick_fork_up(t_arg *arg, t_philo *philo);
 void		*put_fork_down(pthread_mutex_t *lfork, pthread_mutex_t *rfork);
 

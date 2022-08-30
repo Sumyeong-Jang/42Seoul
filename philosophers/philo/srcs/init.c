@@ -14,9 +14,10 @@
 
 int		arg_init(int argc, char **argv, t_arg *arg);
 int		mutex_init(t_arg *arg);
-int		philos_init(t_philo **philo, t_arg *arg);
 void	destroy_mutex(t_arg *arg);
+int		philos_init(t_philo **philo, t_arg *arg);
 int		thread_init(t_arg *arg, t_philo *philo);
+void	stop_routine(t_philo *philo);
 
 int	arg_init(int argc, char **argv, t_arg *arg) // 왜 long long 인지?
 {
