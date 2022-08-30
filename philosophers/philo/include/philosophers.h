@@ -19,8 +19,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
-//# define TRUE	1
-//# define FALSE	0
 
 # define SUCCESS	0
 # define IS_ERROR	1
@@ -43,9 +41,6 @@ typedef struct s_philo
 	int				id;
 	int				eat_count;
 	long long		last_eat_time;
-	pthread_mutex_t	event_lock;
-	pthread_mutex_t	is_finished_lock;
-	int				is_finished;
 	pthread_mutex_t	fork;
 	pthread_mutex_t	*lfork;
 	pthread_mutex_t	*rfork;

@@ -15,7 +15,7 @@
 void	*start_routine(void *argv);
 void	*one_philo_routine(t_philo *philo);
 void	*ckeck_philos(void *philo);
-int	check_philo_is_died(t_philo *philos, t_arg *arg);
+int		check_philo_is_died(t_philo *philos, t_arg *arg);
 void	destroy_mutex(t_arg *arg, t_philo *philos);
 
 int	main(int argc, char **argv)
@@ -59,7 +59,6 @@ void	*start_routine(void *argv)
 	philos = (t_philo *)argv;
 	if (philos->arg->num_of_philo == 1)
 		return (one_philo_routine(philos));
-	//디킴 print_philo_log(arg, idx, "is eating");
 	//usleep 조건ㄱ : idx % 2 == 0 일때 usleep(1000) ?
 	/*
 	if (philos->id % 2)//디킴 sleep(arg->time_to_eat)

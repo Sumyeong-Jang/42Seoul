@@ -47,7 +47,7 @@ long long	ft_atoll(char *str)
 	{
 		n = (n * 10) + (*str - '0');
 		digit++;
-		if (minus * n > 9223372036854775807 || minus * n < -9223372036854775807) //n < 0 일 가능성도 있나?
+		if (minus * n > 9223372036854775807 || minus * n < -9223372036854775807)
 			return (IS_ERROR);
 		str++;
 	}

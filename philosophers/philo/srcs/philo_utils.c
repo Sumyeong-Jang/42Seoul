@@ -29,14 +29,6 @@ void	ms_sleep(long long wait_time, t_philo *philo)
 	start = get_ms_time();
 	while (get_ms_time() - start < wait_time)
 		usleep(10);
-	/*
-	while (!(philo->status->is_finished))
-	{
-		if (get_ms_time() - start >= wait_time)
-			break ;
-		usleep(10);//usleep(1000)?
-	}
-	*/
 }
 
 int	eating(t_philo *philo)

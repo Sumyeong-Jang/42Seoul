@@ -18,8 +18,10 @@ int		mutex_init(t_philo *philos, t_arg *arg, t_status *status);
 static int	ft_mutex_init(t_philo *philo);
 int		thread_init(t_philo *philo, t_arg *arg);
 void	stop_routine(t_philo *philo);
+int	ft_join(t_philo *philos, int i);
+int	ft_join_all(pthread_t *check, t_philo *philos, int i);
 
-int	arg_init(int argc, char **argv, t_arg *arg) // 왜 long long 인지?
+int	arg_init(int argc, char **argv, t_arg *arg)
 {
 	arg->num_of_philo = ft_atoll(argv[1]);
 	arg->time_to_die = ft_atoll(argv[2]);
@@ -111,9 +113,7 @@ int	thread_init(t_philo *philos, t_arg *arg)
 		start_routine, &(philos[i])) != SUCCESS)
 		{
 			stop_routine(&philos[i]);
-			while (i--)
-				pthread_join(philos[i].philo_thread, NULL);
-			return (IS_ERROR);
+			ft_join(philos, i);
 		}
 		//usleep(200);//꼭 필요한가?
 		i++;
@@ -121,14 +121,9 @@ int	thread_init(t_philo *philos, t_arg *arg)
 	if (pthread_create(&check, NULL, ckeck_philos, philos) != SUCCESS)
 	{
 		stop_routine(&philos[i]);
-		while (i--)
-			pthread_join(philos[i].philo_thread, NULL);
-		pthread_join(check, NULL);
-		return (IS_ERROR);
+		return (ft_join_all(&check, philos, i));
 	}
-	while (i--)
-		pthread_join(philos[i].philo_thread, NULL);
-	pthread_join(check, NULL);
+	ft_join_all(&check, philos, i);
 	return (SUCCESS);
 }
 
@@ -137,4 +132,18 @@ void	stop_routine(t_philo *philo)
 	pthread_mutex_lock(&philo->status->is_finished_lock);
 	philo->status->is_finished = 1;
 	pthread_mutex_unlock(&philo->status->is_finished_lock);
+}
+
+int	ft_join(t_philo *philos, int i)
+{
+	while (i--)
+		pthread_join(philos[i].philo_thread, NULL);
+	return (IS_ERROR);
+}
+
+int	ft_join_all(pthread_t *check, t_philo *philos, int i)
+{
+	ft_join(philos, i);
+	pthread_join(*check, NULL);
+	return (IS_ERROR);
 }
