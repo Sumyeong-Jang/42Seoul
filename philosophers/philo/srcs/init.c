@@ -110,7 +110,13 @@ int	thread_init(t_arg *arg, t_philo *philo)
 		philo[i].last_eat_time = get_ms_time();//꼭 필요한가?
 		if (pthread_create(&(philo[i].philo_thread), NULL, \
 		start_routine, &(philo[i])) != SUCCESS)
-			return (IS_ERROR);
+		{
+			stop_routine(&philo[i]);
+			//join_philos 함수
+			while (i--)
+				pthread_join(philos[i].philo_thread, NULL);
+			return (IS_ERROR); //stop simulation 추가
+		}
 		usleep(200);//꼭 필요한가?
 		i++;
 	}
@@ -123,4 +129,11 @@ int	thread_init(t_arg *arg, t_philo *philo)
 		i++;
 	}
 	return (SUCCESS);
+}
+
+void	stop_routine(t_philo *philo) //end state 정리
+{
+	pthread_mutex_lock(&philo->end_state->is_end_lock);
+	philo->end_state->is_end = 1;
+	pthread_mutex_unlock(&philo->end_state->is_end_lock);
 }

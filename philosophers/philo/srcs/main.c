@@ -13,6 +13,7 @@
 #include "../include/philosophers.h"
 
 void	*start_routine(void *argv);
+void	one_philo_routine(t_philo *philo);
 void	check_philo_is_died(t_arg *arg, t_philo *philo);
 void	clear_table(t_arg *arg, t_philo *philo);
 
@@ -47,11 +48,24 @@ void	*start_routine(void *argv)
 
 	philo = argv;
 	arg = philo->arg;
+	if (arg->num_of_philo == 1)
+		return (one_philo_routine(philo));
 	//디킴 print_philo_log(arg, idx, "is eating");
+	//usleep 조건ㄱ : idx % 2 == 0 일때 usleep(1000) ?
 	if (philo->idx % 2)//디킴 sleep(arg->time_to_eat)
 		usleep(1000);
 	else
-		usleep(500);//usleep(200 * (철학자수 - idx))
+		usleep(500);//usleep(200 * (철학자수 - idx))  --> 이거 왜......?
+	while (1)
+	{
+		if (eating(philo))
+			return (NULL);
+		if (sleeping(philo))
+			return (NULL);
+		if (thinking(philo))
+			return (NULL);
+	}
+	/*
 	while (!arg->is_finished)
 	{
 		if (pick_fork_up(arg, philo) == NULL)
@@ -72,6 +86,17 @@ void	*start_routine(void *argv)
 		ms_sleep(arg->time_to_sleep, arg);
 		print_philo_log(arg, philo->idx, "is thinking");
 	}
+	*/
+	return (NULL);
+}
+
+void	one_philo_routine(t_philo *philo)
+{
+	pthread_mutex_lock(philo->lfork);
+	print_philo_log(arg, philo->idx, "has taken a fork\n");
+	while (!is_end_simulation(philo))//
+		usleep(TIME_FOR_CONTEXT_SWITCHING);//usleep(1000)
+	pthread_mutex_unlock(philo->lfork);
 	return (NULL);
 }
 

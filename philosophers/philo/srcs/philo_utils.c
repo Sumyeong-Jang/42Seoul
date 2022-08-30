@@ -28,20 +28,40 @@ void	ms_sleep(long long wait_time, t_arg *arg)
 	{
 		if (get_ms_time() - start >= wait_time)
 			break ;
-		usleep(10);
+		usleep(10);//usleep(1000)?
 	}
 }
 
-void	*put_fork_down(pthread_mutex_t *lfork, pthread_mutex_t *rfork)
+int	eating(t_philo *philo)
 {
-	if (lfork != NULL)
-		pthread_mutex_unlock(lfork);
-	if (rfork != NULL)
-		pthread_mutex_unlock(rfork);
-	return (NULL);
+	pick_fork_up(philo);
+	pthread_mutex_lock(&(philo->log));
+	philo->last_eat_time = get_current_time_ms();
+	pthread_mutex_unlock(&(philo->log));
+	print_philo_log(arg, philo->idx, "is eating");
+	ms_sleep(philo->arg->time_to_eat, arg);
+	pthread_mutex_lock(&(philo->log));
+	philo->eat_count++;
+	pthread_mutex_unlock(&(philo->log));
+	put_fork_down(philo);
+	return (is_end_simulation(philo));//
 }
 
-void	*pick_fork_up(t_arg *arg, t_philo *philo)
+int	sleeping(t_philo *philo)//main으로 옮기고 static
+{
+	print_philo_log(arg, philo->idx, "is sleeping");
+	ms_sleep(philo->arg->time_to_sleep, arg);
+	return (is_end_simulation(philo));
+}
+
+int	thinking(t_philo *philo)
+{
+	print_philo_log(arg, philo->idx, "is thinking");
+	usleep(1000);
+	return (is_end_simulation(philo));
+}
+
+void	*pick_fork_up(t_arg *arg, t_philo *philo)//함수 인자 개수를 적게 쓰는게 좋지 않을까?
 {
 	pthread_mutex_lock(philo->rfork);
 	if (arg->is_finished == 1)
@@ -57,3 +77,11 @@ void	*pick_fork_up(t_arg *arg, t_philo *philo)
 	return ((void *)philo);
 }
 
+void	*put_fork_down(pthread_mutex_t *lfork, pthread_mutex_t *rfork)
+{
+	if (lfork != NULL)
+		pthread_mutex_unlock(lfork);
+	if (rfork != NULL)
+		pthread_mutex_unlock(rfork);
+	return (NULL);
+}
