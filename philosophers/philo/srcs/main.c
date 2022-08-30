@@ -36,7 +36,11 @@ int	main(int argc, char **argv)
 		return (ft_error("Fail to init philos", FAIL_INIT_PHILOS));
 	}
 	if (thread_init(&arg, philo) == IS_ERROR)
+	{
+		free(philo);
+		destroy_mutex(&arg);
 		return (ft_error("Fail to create thread", FAIL_CREATE_THREAD));
+	}
 	clear_table(&arg, philo);
 	return (0);
 }
@@ -120,7 +124,7 @@ void	check_philo_is_died(t_arg *arg, t_philo *philo)
 			if ((now - philo[i].last_eat_time) >= arg->time_to_die)
 			{
 				print_philo_log(arg, i, "died");
-				arg->is_finished = 1;
+				arg->is_finished = 1;//stop simulation 쓰는 이유?
 				break ;
 			}
 			i++;
@@ -132,7 +136,6 @@ void	clear_table(t_arg *arg, t_philo *philo)
 {
 	int	i;
 
-	/*
 	i = -1;
 	while (++i < arg->num_of_philo)
 	{
@@ -147,5 +150,4 @@ void	clear_table(t_arg *arg, t_philo *philo)
 	//pthread_mutex_destroy(&(arg->die_check));
 	free(arg->philos);
 	free(arg->forks);
-	*/
 }
