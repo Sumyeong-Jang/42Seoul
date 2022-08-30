@@ -15,7 +15,7 @@
 void	*start_routine(void *argv);
 void	*one_philo_routine(t_philo *philo);
 void	*ckeck_philos(void *philo);
-void	check_philo_is_died(t_philo *philos);
+int	check_philo_is_died(t_philo *philos, t_arg *arg);
 void	destroy_mutex(t_arg *arg, t_philo *philos);
 
 int	main(int argc, char **argv)
@@ -123,25 +123,25 @@ void	*ckeck_philos(void *philo)
 	philos = philo;
 	while (1)
 	{
-		if (check_philo_is_died(philos))
+		if (check_philo_is_died(philos, philos->arg))
 			return (NULL);
 		usleep(1000);//usleep(TIME_FOR_CONTEXT_SWITCHING);
 	}
 }
 
-void	check_philo_is_died(t_philo *philos)
+int	check_philo_is_died(t_philo *philos, t_arg *arg)//static int 
 {
 	int			i;
 	long long	now;
 
-	while (!philos->is_finished)
+	while (!(philos->is_finished))
 	{
 		if ((arg->num_of_eat_times != 0) && \
 		(arg->num_of_philo == arg->finished_eat))// finished_eat == 1 일때 아닌가 :: everyone is full
 		{
 			philos->is_finished = 1;
 			//stop_routine
-			break ;
+			break;
 		}
 		i = 0;
 		while (i < arg->num_of_philo)
@@ -158,7 +158,9 @@ void	check_philo_is_died(t_philo *philos)
 			}
 			i++;
 		}
+		return (philos->is_finished);
 	}
+	return (philos->is_finished);
 }
 
 void	destroy_mutex(t_arg *arg, t_philo *philos)
