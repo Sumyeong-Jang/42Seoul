@@ -108,7 +108,7 @@ void	*start_routine(void *argv)
 void	*one_philo_routine(t_philo *philo)
 {
 	pthread_mutex_lock(philo->lfork);
-	print_philo_log(philo->arg, philo->id, "has taken a fork\n");
+	print_philo_log(philo, "has taken a fork\n");
 	//while (!is_end_simulation(philo))//
 	while (!(philo->is_finished))
 		usleep(1000);//usleep(TIME_FOR_CONTEXT_SWITCHING);//usleep(1000)

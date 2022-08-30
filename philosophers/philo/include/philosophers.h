@@ -84,7 +84,7 @@ int		thread_init(t_arg *arg, t_philo *philo);
 void	stop_routine(t_philo *philo);
 
 /*philo_utils*/
-int			print_philo_log(t_arg *arg, int id, char *msg);
+int			print_philo_log(t_philo *philo, char *msg);
 void		ms_sleep(long long wait_time, t_arg *arg);
 int			eating(t_philo *philo);
 int			sleeping(t_philo *philo);
