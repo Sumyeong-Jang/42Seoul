@@ -64,6 +64,7 @@ typedef struct s_arg
 
 /*main*/
 void		*start_routine(void *argv);
+void 		*one_philo_routine(t_philo *philo);
 void		check_philo_is_died(t_arg *arg, t_philo *philo);
 void		clear_table(t_arg *arg, t_philo *philo);
 
@@ -73,7 +74,7 @@ int			mutex_init(t_arg *arg);
 void		destroy_mutex(t_arg *arg);
 int			philos_init(t_philo **philo, t_arg *arg);
 int			thread_init(t_arg *arg, t_philo *philo);
-void		stop_routine(t_philo *philo);
+//void		stop_routine(t_philo *philo);
 
 /*philo_utils*/
 int			print_philo_log(t_arg *arg, int idx, char *msg);

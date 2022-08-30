@@ -13,7 +13,7 @@
 #include "../include/philosophers.h"
 
 void	*start_routine(void *argv);
-void	one_philo_routine(t_philo *philo);
+void	*one_philo_routine(t_philo *philo);
 void	check_philo_is_died(t_arg *arg, t_philo *philo);
 void	clear_table(t_arg *arg, t_philo *philo);
 
@@ -94,12 +94,13 @@ void	*start_routine(void *argv)
 	return (NULL);
 }
 
-void	one_philo_routine(t_philo *philo)
+void	*one_philo_routine(t_philo *philo)
 {
 	pthread_mutex_lock(philo->lfork);
-	print_philo_log(arg, philo->idx, "has taken a fork\n");
-	while (!is_end_simulation(philo))//
-		usleep(TIME_FOR_CONTEXT_SWITCHING);//usleep(1000)
+	print_philo_log(philo->arg, philo->idx, "has taken a fork\n");
+	//while (!is_end_simulation(philo))//
+	while (!(philo->arg->is_finished))
+		usleep(1000);//usleep(TIME_FOR_CONTEXT_SWITCHING);//usleep(1000)
 	pthread_mutex_unlock(philo->lfork);
 	return (NULL);
 }
@@ -139,8 +140,8 @@ void	clear_table(t_arg *arg, t_philo *philo)
 	i = -1;
 	while (++i < arg->num_of_philo)
 	{
-		if (philo->philos[i].phil_thread != 0)
-			pthread_join(philo->philos[i].phil_thread, NULL);
+		if (philo[i].philo_thread != 0)
+			pthread_join(philo[i].philo_thread, NULL);
 	}
 	i = -1;
 	while (++i < arg->num_of_philo)
@@ -148,6 +149,6 @@ void	clear_table(t_arg *arg, t_philo *philo)
 	pthread_mutex_destroy(&(arg->log));
 	//pthread_mutex_destroy(&(arg->eat));
 	//pthread_mutex_destroy(&(arg->die_check));
-	free(arg->philos);
+	free(philo);
 	free(arg->forks);
 }

@@ -37,31 +37,34 @@ void	ms_sleep(long long wait_time, t_arg *arg)
 
 int	eating(t_philo *philo)
 {
-	pick_fork_up(philo);
-	pthread_mutex_lock(&(philo->log));
-	philo->last_eat_time = get_current_time_ms();
-	pthread_mutex_unlock(&(philo->log));
-	print_philo_log(arg, philo->idx, "is eating");
-	ms_sleep(philo->arg->time_to_eat, arg);
-	pthread_mutex_lock(&(philo->log));
+	pick_fork_up(philo->arg, philo);
+	pthread_mutex_lock(&(philo->arg->log));
+	philo->last_eat_time = get_ms_time();
+	pthread_mutex_unlock(&(philo->arg->log));
+	print_philo_log(philo->arg, philo->idx, "is eating");
+	ms_sleep(philo->arg->time_to_eat, philo->arg);
+	pthread_mutex_lock(&(philo->arg->log));
 	philo->eat_count++;
-	pthread_mutex_unlock(&(philo->log));
-	put_fork_down(philo);
-	return (is_end_simulation(philo));//
+	pthread_mutex_unlock(&(philo->arg->log));
+	put_fork_down(philo->lfork, philo->rfork);
+	//return (is_end_simulation(philo));//
+	return (philo->arg->is_finished);
 }
 
 int	sleeping(t_philo *philo)//main으로 옮기고 static
 {
-	print_philo_log(arg, philo->idx, "is sleeping");
-	ms_sleep(philo->arg->time_to_sleep, arg);
-	return (is_end_simulation(philo));
+	print_philo_log(philo->arg, philo->idx, "is sleeping");
+	ms_sleep(philo->arg->time_to_sleep, philo->arg);
+	//return (is_end_simulation(philo));
+	return (philo->arg->is_finished);
 }
 
 int	thinking(t_philo *philo)
 {
-	print_philo_log(arg, philo->idx, "is thinking");
+	print_philo_log(philo->arg, philo->idx, "is thinking");
 	usleep(1000);
-	return (is_end_simulation(philo));
+	//return (is_end_simulation(philo));
+	return (philo->arg->is_finished);
 }
 
 void	*pick_fork_up(t_arg *arg, t_philo *philo)//함수 인자 개수를 적게 쓰는게 좋지 않을까?
@@ -74,7 +77,7 @@ void	*pick_fork_up(t_arg *arg, t_philo *philo)//함수 인자 개수를 적게 �
 		return (put_fork_down(philo->rfork, NULL));
 	pthread_mutex_lock(philo->lfork);
 	if (arg->is_finished == 1)
-		return (put_fork_down(philo->rfork, philo->lfork));
+		return (put_fork_down(philo->lfork, philo->rfork));
 	print_philo_log(arg, philo->idx, "has taken a fork");
 	philo->last_eat_time = get_ms_time();
 	return ((void *)philo);

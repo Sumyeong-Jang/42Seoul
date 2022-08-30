@@ -17,7 +17,7 @@ int		mutex_init(t_arg *arg);
 void	destroy_mutex(t_arg *arg);
 int		philos_init(t_philo **philo, t_arg *arg);
 int		thread_init(t_arg *arg, t_philo *philo);
-void	stop_routine(t_philo *philo);
+//void	stop_routine(t_philo *philo);
 
 int	arg_init(int argc, char **argv, t_arg *arg) // 왜 long long 인지?
 {
@@ -112,10 +112,10 @@ int	thread_init(t_arg *arg, t_philo *philo)
 		if (pthread_create(&(philo[i].philo_thread), NULL, \
 		start_routine, &(philo[i])) != SUCCESS)
 		{
-			stop_routine(&philo[i]);
+			arg->is_finished=1;//stop_routine(&philo[i]);
 			//join_philos 함수
 			while (i--)
-				pthread_join(philos[i].philo_thread, NULL);
+				pthread_join(philo[i].philo_thread, NULL);
 			return (IS_ERROR); //stop simulation 추가
 		}
 		usleep(200);//꼭 필요한가?
@@ -132,9 +132,11 @@ int	thread_init(t_arg *arg, t_philo *philo)
 	return (SUCCESS);
 }
 
+/*
 void	stop_routine(t_philo *philo) //end state 정리
 {
 	pthread_mutex_lock(&philo->end_state->is_end_lock);
 	philo->end_state->is_end = 1;
 	pthread_mutex_unlock(&philo->end_state->is_end_lock);
 }
+*/
