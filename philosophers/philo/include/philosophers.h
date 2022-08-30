@@ -80,12 +80,12 @@ int		arg_init(int argc, char **argv, t_arg *arg);
 int		philos_init(t_philo **philos, t_arg *arg, t_status *status);
 int		mutex_init(t_philo *philos, t_arg *arg, t_status *status);
 static int	ft_mutex_init(t_philo *philo);
-int		thread_init(t_arg *arg, t_philo *philo);
+int		thread_init(t_philo *philo, t_arg *arg);
 void	stop_routine(t_philo *philo);
 
 /*philo_utils*/
 int			print_philo_log(t_philo *philo, char *msg);
-void		ms_sleep(long long wait_time, t_arg *arg);
+void		ms_sleep(long long wait_time, t_philo *philo);
 int			eating(t_philo *philo);
 int			sleeping(t_philo *philo);
 int			thinking(t_philo *philo);

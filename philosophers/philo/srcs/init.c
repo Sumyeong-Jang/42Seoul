@@ -16,7 +16,7 @@ int		arg_init(int argc, char **argv, t_arg *arg);
 int		philos_init(t_philo **philos, t_arg *arg, t_status *status);
 int		mutex_init(t_philo *philos, t_arg *arg, t_status *status);
 static int	ft_mutex_init(t_philo *philo);
-int		thread_init(t_arg *arg, t_philo *philo);
+int		thread_init(t_philo *philo, t_arg *arg);
 void	stop_routine(t_philo *philo);
 
 int	arg_init(int argc, char **argv, t_arg *arg) // 왜 long long 인지?
@@ -44,10 +44,10 @@ int	philos_init(t_philo **philos, t_arg *arg, t_status *status)
 	int	i;
 
 	i = 0;
-	status->is_finished = 0;
 	*philos = malloc(sizeof(t_philo) * arg->num_of_philo);
 	if (!(philos))
 		return (IS_ERROR);
+	//philos->status->is_finished = 0;
 	while (i < arg->num_of_philo)
 	{
 		(*philos)[i].arg = arg;
@@ -55,10 +55,9 @@ int	philos_init(t_philo **philos, t_arg *arg, t_status *status)
 		(*philos)[i].id = i + 1;
 		(*philos)[i].eat_count = 0;
 		(*philos)[i].lfork = &((*philos)[i].fork);
-		(*philos)[i].rfork = &(philos[(i + 1) % arg->num_of_philo].fork);
+		(*philos)[i].rfork = &(philos[(i + 1) % arg->num_of_philo]->fork);
 		i++;
 	}
-	is_finished = 0;
 	return (0);
 }
 
@@ -78,7 +77,7 @@ int	mutex_init(t_philo *philos, t_arg *arg, t_status *status)
 				pthread_mutex_destroy(&(philos[i].fork));
 				pthread_mutex_destroy(&(philos[i].is_finished_lock));
 			}
-			free(arg->forks);//
+			//free(arg->forks);//
 			return (IS_ERROR);
 		}
 		i++;
@@ -107,7 +106,7 @@ int	thread_init(t_philo *philos, t_arg *arg)
 	i = 0;
 	while (i < arg->num_of_philo)
 	{
-		philo[i].last_eat_time = arg->start_time;//philos->arg
+		philos[i].last_eat_time = arg->start_time;//philos->arg
 		if (pthread_create(&(philos[i].philo_thread), NULL, \
 		start_routine, &(philos[i])) != SUCCESS)
 		{
@@ -124,12 +123,12 @@ int	thread_init(t_philo *philos, t_arg *arg)
 		stop_routine(&philos[i]);
 		while (i--)
 			pthread_join(philos[i].philo_thread, NULL);
-		pthread_join(*check, NULL);
+		pthread_join(check, NULL);
 		return (IS_ERROR);
 	}
 	while (i--)
 		pthread_join(philos[i].philo_thread, NULL);
-	pthread_join(*check, NULL);
+	pthread_join(check, NULL);
 	return (SUCCESS);
 }
 

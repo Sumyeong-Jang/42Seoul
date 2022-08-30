@@ -40,7 +40,7 @@ int	main(int argc, char **argv)
 		destroy_mutex(&arg, philos);
 		return (ft_error("Fail to init mutex", FAIL_INIT_MUTEX));
 	}
-	if (thread_init(&arg, philos) == IS_ERROR)
+	if (thread_init(philos, &arg) == IS_ERROR)
 	{
 		free(philos);
 		destroy_mutex(&arg, philos);
@@ -150,7 +150,7 @@ int	check_philo_is_died(t_philo *philos, t_arg *arg)//static int
 			now = get_ms_time();
 			if ((now - philos[i].last_eat_time) >= arg->time_to_die)
 			{
-				print_philo_log(arg, i, "died");
+				print_philo_log(&philos[i], "died");
 				// is_finished = 1 하기 앞 뒤로 pthread_mutex_lock(status->is_finished_lock) 해줘야하나ㅏ?
 				philos->is_finished = 1;
 				//stop_routine

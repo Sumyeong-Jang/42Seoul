@@ -1,7 +1,7 @@
 #include "../include/philosophers.h"
 
 int	print_philo_log(t_philo *philo, char *msg);
-void	ms_sleep(long long wait_time, t_arg *arg);
+void	ms_sleep(long long wait_time, t_philo *philo);
 int		eating(t_philo *philo);
 int		sleeping(t_philo *philo);
 int		thinking(t_philo *philo);
@@ -22,12 +22,12 @@ int	print_philo_log(t_philo *philo, char *msg)
 	return (SUCCESS);
 }
 
-void	ms_sleep(long long wait_time, t_arg *arg)
+void	ms_sleep(long long wait_time, t_philo *philo)
 {
 	long long	start;
 
 	start = get_ms_time();
-	while (!(arg->is_finished))
+	while (!(philo->status->is_finished))
 	{
 		if (get_ms_time() - start >= wait_time)
 			break ;
@@ -38,25 +38,25 @@ void	ms_sleep(long long wait_time, t_arg *arg)
 int	eating(t_philo *philo)
 {
 	pick_fork_up(philo->arg, philo);
-	pthread_mutex_lock(&(philo->arg->log));
+	pthread_mutex_lock(&(philo->status->is_finished_lock));
 	philo->last_eat_time = get_ms_time();
-	pthread_mutex_unlock(&(philo->arg->log));
+	pthread_mutex_unlock(&(philo->status->is_finished_lock));
 	print_philo_log(philo, "is eating");
-	ms_sleep(philo->arg->time_to_eat, philo->arg);
-	pthread_mutex_lock(&(philo->arg->log));
+	ms_sleep(philo->arg->time_to_eat, philo);
+	pthread_mutex_lock(&(philo->status->is_finished_lock));
 	philo->eat_count++;
-	pthread_mutex_unlock(&(philo->arg->log));
+	pthread_mutex_unlock(&(philo->status->is_finished_lock));
 	put_fork_down(philo->lfork, philo->rfork);
 	//return (is_end_simulation(philo));//
-	return (philo->arg->is_finished);
+	return (philo->status->is_finished);
 }
 
 int	sleeping(t_philo *philo)//main으로 옮기고 static
 {
 	print_philo_log(philo, "is sleeping");
-	ms_sleep(philo->arg->time_to_sleep, philo->arg);
+	ms_sleep(philo->arg->time_to_sleep, philo);
 	//return (is_end_simulation(philo));
-	return (philo->arg->is_finished);
+	return (philo->status->is_finished);
 }
 
 int	thinking(t_philo *philo)
@@ -64,19 +64,19 @@ int	thinking(t_philo *philo)
 	print_philo_log(philo, "is thinking");
 	usleep(1000);
 	//return (is_end_simulation(philo));
-	return (philo->arg->is_finished);
+	return (philo->status->is_finished);
 }
 
 void	*pick_fork_up(t_arg *arg, t_philo *philo)//함수 인자 개수를 적게 쓰는게 좋지 않을까?
 {
 	pthread_mutex_lock(philo->rfork);
-	if (arg->is_finished == 1)
+	if (philo->status->is_finished == 1)
 		return (put_fork_down(philo->rfork, NULL));
 	print_philo_log(philo, "has taken a fork");
 	if (philo->rfork == philo->lfork)
 		return (put_fork_down(philo->rfork, NULL));
 	pthread_mutex_lock(philo->lfork);
-	if (arg->is_finished == 1)
+	if (philo->status->is_finished == 1)
 		return (put_fork_down(philo->lfork, philo->rfork));
 	print_philo_log(philo, "has taken a fork");
 	philo->last_eat_time = get_ms_time();
