@@ -15,7 +15,7 @@
 void	*start_routine(void *argv);
 void	*one_philo_routine(t_philo *philo);
 void	*ckeck_philos(void *philo);
-void	check_philo_is_died(t_arg *arg, t_philo *philos)
+void	check_philo_is_died(t_arg *arg, t_philo *philos);
 void	destroy_mutex(t_arg *arg, t_philo *philos);
 
 int	main(int argc, char **argv)
@@ -139,7 +139,7 @@ void	check_philo_is_died(t_arg *arg, t_philo *philos)
 		if ((arg->num_of_eat_times != 0) && \
 		(arg->num_of_philo == arg->finished_eat))// finished_eat == 1 일때 아닌가 :: everyone is full
 		{
-			arg->is_finished = 1;
+			philos->is_finished = 1;
 			//stop_routine
 			break ;
 		}
@@ -152,7 +152,7 @@ void	check_philo_is_died(t_arg *arg, t_philo *philos)
 			{
 				print_philo_log(arg, i, "died");
 				// is_finished = 1 하기 앞 뒤로 pthread_mutex_lock(status->is_finished_lock) 해줘야하나ㅏ?
-				arg->is_finished = 1;
+				philos->is_finished = 1;
 				//stop_routine
 				break ;
 			}
@@ -173,6 +173,6 @@ void	destroy_mutex(t_arg *arg, t_philo *philos)
 		pthread_mutex_destroy(&(philos[i].event_lock));
 		i++;
 	}
-	free(philos_init);//
-	free(arg->forks);//
+	//free(philos_init);//
+	//free(arg->forks);//
 }

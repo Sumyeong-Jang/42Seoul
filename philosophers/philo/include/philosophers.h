@@ -72,7 +72,7 @@ typedef struct s_status
 void	*start_routine(void *argv);
 void	*one_philo_routine(t_philo *philo);
 void	*ckeck_philos(void *philo);
-void	check_philo_is_died(t_arg *arg, t_philo *philos)
+void	check_philo_is_died(t_arg *arg, t_philo *philos);
 void	destroy_mutex(t_arg *arg, t_philo *philos);
 
 /*init*/
