@@ -16,6 +16,7 @@ int			ft_error(char *str, int errno);
 long long	ft_atoll(char *str);
 static int	is_space(char c);
 long long	get_ms_time(void);
+void		ms_sleep(long long wait_time, t_philo *philo);
 
 int	ft_error(char *str, int errno)
 {
@@ -66,7 +67,17 @@ static int	is_space(char c)
 long long	get_ms_time(void)
 {
 	struct timeval	time;
+
 	if (gettimeofday(&time, NULL) == -1)
 		return (-1);
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+}
+
+void	ms_sleep(long long wait_time, t_philo *philo)
+{
+	long long	start;
+
+	start = get_ms_time();
+	while (get_ms_time() - start < wait_time)
+		usleep(10);
 }

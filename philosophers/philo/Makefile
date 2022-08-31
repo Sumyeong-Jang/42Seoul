@@ -1,10 +1,23 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: sumjang <sumjang@student.42seoul.kr>       +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/08/31 13:14:59 by sumjang           #+#    #+#              #
+#    Updated: 2022/08/31 13:15:00 by sumjang          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME	=	philo
 
 CC		=	cc
-CFLAG	=	-Wall -Werror -Wextra -fsanitize=thread -g
+CFLAG	=	-Wall -Werror -Wextra
 RM		=	rm -f
 
-SRCS	=	srcs/main.c srcs/philo_utils.c srcs/init.c srcs/utils.c
+SRCS	=	srcs/main.c srcs/philo_utils.c srcs/init.c \
+srcs/utils.c srcs/check.c srcs/routine.c
 OBJS	=	$(SRCS:.c=.o)
 
 .c.o	:
@@ -13,7 +26,7 @@ OBJS	=	$(SRCS:.c=.o)
 all		:	$(NAME)
 
 $(NAME)	:	$(OBJS)
-	$(CC) $(OBJS) -o $(NAME) -lpthread -g
+	$(CC) $(OBJS) -o $(NAME) -lpthread
 
 clean	:
 	$(RM) $(OBJS)
