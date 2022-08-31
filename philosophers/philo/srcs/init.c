@@ -31,7 +31,7 @@ int	arg_init(int argc, char **argv, t_arg *arg)
 	if (arg->num_of_philo <= 0 || arg->time_to_die < 0 || \
 	arg->time_to_eat < 0 || arg->time_to_sleep < 0)
 		return (IS_ERROR);
-	//arg->num_of_eat_times = -1;//디폴트가 -1인게 맞나?
+	arg->num_of_eat_times = -1;//디폴트가 -1인게 맞나?
 	if (argc == 6)
 	{
 		arg->num_of_eat_times = ft_atoll(argv[5]);
@@ -77,7 +77,7 @@ int	mutex_init(t_philo *philos, t_arg *arg, t_status *status)
 			while (i--)
 			{
 				pthread_mutex_destroy(&(philos[i].fork));
-				pthread_mutex_destroy(&(philos[i].is_finished_lock));
+				pthread_mutex_destroy(&(philos[i].status->is_finished_lock));
 			}
 			//free(arg->forks);//
 			return (IS_ERROR);
@@ -91,7 +91,7 @@ static int	ft_mutex_init(t_philo *philo)
 {
 	if (pthread_mutex_init(&(philo->fork), NULL))
 		return (IS_ERROR);
-	if (pthread_mutex_init(&(philo->event_lock), NULL))
+	if (pthread_mutex_init(&(philo->status->is_finished_lock), NULL))
 	{
 		pthread_mutex_destroy(&(philo->fork));
 		return (IS_ERROR);

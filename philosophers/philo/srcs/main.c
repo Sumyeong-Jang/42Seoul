@@ -112,7 +112,7 @@ void	*one_philo_routine(t_philo *philo)
 	pthread_mutex_lock(philo->lfork);
 	print_philo_log(philo, "has taken a fork\n");
 	//while (!is_end_simulation(philo))//
-	while (!(philo->is_finished))
+	while (!(philo->status->is_finished))
 		usleep(1000);//usleep(TIME_FOR_CONTEXT_SWITCHING);//usleep(1000)
 	pthread_mutex_unlock(philo->lfork);
 	return (NULL);
@@ -136,12 +136,12 @@ int	check_philo_is_died(t_philo *philos, t_arg *arg)//static int
 	int			i;
 	long long	now;
 
-	while (!(philos->is_finished))
+	while (!(philos->status->is_finished))
 	{
 		if ((arg->num_of_eat_times != 0) && \
 		(arg->num_of_philo == arg->finished_eat))// finished_eat == 1 일때 아닌가 :: everyone is full
 		{
-			philos->is_finished = 1;
+			philos->status->is_finished = 1;
 			//stop_routine
 			break;
 		}
@@ -154,15 +154,15 @@ int	check_philo_is_died(t_philo *philos, t_arg *arg)//static int
 			{
 				print_philo_log(&philos[i], "died");
 				// is_finished = 1 하기 앞 뒤로 pthread_mutex_lock(status->is_finished_lock) 해줘야하나ㅏ?
-				philos->is_finished = 1;
+				philos->status->is_finished = 1;
 				//stop_routine
 				break ;
 			}
 			i++;
 		}
-		return (philos->is_finished);
+		return (philos->status->is_finished);
 	}
-	return (philos->is_finished);
+	return (philos->status->is_finished);
 }
 
 void	destroy_mutex(t_arg *arg, t_philo *philos)
@@ -174,7 +174,7 @@ void	destroy_mutex(t_arg *arg, t_philo *philos)
 	while (i < arg->num_of_philo)
 	{
 		pthread_mutex_destroy(&(philos[i].fork));
-		pthread_mutex_destroy(&(philos[i].event_lock));
+		pthread_mutex_destroy(&(philos[i].status->is_finished_lock));
 		i++;
 	}
 	//free(philos_init);//
