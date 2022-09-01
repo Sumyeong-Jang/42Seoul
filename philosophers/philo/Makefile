@@ -6,7 +6,7 @@
 #    By: sumjang <sumjang@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/31 13:14:59 by sumjang           #+#    #+#              #
-#    Updated: 2022/08/31 13:15:00 by sumjang          ###   ########.fr        #
+#    Updated: 2022/09/01 17:41:05 by sumjang          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ srcs/utils.c srcs/check.c srcs/routine.c
 OBJS	=	$(SRCS:.c=.o)
 
 .c.o	:
-	$(CC) $(CFLAGS) -c -o $*.o $<
+	$(CC) $(CFLAG) -c -o $*.o $<
 
 all		:	$(NAME)
 
