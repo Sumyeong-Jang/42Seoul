@@ -6,6 +6,47 @@ static void	do_fork_cmd(t_cmd *cmd, t_env *env_head, char **envp);
 static int	execute_cmd(t_cmd *cmd, t_env *env_head, char **envp);
 static int	os_builtins(t_cmd *cmd, t_env *env_head, char **envp);
 
+void	executor(t_cmd_line_list *cmd_line_list)
+{
+	if (cmd_line_list->size == 1)
+		exe_without_pipe(cmd_line_list->cmd_heads[0]);
+	else
+		exe_with_pipe(cmd_line_list);
+}
+
+static void	exec_cmd(t_cmd_node *node)
+{
+	pid_t		pid;
+	int			status;
+
+	if ((node->type == BUILTIN) && (has_redir_in(node) \
+	== NULL) && (has_redir_out(node) == NULL))
+		exe_builtin_single(node);
+	else
+	{
+		pid = fork();
+		if (pid < -1)
+			exit(1);
+		if (pid == 0)
+		{
+			exec_single_cmd_without_pipe(node);
+			exit(1);
+		}
+		else
+		{
+			waitpid(pid, &status, 0);
+			if (!WIFSIGNALED(status))
+				g_state.exit_status = status / 256;
+		}
+	}
+}
+
+
+
+
+
+
+
 void	executor(t_cmd *cmd_head, t_env *env_head, char **envp)
 {
 	t_cmd	*cmd_cur;
@@ -103,4 +144,19 @@ static int	os_builtins(t_cmd *cmd, t_env *env_head, char **envp)
 	}
 	ft_execve(cmd->cmd_path, cmd->argv, envp);
 	return (EXIT_FAILURE);
+}
+
+void	close_unused_fd(t_cmd *cmd, pid_t pid)
+{
+	if (pid == 0)
+	{
+		if (cmd->fd[READ] != -2)
+			cmd->fd[READ] = ft_close(cmd->fd[READ]);
+	}
+	else
+	{
+		if (cmd->fd[WRITE] != -2)
+			cmd->fd[WRITE] = ft_close(cmd->fd[WRITE]);
+	}
+	return ;
 }
